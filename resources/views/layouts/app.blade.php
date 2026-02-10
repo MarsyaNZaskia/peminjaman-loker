@@ -10,7 +10,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
-        /* Custom scrollbar untuk sidebar */
+
         .sidebar-scroll::-webkit-scrollbar {
             width: 6px;
         }
