@@ -32,11 +32,11 @@
     <div class="flex h-screen overflow-hidden">
         
         <!-- Sidebar -->
-        <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-blue-600 to-blue-800 flex flex-col transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
+        <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-pink-400 to-pink-600 flex flex-col transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
                :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
             
             <!-- Logo / Brand (Fixed di atas) -->
-            <div class="flex-shrink-0 flex items-center justify-center h-20 bg-blue-900/30 border-b border-blue-500/30">
+            <div class="flex-shrink-0 flex items-center justify-center h-20 bg-pink-600/30 border-b border-rose-500/30">
                 <div class="flex items-center space-x-3">
                     <div class="bg-white p-2 rounded-lg shadow-lg">
                         <span class="text-2xl">🔐</span>
@@ -49,7 +49,7 @@
             </div>
 
             <!-- User Info (Fixed di atas) -->
-            <div class="flex-shrink-0 p-4 bg-white/10 backdrop-blur-sm border-b border-blue-500/30">
+            <div class="flex-shrink-0 p-4 bg-white/10 backdrop-blur-sm border-b border-lime-500/30">
                 <div class="flex items-center space-x-3">
                     <div class="bg-white/20 p-3 rounded-full flex-shrink-0">
                         <span class="text-2xl">
@@ -66,7 +66,7 @@
                         <p class="text-white font-semibold text-sm truncate">{{ Auth::user()->name }}</p>
                         <p class="text-xs mt-1">
                             @if(Auth::user()->isAdmin())
-                                <span class="px-2 py-0.5 rounded bg-red-500 text-white text-xs">Admin</span>
+                                <span class="px-2 py-0.5 rounded bg-yellow-500 text-white text-xs">Admin</span>
                             @elseif(Auth::user()->isPetugas())
                                 <span class="px-2 py-0.5 rounded bg-blue-400 text-white text-xs">Petugas</span>
                             @else
@@ -81,87 +81,87 @@
             <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto sidebar-scroll">
                 @if(Auth::user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📊</span>
                         <span class="font-medium">Dashboard</span>
                     </a>
                     
                     <a href="{{ route('admin.kategoris.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.kategoris.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.kategoris.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📚</span>
                         <span class="font-medium">Kategori</span>
                     </a>
                     
                     <a href="{{ route('admin.lokers.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.lokers.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.lokers.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">🔐</span>
                         <span class="font-medium">Loker</span>
                     </a>
                     
                     <a href="{{ route('admin.users.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.users.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.users.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">👥</span>
                         <span class="font-medium">User</span>
                     </a>
                     
                     <a href="{{ route('admin.peminjaman.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.peminjaman.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.peminjaman.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📋</span>
                         <span class="font-medium">Peminjaman</span>
                     </a>
                     
                     <a href="{{ route('admin.pengembalian.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.pengembalian.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.pengembalian.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">✅</span>
                         <span class="font-medium">Pengembalian</span>
                     </a>
                     
                     <a href="{{ route('admin.log-aktivitas.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.log-aktivitas.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.log-aktivitas.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📝</span>
                         <span class="font-medium">Log Aktivitas</span>
                     </a>
                     
                     <a href="{{ route('admin.laporan.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.laporan.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.laporan.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📊</span>
                         <span class="font-medium">Laporan</span>
                     </a>
                     
                 @elseif(Auth::user()->isPetugas())
                     <a href="{{ route('petugas.dashboard') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.dashboard') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.dashboard') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📊</span>
                         <span class="font-medium">Dashboard</span>
                     </a>
                     
                     <a href="{{ route('petugas.peminjaman.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.peminjaman.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.peminjaman.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📋</span>
                         <span class="font-medium">Kelola Peminjaman</span>
                     </a>
                     
                     <a href="{{ route('petugas.pengembalian.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.pengembalian.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.pengembalian.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">✅</span>
                         <span class="font-medium">Data Pengembalian</span>
                     </a>
                     
                     <a href="{{ route('petugas.laporan.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.laporan.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.laporan.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📊</span>
                         <span class="font-medium">Laporan</span>
                     </a>
                     
                 @else
                     <a href="{{ route('peminjam.dashboard') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('peminjam.dashboard') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('peminjam.dashboard') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">📊</span>
                         <span class="font-medium">Dashboard</span>
                     </a>
                     
                     <a href="{{ route('peminjam.peminjaman.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('peminjam.peminjaman.*') ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('peminjam.peminjaman.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
                         <span class="text-xl">🔐</span>
                         <span class="font-medium">Peminjaman Loker</span>
                     </a>
@@ -172,11 +172,11 @@
             </nav>
 
             <!-- Logout Button (Fixed di bawah) -->
-            <div class="flex-shrink-0 p-4 border-t border-blue-500/30 bg-blue-900/30">
+            <div class="flex-shrink-0 p-4 border-t border-rose-100/30 bg-rose-300/30">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" 
-                            class="w-full flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            class="w-full flex items-center justify-center space-x-2 bg-rose-500 hover:bg-rose-600 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
                         <span class="text-xl">🚪</span>
                         <span>Logout</span>
                     </button>

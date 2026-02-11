@@ -47,7 +47,7 @@
             </div>
 
             <button type="submit" 
-                    class="w-full bg-gradient-to-r from-rose-300 to-purple-300 hover:from-rose-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg transition transform hover:scale-105">
+                    class="w-full bg-gradient-to-r from-rose-400 to-violet-300 text-black hover:from-rose-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg transition transform hover:scale-105">
                 Login
             </button>
         </form>
