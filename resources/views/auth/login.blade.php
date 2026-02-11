@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-magenta-500 to-pink-600">
     <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
         <div class="text-center mb-8">
             <div class="text-6xl mb-4">🔐</div>
@@ -47,7 +47,7 @@
             </div>
 
             <button type="submit" 
-                    class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg transition transform hover:scale-105">
+                    class="w-full bg-gradient-to-r from-rose-300 to-purple-300 hover:from-rose-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg transition transform hover:scale-105">
                 Login
             </button>
         </form>

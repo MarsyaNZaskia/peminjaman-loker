@@ -60,7 +60,7 @@ class LokerController extends Controller
     public function show(Loker $loker)
     {
         $loker->load(['peminjaman.user', 'peminjaman.petugas']);
-        return view('admin.loker.show', compact('loker'));
+        return view('admin.lokers.show', compact('loker'));
     }
 
     /**

@@ -5,12 +5,13 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4">
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center mb-4">
         <h1 class="text-3xl font-bold">Detail Loker: {{ $loker->nomor_loker }}</h1>
         <a href="{{ route('admin.lokers.index') }}" 
            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
             Kembali
         </a>
+        
     </div>
 
     <!-- Informasi Loker -->
@@ -48,10 +49,7 @@
         </div>
 
         <div class="mt-4 flex space-x-2">
-            <a href="{{ route('admin.lokers.edit', $loker) }}" 
-               class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
-                Edit Loker
-            </a>
+            
         </div>
     </div>
 
