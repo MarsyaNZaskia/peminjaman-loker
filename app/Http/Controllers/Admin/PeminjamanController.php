@@ -8,6 +8,7 @@ use App\Models\Loker;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PeminjamanController extends Controller
 {
@@ -55,6 +56,11 @@ class PeminjamanController extends Controller
 
         // Jika status disetujui, update status loker
         DB::transaction(function () use ($validated) {
+            // Set approved_by jika status = disetujui/ditolak
+            if (in_array($validated['status'], ['disetujui', 'ditolak'])) {
+                $validated['approved_by'] = Auth::id();
+                }
+
             $peminjaman = Peminjaman::create($validated);
             
             if ($validated['status'] === 'disetujui') {
@@ -90,6 +96,11 @@ class PeminjamanController extends Controller
         DB::transaction(function () use ($validated, $peminjaman) {
             $oldStatus = $peminjaman->status;
             $newStatus = $validated['status'];
+
+            // Set approved_by jika status berubah jadi disetujui/ditolak
+            if (in_array($newStatus, ['disetujui', 'ditolak']) && $peminjaman->approved_by === null) {
+                $validated['approved_by'] = Auth::id();
+                }
             
             // Update peminjaman
             $peminjaman->update($validated);
