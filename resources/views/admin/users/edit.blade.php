@@ -36,9 +36,19 @@
                 <label class="block text-gray-700 mb-2">Password Baru (Kosongkan jika tidak diubah)</label>
                 <input type="password" name="password" 
                        class="w-full px-3 py-2 border rounded-lg @error('password') border-red-500 @enderror">
+                <p class="text-xs text-gray-500 mt-1">
+                    ⚠️ Jika diisi, password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, angka, dan simbol
+                </p>
                 @error('password')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Konfirmasi Password Baru</label>
+                <input type="password" name="password_confirmation" 
+                       class="w-full px-3 py-2 border rounded-lg">
+                <p class="text-xs text-gray-500 mt-1">Ketik ulang password baru (jika mengubah password)</p>
             </div>
 
             <div class="mb-6">

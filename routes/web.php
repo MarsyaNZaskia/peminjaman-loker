@@ -9,6 +9,7 @@ use App\Http\Controllers\Petugas\PeminjamanController as PetugasPeminjamanContro
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Petugas\LaporanController as PetugasLaporanController;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
+use App\Http\Controllers\ProfileController;
 
 // Auth routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -90,8 +91,10 @@ Route::middleware(['auth', 'peminjam'])->prefix('peminjam')->name('peminjam.')->
 
 });
 
-// routes/web.php
-// Tambahkan di dalam grup admin middleware
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
 
 Route::get('/', function () {
     return redirect('/login');
