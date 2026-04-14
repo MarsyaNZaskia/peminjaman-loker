@@ -40,7 +40,7 @@ class PeminjamanController extends Controller
         $validated = $request->validate([
             'loker_id' => 'required|exists:lokers,id',
             'tanggal_pinjam' => 'required|date|after_or_equal:today',
-            'tanggal_kembali_rencana' => 'required|date|after:tanggal_pinjam',
+            'tanggal_kembali_rencana' => 'required|date|after_or_equal:tanggal_pinjam',
             'keperluan' => 'required|string|max:500',
         ]);
 

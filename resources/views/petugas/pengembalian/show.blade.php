@@ -93,14 +93,12 @@
                 @endif
             </div>
             <div>
-                <p class="text-gray-600 text-sm">Kondisi Barang</p>
+                <p class="text-gray-600 text-sm">Kondisi Loker</p>
                 <p class="font-semibold">
                     @if($pengembalian->kondisi_barang === 'baik')
                         <span class="px-3 py-1 rounded bg-green-100 text-green-800">Baik</span>
-                    @elseif($pengembalian->kondisi_barang === 'rusak_ringan')
-                        <span class="px-3 py-1 rounded bg-yellow-100 text-yellow-800">Rusak Ringan</span>
-                    @elseif($pengembalian->kondisi_barang === 'rusak_berat')
-                        <span class="px-3 py-1 rounded bg-orange-100 text-orange-800">Rusak Berat</span>
+                    @elseif($pengembalian->kondisi_barang === 'rusak')
+                        <span class="px-3 py-1 rounded bg-orange-100 text-orange-800">Rusak</span>
                     @else
                         <span class="px-3 py-1 rounded bg-red-100 text-red-800">Hilang</span>
                     @endif

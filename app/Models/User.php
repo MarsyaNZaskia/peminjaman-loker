@@ -44,6 +44,7 @@ class User extends Authenticatable
         'password',
         'role',
         'kategori_id',
+        'photo',
     ];
 
     /**

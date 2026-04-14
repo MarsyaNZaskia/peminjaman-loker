@@ -19,7 +19,7 @@
             @method('PUT')
 
             <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Tanggal Pengembalian Aktual</label>
+                <label class="block text-gray-700 mb-2">Tanggal Pengembalian</label>
                 <input type="date" name="tgl_kembali_realisasi" 
                        value="{{ old('tgl_kembali_realisasi', $pengembalian->tgl_kembali_realisasi->format('Y-m-d')) }}" 
                        class="w-full px-3 py-2 border rounded-lg @error('tgl_kembali_realisasi') border-red-500 @enderror" 
@@ -30,13 +30,12 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Kondisi Barang</label>
+                <label class="block text-gray-700 mb-2">Kondisi Loker</label>
                 <select name="kondisi_barang" 
                         class="w-full px-3 py-2 border rounded-lg @error('kondisi_barang') border-red-500 @enderror" 
                         required>
                     <option value="baik" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'baik' ? 'selected' : '' }}>Baik</option>
-                    <option value="rusak_ringan" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'rusak_ringan' ? 'selected' : '' }}>Rusak Ringan</option>
-                    <option value="rusak_berat" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'rusak_berat' ? 'selected' : '' }}>Rusak Berat</option>
+                    <option value="rusak" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'rusak' ? 'selected' : '' }}>Rusak</option>
                     <option value="hilang" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'hilang' ? 'selected' : '' }}>Hilang</option>
                 </select>
                 @error('kondisi_barang')

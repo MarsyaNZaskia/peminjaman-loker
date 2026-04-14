@@ -45,7 +45,22 @@
     </div>
 
     <!-- Peminjaman Saya -->
-    <div class="bg-white p-6 rounded-lg shadow">
+    <div class="mt-8">
+    <a href="{{ route('peminjam.riwayat.index') }}" 
+       class="block bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 p-6 rounded-xl shadow-lg text-white group transition-all transform hover:scale-105">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-bold mb-2">📚 Lihat Riwayat Peminjaman</h2>
+                <p class="text-purple-100">Cek history peminjaman loker Anda</p>
+            </div>
+            <svg class="w-8 h-8 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+        </div>
+    </a>
+    </div>
+
+    {{-- <div class="bg-white p-6 rounded-lg shadow">
         <h2 class="text-xl font-bold mb-4">Riwayat Peminjaman Saya</h2>
         
         @if($myPeminjaman->count() > 0)
@@ -107,7 +122,7 @@
         @else
             <p class="text-gray-500 text-center py-4">Belum ada riwayat peminjaman</p>
         @endif
-    </div>
+    </div> --}}
 </div>
 
 <script>

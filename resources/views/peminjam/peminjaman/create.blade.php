@@ -37,7 +37,7 @@
 
             <div class="mb-4">
                 <label class="block text-gray-700 mb-2">Tanggal Mulai Pinjam</label>
-                <input type="date" name="tanggal_pinjam" 
+                <input type="date" id="tanggal_pinjam" name="tanggal_pinjam" 
                        value="{{ old('tanggal_pinjam', date('Y-m-d')) }}" 
                        min="{{ date('Y-m-d') }}"
                        class="w-full px-3 py-2 border rounded-lg @error('tanggal_pinjam') border-red-500 @enderror" 
@@ -49,15 +49,33 @@
 
             <div class="mb-4">
                 <label class="block text-gray-700 mb-2">Tanggal Rencana Kembali</label>
-                <input type="date" name="tanggal_kembali_rencana" 
+                <input type="date" id="tanggal_kembali_rencana" name="tanggal_kembali_rencana" 
                     value="{{ old('tanggal_kembali_rencana') }}" 
-                    min="{{ date('Y-m-d', strtotime('+1 day')) }}"
                     class="w-full px-3 py-2 border rounded-lg @error('tanggal_kembali_rencana') border-red-500 @enderror" 
                     required>
                 @error('tanggal_kembali_rencana')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-                    <p class="text-sm text-gray-500 mt-1">Kapan Anda berencana mengembalikan loker?</p>
+                    <p class="text-sm text-gray-500 mt-1">Kapan Anda berencana mengembalikan loker? (Bisa di hari yang sama)</p>
+
+                <script>
+                    const tglPinjam = document.getElementById('tanggal_pinjam');
+                    const tglKembali = document.getElementById('tanggal_kembali_rencana');
+
+                    // Set min date untuk tanggal kembali sesuai tanggal pinjam
+                    function updateMinDate() {
+                        if (tglPinjam.value) {
+                            tglKembali.min = tglPinjam.value;
+                            // Jika tanggal kembali lebih kecil dari tanggal pinjam, reset
+                            if (tglKembali.value && tglKembali.value < tglPinjam.value) {
+                                tglKembali.value = tglPinjam.value;
+                            }
+                        }
+                    }
+
+                    tglPinjam.addEventListener('change', updateMinDate);
+                    updateMinDate(); // Initialize on page load
+                </script>
             </div>
 
             <div class="mb-6">

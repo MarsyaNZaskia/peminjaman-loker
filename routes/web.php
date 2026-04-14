@@ -89,11 +89,20 @@ Route::middleware(['auth', 'peminjam'])->prefix('peminjam')->name('peminjam.')->
     Route::post('/peminjaman', [PeminjamPeminjamanController::class, 'store'])->name('peminjaman.store');
     Route::delete('/peminjaman/{peminjaman}', [PeminjamPeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
 
+    // Routes riwayat peminjaman
+    Route::get('/riwayat', [\App\Http\Controllers\Peminjam\RiwayatController::class, 'index'])->name('riwayat.index');
+    Route::get('/riwayat/{peminjaman}', [\App\Http\Controllers\Peminjam\RiwayatController::class, 'show'])->name('riwayat.show');
+
 });
 
+
+//Routes Grup (Semua Role)
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::delete('/profile/foto', [ProfileController::class, 'deleteFoto'])->name('profile.deleteFoto');
 });
 
 Route::get('/', function () {

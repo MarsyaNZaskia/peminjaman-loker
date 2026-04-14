@@ -48,10 +48,8 @@
                         <td class="px-6 py-4">
                             @if($item->kondisi_barang === 'baik')
                                 <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Baik</span>
-                            @elseif($item->kondisi_barang === 'rusak_ringan')
-                                <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">Rusak Ringan</span>
-                            @elseif($item->kondisi_barang === 'rusak_berat')
-                                <span class="px-2 py-1 rounded text-xs bg-orange-100 text-orange-800">Rusak Berat</span>
+                            @elseif($item->kondisi_barang === 'rusak')
+                                <span class="px-2 py-1 rounded text-xs bg-orange-100 text-orange-800">Rusak</span>
                             @else
                                 <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-800">Hilang</span>
                             @endif

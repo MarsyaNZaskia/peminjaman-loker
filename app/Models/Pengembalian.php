@@ -40,11 +40,12 @@ class Pengembalian extends Model
     {
         $tanggalRencana = $this->peminjaman->tanggal_kembali_rencana;
         $tanggalRealisasi = $this->tgl_kembali_realisasi;
-        
-        if ($tanggalRealisasi > $tanggalRencana) {
+
+        // Hitung selisih hari - terlambat jika tanggal realisasi > tanggal rencana
+        if ($tanggalRealisasi->gt($tanggalRencana)) {
             return $tanggalRealisasi->diffInDays($tanggalRencana);
         }
-        
+
         return 0;
     }
 }

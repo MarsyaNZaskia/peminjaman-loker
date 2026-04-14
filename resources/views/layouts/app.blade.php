@@ -7,7 +7,6 @@
     <title>@yield('title', 'Peminjaman Loker')</title>
      @vite(['resources/js/app.js'])
      @vite(['resources/css/app.css'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
 
@@ -25,34 +24,135 @@
         .sidebar-scroll::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.5);
         }
+
+        body {
+            background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%);
+            min-height: 100vh;
+        }
     </style>
 </head>
-<body class="bg-gray-100" x-data="{ sidebarOpen: false }">
+<body x-data="{ sidebarOpen: false }">
     @auth
     <div class="flex h-screen overflow-hidden">
         
         <!-- Sidebar -->
-        <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-pink-400 to-pink-600 flex flex-col transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
+        <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-pink-500 to-pink-700 flex flex-col transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 shadow-xl"
                :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
             
             <!-- Logo / Brand (Fixed di atas) -->
-            <div class="flex-shrink-0 flex items-center justify-center h-20 bg-pink-600/30 border-b border-rose-500/30">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-white p-2 rounded-lg shadow-lg">
-                        <span class="text-2xl">🔐</span>
+            <div class="flex-shrink-0 flex items-center justify-between px-4 h-16 bg-white/5 border-b border-white/10 backdrop-blur-sm">
+                <div class="flex items-center space-x-2.5">
+                    <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+                        <span class="text-xl">🔐</span>
                     </div>
-                    <div>
-                        <h1 class="text-white font-bold text-lg">Loker System</h1>
-                        <p class="text-blue-200 text-xs">Manajemen</p>
+                    <div class="flex-1">
+                        <h1 class="text-white font-bold text-sm leading-tight">Loker System</h1>
                     </div>
                 </div>
             </div>
 
+            <!-- Navigation Menu (Scrollable) -->
+            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto sidebar-scroll">
+                @if(Auth::user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.dashboard') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.kategoris.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.kategoris.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📚</span>
+                        <span>Kategori</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.lokers.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.lokers.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">🔐</span>
+                        <span>Loker</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.users.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.users.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">👥</span>
+                        <span>User</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.peminjaman.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.peminjaman.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📋</span>
+                        <span>Peminjaman</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.pengembalian.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.pengembalian.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">✅</span>
+                        <span>Pengembalian</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.log-aktivitas.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.log-aktivitas.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📝</span>
+                        <span>Log Aktivitas</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.laporan.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.laporan.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span>Laporan</span>
+                    </a>
+                    
+                @elseif(Auth::user()->isPetugas())
+                    <a href="{{ route('petugas.dashboard') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('petugas.dashboard') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    
+                    <a href="{{ route('petugas.peminjaman.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('petugas.peminjaman.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📋</span>
+                        <span>Kelola Peminjaman</span>
+                    </a>
+                    
+                    <a href="{{ route('petugas.pengembalian.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('petugas.pengembalian.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">✅</span>
+                        <span>Data Pengembalian</span>
+                    </a>
+                    
+                    <a href="{{ route('petugas.laporan.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('petugas.laporan.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span>Laporan</span>
+                    </a>
+                    
+                @else
+                    <a href="{{ route('peminjam.dashboard') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('peminjam.dashboard') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    
+                    <a href="{{ route('peminjam.peminjaman.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('peminjam.peminjaman.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">🔐</span>
+                        <span>Peminjaman Loker</span>
+                    </a>
+
+                    <a href="{{ route('peminjam.riwayat.index') }}" 
+                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('peminjam.riwayat.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg flex-shrink-0">📚</span>
+                        <span>Riwayat Peminjaman</span>
+                    </a>
+                @endif
+            </nav>
+
             <!-- User Info (Fixed di atas) -->
-            <div class="flex-shrink-0 p-4 bg-white/10 backdrop-blur-sm border-b border-lime-500/30">
+            <div class="flex-shrink-0 px-4 py-3 bg-white/5 border-b border-white/10 backdrop-blur-sm" x-data="{ userMenuOpen: false }">
                 <div class="flex items-center space-x-3">
-                    <div class="bg-white/20 p-3 rounded-full flex-shrink-0">
-                        <span class="text-2xl">
+                    <div class="relative bg-white/20 p-2.5 rounded-full flex-shrink-0 backdrop-blur-sm">
+                        <span class="text-lg">
                             @if(Auth::user()->isAdmin())
                                 👑
                             @elseif(Auth::user()->isPetugas())
@@ -63,125 +163,55 @@
                         </span>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-white font-semibold text-sm truncate">{{ Auth::user()->name }}</p>
-                        <p class="text-xs mt-1">
+                        <p class="text-white font-medium text-sm truncate">{{ Auth::user()->name }}</p>
+                        <div class="mt-1">
                             @if(Auth::user()->isAdmin())
-                                <span class="px-2 py-0.5 rounded bg-yellow-500 text-white text-xs">Admin</span>
+                                <span class="inline-block px-2 py-0.5 rounded-full bg-yellow-400/90 text-yellow-900 text-xs font-medium">Admin</span>
                             @elseif(Auth::user()->isPetugas())
-                                <span class="px-2 py-0.5 rounded bg-blue-400 text-white text-xs">Petugas</span>
+                                <span class="inline-block px-2 py-0.5 rounded-full bg-blue-400 text-white text-xs font-medium">Petugas</span>
                             @else
-                                <span class="px-2 py-0.5 rounded bg-green-500 text-white text-xs">Peminjam</span>
+                                <span class="inline-block px-2 py-0.5 rounded-full bg-green-400 text-green-900 text-xs font-medium">Peminjam</span>
                             @endif
-                        </p>
+                        </div>
+                    </div>
+                    <!-- Menu Dropdown Button -->
+                    <div class="relative">
+                        <button @click="userMenuOpen = !userMenuOpen" 
+                                class="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 8c1.1 0 2-0.9 2-2s-0.9-2-2-2-2 0.9-2 2 0.9 2 2 2zm0 2c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2zm0 6c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2z" />
+                            </svg>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div x-show="userMenuOpen" 
+                             @click.away="userMenuOpen = false"
+                             x-cloak
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-2"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 translate-y-2"
+                             class="absolute right-0 bottom-full mb-2 w-48 bg-white border border-gray-700 rounded-lg shadow-xl backdrop-blur-sm z-50">
+                            <a href="{{ route('profile.index') }}" 
+                               class="flex items-center space-x-2 w-full px-4 py-2.5 text-black/80 hover:text-pink-400 hover:bg-white/10 rounded-t-lg transition-colors text-sm border-b border-gray-700">
+                                <span class="text-base">👤</span>
+                                <span>Profile Saya</span>
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" class="w-full">
+                                @csrf
+                                <button type="submit" 
+                                        class="w-full flex items-center space-x-2 px-4 py-2.5 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded-b-lg transition-colors text-sm">
+                                    <span class="text-base">🚪</span>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Navigation Menu (Scrollable) -->
-            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto sidebar-scroll">
-                @if(Auth::user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📊</span>
-                        <span class="font-medium">Dashboard</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.kategoris.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.kategoris.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📚</span>
-                        <span class="font-medium">Kategori</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.lokers.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.lokers.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">🔐</span>
-                        <span class="font-medium">Loker</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.users.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.users.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">👥</span>
-                        <span class="font-medium">User</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.peminjaman.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.peminjaman.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📋</span>
-                        <span class="font-medium">Peminjaman</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.pengembalian.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.pengembalian.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">✅</span>
-                        <span class="font-medium">Pengembalian</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.log-aktivitas.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.log-aktivitas.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📝</span>
-                        <span class="font-medium">Log Aktivitas</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.laporan.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('admin.laporan.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📊</span>
-                        <span class="font-medium">Laporan</span>
-                    </a>
-                    
-                @elseif(Auth::user()->isPetugas())
-                    <a href="{{ route('petugas.dashboard') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.dashboard') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📊</span>
-                        <span class="font-medium">Dashboard</span>
-                    </a>
-                    
-                    <a href="{{ route('petugas.peminjaman.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.peminjaman.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📋</span>
-                        <span class="font-medium">Kelola Peminjaman</span>
-                    </a>
-                    
-                    <a href="{{ route('petugas.pengembalian.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.pengembalian.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">✅</span>
-                        <span class="font-medium">Data Pengembalian</span>
-                    </a>
-                    
-                    <a href="{{ route('petugas.laporan.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('petugas.laporan.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📊</span>
-                        <span class="font-medium">Laporan</span>
-                    </a>
-                    
-                @else
-                    <a href="{{ route('peminjam.dashboard') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('peminjam.dashboard') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">📊</span>
-                        <span class="font-medium">Dashboard</span>
-                    </a>
-                    
-                    <a href="{{ route('peminjam.peminjaman.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 {{ request()->routeIs('peminjam.peminjaman.*') ? 'bg-white text-pink-600 shadow-lg' : 'text-white hover:bg-white/10' }}">
-                        <span class="text-xl">🔐</span>
-                        <span class="font-medium">Peminjaman Loker</span>
-                    </a>
-                @endif
-                
-                <!-- Extra space di bawah menu agar tidak tertutup logout button -->
-                <div class="h-4"></div>
-            </nav>
 
-            <!-- Logout Button (Fixed di bawah) -->
-            <div class="flex-shrink-0 p-4 border-t border-rose-100/30 bg-rose-300/30">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" 
-                            class="w-full flex items-center justify-center space-x-2 bg-rose-500 hover:bg-rose-600 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
-                        <span class="text-xl">🚪</span>
-                        <span>Logout</span>
-                    </button>
-                </form>
-            </div>
         </aside>
 
         <!-- Overlay for mobile -->
@@ -200,16 +230,18 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             
             <!-- Top Header (Mobile) -->
-            <header class="bg-white shadow-md lg:hidden">
-                <div class="flex items-center justify-between p-4">
+            <header class="bg-white border-b border-gray-200 shadow-sm lg:hidden">
+                <div class="flex items-center justify-between px-4 py-3">
                     <button @click="sidebarOpen = !sidebarOpen" 
-                            class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                            class="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none transition-colors">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <h1 class="text-lg font-bold text-gray-800">🔐 Loker System</h1>
-                    <div class="w-6"></div>
+                    <div class="flex-1 text-center">
+                        <h1 class="text-base font-bold text-gray-800">🔐 Loker System</h1>
+                    </div>
+                    <div class="w-10"></div>
                 </div>
             </header>
 
@@ -225,7 +257,7 @@
                 <div class="px-6 py-4">
                     <div class="text-center">
                         <p class="text-gray-600 text-sm">
-                            &copy; {{ date('Y') }} Sistem Peminjaman Loker. Made with ❤️
+                            &copy; {{ date('Y') }} Sistem Peminjaman Loker.
                         </p>
                     </div>
                 </div>

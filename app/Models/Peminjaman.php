@@ -81,10 +81,10 @@ public function isTerlambat(): bool
     {
         if (!$this->sudahDikembalikan()) {
             // Belum dikembalikan, cek dari hari ini
-            return now()->gt($this->tanggal_kembali_rencana);
+            return now()->startOfDay()->gt($this->tanggal_kembali_rencana->endOfDay());
         }
-        
+
         // Sudah dikembalikan, cek dari tanggal pengembalian
-        return $this->pengembalian->tgl_kembali_realisasi->gt($this->tanggal_kembali_rencana);
+        return $this->pengembalian->tgl_kembali_realisasi->startOfDay()->gt($this->tanggal_kembali_rencana->endOfDay());
     }
 }
