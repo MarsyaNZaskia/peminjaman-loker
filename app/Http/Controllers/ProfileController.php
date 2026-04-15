@@ -64,6 +64,7 @@ class ProfileController extends Controller
             'username' => 'required|string|max:255|unique:users,username,' . $request->user()->id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
+            'class' => 'nullable|string|max:50',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

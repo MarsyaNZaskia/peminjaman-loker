@@ -11,14 +11,8 @@
             <p class="text-gray-600 mt-2">Silakan login untuk melanjutkan</p>
         </div>
 
-        @if (session('success'))
-            <div data-alert class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if ($errors->any())
-            <div data-alert class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                 {{ $errors->first() }}
             </div>
         @endif
@@ -28,11 +22,11 @@
 
             <div class="mb-6">
                 <label class="block text-gray-700 font-semibold mb-2">
-                    <span class="text-red-500">*</span> Username
+                    <span class="text-red-500">*</span> Username atau Email
                 </label>
                 <input type="text" name="username" value="{{ old('username') }}" 
                        class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:border-blue-500 transition" 
-                       placeholder="Masukkan username"
+                       placeholder="Masukkan username atau email"
                        required autofocus>
             </div>
 

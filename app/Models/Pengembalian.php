@@ -13,7 +13,6 @@ class Pengembalian extends Model
         'user_id',
         'peminjaman_id',
         'tgl_kembali_realisasi',
-        'jenis_denda',
         'total_denda',
         'kondisi_barang',
         'catatan',
@@ -36,14 +35,19 @@ class Pengembalian extends Model
     }
 
     // Helper: Hitung keterlambatan
+    // Terlambat jika tanggal pengembalian aktual > tanggal rencana kembali
     public function hitungKeterlambatan(): int
     {
+        if (!$this->tgl_kembali_realisasi || !$this->peminjaman || !$this->peminjaman->tanggal_kembali_rencana) {
+            return 0;
+        }
+
         $tanggalRencana = $this->peminjaman->tanggal_kembali_rencana;
         $tanggalRealisasi = $this->tgl_kembali_realisasi;
 
-        // Hitung selisih hari - terlambat jika tanggal realisasi > tanggal rencana
+        // Perbandingan tanggal: Jika realisasi > rencana, maka terlambat
         if ($tanggalRealisasi->gt($tanggalRencana)) {
-            return $tanggalRealisasi->diffInDays($tanggalRencana);
+            return (int) $tanggalRealisasi->diffInDays($tanggalRencana);
         }
 
         return 0;

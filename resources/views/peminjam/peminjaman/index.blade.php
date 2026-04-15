@@ -6,19 +6,7 @@
 <div class="max-w-7xl mx-auto px-4">
     <h1 class="text-3xl font-bold mb-6">Peminjaman Loker</h1>
 
-    @if (session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
 
-    @if (session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <!-- Loker Tersedia -->
     <div class="bg-white p-6 rounded-lg shadow mb-6">
         <h2 class="text-xl font-bold mb-4">Loker Tersedia</h2>
         

@@ -16,37 +16,47 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-        'username' => 'required|string',
-        'password' => 'required|string',
-    ], [
-        'username.required' => 'Username harus diisi',
-        'password.required' => 'Password harus diisi',
-    ]);
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ], [
+            'username.required' => 'Username atau Email harus diisi',
+            'password.required' => 'Password harus diisi',
+        ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+        // Try to authenticate with username first, then email
+        $usernameAttempt = Auth::attempt([
+            'username' => $credentials['username'],
+            'password' => $credentials['password']
+        ]);
 
-        LogAktivitas::catat('login', 'User', Auth::id(), 'User login ke sistem');
-
-        // Redirect berdasarkan role
-        $user = Auth::user();
-        
-        if ($user->isAdmin()) {
-            return redirect()->intended(route('admin.dashboard'))
-                ->with('success', 'Selamat datang, ' . $user->name . '!');
-        } elseif ($user->isPetugas()) {
-            return redirect()->intended(route('petugas.dashboard'))
-                ->with('success', 'Selamat datang, ' . $user->name . '!');
-        } else {
-            return redirect()->intended(route('peminjam.dashboard'))
-                ->with('success', 'Selamat datang, ' . $user->name . '!');
+        if (!$usernameAttempt) {
+            // Try email instead
+            $usernameAttempt = Auth::attempt([
+                'email' => $credentials['username'],
+                'password' => $credentials['password']
+            ]);
         }
-    }
 
-    return back()->withErrors([
-        'username' => 'Username atau password salah. Silakan coba lagi.',
-    ])->onlyInput('username');
-}
+        if ($usernameAttempt) {
+            $request->session()->regenerate();
+            LogAktivitas::catat('login', 'User', Auth::id(), 'User login ke sistem');
+
+            // Redirect berdasarkan role
+            $user = Auth::user();
+            
+            if ($user->isAdmin()) {
+                return redirect()->intended(route('admin.dashboard'));
+            } elseif ($user->isPetugas()) {
+                return redirect()->intended(route('petugas.dashboard'));
+            } else {
+                return redirect()->intended(route('peminjam.dashboard'));
+            }
+        }
+
+        return back()->withErrors([
+            'username' => 'Username/Email atau password salah. Silakan coba lagi.',
+        ])->onlyInput('username');
+    }
 
 public function logout(Request $request)
 {

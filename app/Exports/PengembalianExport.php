@@ -43,9 +43,8 @@ class PengembalianExport implements FromCollection, WithHeadings, WithMapping, W
             'Tanggal Pinjam',
             'Tanggal Rencana Kembali',
             'Tanggal Kembali Aktual',
-            'Keterlambatan (Hari)',
+            'Keterangan Waktu',
             'Kondisi Barang',
-            'Jenis Denda',
             'Total Denda (Rp)',
             'Dicatat Oleh',
             'Catatan',
@@ -59,6 +58,12 @@ class PengembalianExport implements FromCollection, WithHeadings, WithMapping, W
         
         $keterlambatan = $pengembalian->hitungKeterlambatan();
         
+        // Keterangan waktu hanya untuk kondisi baik
+        $keteranganWaktu = '-';
+        if ($pengembalian->kondisi_barang === 'baik') {
+            $keteranganWaktu = $keterlambatan > 0 ? 'Terlambat' : 'Tepat Waktu';
+        }
+        
         return [
             $no,
             $pengembalian->peminjaman->user->name,
@@ -67,9 +72,8 @@ class PengembalianExport implements FromCollection, WithHeadings, WithMapping, W
             $pengembalian->peminjaman->tanggal_pinjam->format('d/m/Y'),
             $pengembalian->peminjaman->tanggal_kembali_rencana->format('d/m/Y'),
             $pengembalian->tgl_kembali_realisasi->format('d/m/Y'),
-            $keterlambatan > 0 ? $keterlambatan . ' hari' : 'Tepat Waktu',
+            $keteranganWaktu,
             ucfirst(str_replace('_', ' ', $pengembalian->kondisi_barang)),
-            ucfirst(str_replace('_', ' ', $pengembalian->jenis_denda)),
             $pengembalian->total_denda,
             $pengembalian->user->name,
             $pengembalian->catatan ?? '-',

@@ -7,12 +7,6 @@
     <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Profile</h1>
 
-        @if (session('status') === 'profile-updated')
-            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-                Profile berhasil diperbarui!
-            </div>
-        @endif
-
         <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -53,6 +47,17 @@
                 <textarea id="address" name="address" rows="3"
                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 @error('address') border-red-500 @enderror">{{ old('address', $user->address) }}</textarea>
                 @error('address')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Class / Kelas -->
+            <div class="mb-4">
+                <label for="class" class="block text-sm font-medium text-gray-700 mb-2">Kelas/Tahun</label>
+                <input type="text" id="class" name="class" value="{{ old('class', $user->class) }}"
+                       placeholder="Contoh: XI IPA 1 atau 2024"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 @error('class') border-red-500 @enderror">
+                @error('class')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>

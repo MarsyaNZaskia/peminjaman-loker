@@ -9,7 +9,7 @@
         <div class="bg-gradient-to-r from-pink-100 to-purple-100 p-6 rounded-2xl shadow-lg border border-pink-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold text-pink-800 mb-2">🌸 Selamat Datang, Admin! 🌸</h1>
+                    <h1 class="text-2xl font-bold text-pink-800 mb-2">Selamat Datang, Admin!</h1>
                     <p class="text-pink-600 text-base">Pantau dan kelola sistem peminjaman loker dengan mudah</p>
                 </div>
                 <div class="text-4xl animate-bounce">👋</div>

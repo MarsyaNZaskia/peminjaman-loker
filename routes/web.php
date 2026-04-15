@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
 use App\Http\Controllers\ProfileController;
 
 // Auth routes
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -83,11 +83,13 @@ Route::middleware(['auth', 'peminjam'])->prefix('peminjam')->name('peminjam.')->
         return view('peminjam.dashboard');
     })->name('dashboard');
 
-    // Routes peminjaman
-    Route::get('/peminjaman', [PeminjamPeminjamanController::class, 'index'])->name('peminjaman.index');
-    Route::get('/peminjaman/create/{loker}', [PeminjamPeminjamanController::class, 'create'])->name('peminjaman.create');
-    Route::post('/peminjaman', [PeminjamPeminjamanController::class, 'store'])->name('peminjaman.store');
-    Route::delete('/peminjaman/{peminjaman}', [PeminjamPeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
+    // Routes peminjaman - dengan middleware checkBiodata
+    Route::middleware('checkBiodata')->group(function () {
+        Route::get('/peminjaman', [PeminjamPeminjamanController::class, 'index'])->name('peminjaman.index');
+        Route::get('/peminjaman/create/{loker}', [PeminjamPeminjamanController::class, 'create'])->name('peminjaman.create');
+        Route::post('/peminjaman', [PeminjamPeminjamanController::class, 'store'])->name('peminjaman.store');
+        Route::delete('/peminjaman/{peminjaman}', [PeminjamPeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
+    });
 
     // Routes riwayat peminjaman
     Route::get('/riwayat', [\App\Http\Controllers\Peminjam\RiwayatController::class, 'index'])->name('riwayat.index');

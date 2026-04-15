@@ -47,7 +47,7 @@
                        value="{{ old('tgl_kembali_realisasi', $peminjaman->tanggal_kembali_rencana->format('Y-m-d')) }}" 
                        class="w-full px-3 py-2 border rounded-lg @error('tgl_kembali_realisasi') border-red-500 @enderror" 
                        id="tglKembali"
-                       onchange="updateJenisDenda(); hitungDenda()"
+                       onchange="hitungDenda()"
                        required>
                 @error('tgl_kembali_realisasi')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -59,30 +59,13 @@
                 <label class="block text-gray-700 mb-2">Kondisi Loker</label>
                 <select name="kondisi_barang" 
                         class="w-full px-3 py-2 border rounded-lg @error('kondisi_barang') border-red-500 @enderror"
-                        onchange="updateJenisDenda()" 
+                        onchange="hitungDenda()" 
                         required>
                     <option value="baik" {{ old('kondisi_barang') === 'baik' ? 'selected' : '' }}>Baik</option>
                     <option value="rusak" {{ old('kondisi_barang') === 'rusak' ? 'selected' : '' }}>Rusak</option>
-                    <option value="hilang" {{ old('kondisi_barang') === 'hilang' ? 'selected' : '' }}>Hilang</option>
+                    <option value="hilang" {{ old('kondisi_barang') === 'hilang' ? 'selected' : '' }}>Kunci Hilang</option>
                 </select>
                 @error('kondisi_barang')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Jenis Denda</label>
-                <select name="jenis_denda" 
-                        class="w-full px-3 py-2 border rounded-lg @error('jenis_denda') border-red-500 @enderror"
-                        id="jenisDenda"
-                        onchange="handleJenisDendaChange()" 
-                        required>
-                    <option value="tidak_ada" {{ old('jenis_denda') === 'tidak_ada' ? 'selected' : '' }}>Tidak Ada Denda</option>
-                    <option value="telat" {{ old('jenis_denda') === 'telat' ? 'selected' : '' }}>Denda Keterlambatan</option>
-                    <option value="rusak" {{ old('jenis_denda') === 'rusak' ? 'selected' : '' }}>Denda Kerusakan</option>
-                    <option value="hilang" {{ old('jenis_denda') === 'hilang' ? 'selected' : '' }}>Denda Kehilangan</option>
-                </select>
-                @error('jenis_denda')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
@@ -134,23 +117,29 @@ const DENDA_HILANG = 500000; // Rp 500.000
 
 function hitungDenda() {
     const tglKembali = document.getElementById('tglKembali').value;
-    const jenisDenda = document.getElementById('jenisDenda').value;
+    const kondisi = document.querySelector('[name="kondisi_barang"]').value;
     const totalDendaInput = document.getElementById('totalDenda');
     const infoDenda = document.getElementById('infoDenda');
     
     if (!tglKembali) return;
     
-    const tanggalKembali = new Date(tglKembali);
     let denda = 0;
     let info = '';
     
-    if (jenisDenda === 'telat') {
-        // Hitung selisih hari - terlambat jika melewati hari rencana
+    // Prioritas: hilang > rusak > telat > tidak_ada
+    if (kondisi === 'hilang') {
+        denda = DENDA_HILANG;
+        info = `✓ Denda kehilangan: Rp ${denda.toLocaleString()}`;
+    } else if (kondisi === 'rusak') {
+        denda = DENDA_RUSAK;
+        info = `✓ Denda kerusakan: Rp ${denda.toLocaleString()}`;
+    } else if (kondisi === 'baik') {
+        // Cek keterlambatan: Terlambat jika tanggal pengembalian aktual > tanggal rencana kembali
         const tanggalRencanaStr = tanggalRencana.toISOString().split('T')[0];
         const tanggalKembaliStr = tglKembali;
 
         if (tanggalKembaliStr > tanggalRencanaStr) {
-            // Hitung selisih hari
+            // Hitung selisih hari untuk denda
             const tanggalRencanaDate = new Date(tanggalRencanaStr);
             const tanggalKembaliDate = new Date(tanggalKembaliStr);
             const diffTime = tanggalKembaliDate - tanggalRencanaDate;
@@ -158,79 +147,16 @@ function hitungDenda() {
             denda = diffDays * DENDA_PER_HARI;
             info = `Terlambat ${diffDays} hari × Rp ${DENDA_PER_HARI.toLocaleString()} = Rp ${denda.toLocaleString()}`;
         } else {
-            info = 'Tidak ada keterlambatan';
+            info = 'Tepat Waktu - Tidak ada denda';
         }
-    } else if (jenisDenda === 'rusak') {
-        const kondisi = document.querySelector('[name="kondisi_barang"]').value;
-        if (kondisi === 'rusak') {
-            denda = DENDA_RUSAK;
-            info = `✓ Denda kerusakan: Rp ${denda.toLocaleString()}`;
-        } else {
-            info = '⚠️ Pilih kondisi barang rusak untuk menghitung denda';
-        }
-    } else if (jenisDenda === 'hilang') {
-        denda = DENDA_HILANG;
-        info = `✓ Denda kehilangan: Rp ${denda.toLocaleString()}`;
-    } else {
-        info = 'Tidak ada denda';
     }
     
     totalDendaInput.value = denda;
     infoDenda.textContent = info;
 }
 
-function updateJenisDenda() {
-    const kondisi = document.querySelector('[name="kondisi_barang"]').value;
-    const jenisDendaSelect = document.getElementById('jenisDenda');
-    const currentJenisDenda = jenisDendaSelect.value;
-    
-    // Jangan ubah jika user sudah memilih denda rusak atau hilang secara manual
-    if (currentJenisDenda === 'rusak' || currentJenisDenda === 'hilang') {
-        hitungDenda();
-        return;
-    }
-    
-    let newJenisDenda = 'tidak_ada';
-    
-    // Prioritas: hilang > rusak > telat > tidak_ada
-    if (kondisi === 'hilang') {
-        newJenisDenda = 'hilang';
-    } else if (kondisi === 'rusak') {
-        newJenisDenda = 'rusak';
-    } else {
-        // Cek keterlambatan - terlambat jika melewati hari rencana
-        const tglKembali = document.getElementById('tglKembali').value;
-        if (tglKembali) {
-            // Bandingkan tanggal dalam format YYYY-MM-DD
-            const tanggalRencanaStr = tanggalRencana.toISOString().split('T')[0];
-            const tanggalKembaliStr = tglKembali;
-
-            if (tanggalKembaliStr > tanggalRencanaStr) {
-                newJenisDenda = 'telat';
-            }
-        }
-    }
-    
-    // Update select value
-    jenisDendaSelect.value = newJenisDenda;
-    
-    hitungDenda();
-}
-
-function handleJenisDendaChange() {
-    const jenisDenda = document.getElementById('jenisDenda').value;
-    
-    // Jika 'rusak' dipilih, auto-set kondisi barang ke rusak
-    if (jenisDenda === 'rusak') {
-        document.querySelector('[name="kondisi_barang"]').value = 'rusak';
-    }
-    
-    hitungDenda();
-}
-
 // Initial calculation
 document.addEventListener('DOMContentLoaded', function() {
-    updateJenisDenda();
     hitungDenda();
 });
 

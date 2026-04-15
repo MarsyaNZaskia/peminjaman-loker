@@ -36,24 +36,9 @@
                         required>
                     <option value="baik" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'baik' ? 'selected' : '' }}>Baik</option>
                     <option value="rusak" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'rusak' ? 'selected' : '' }}>Rusak</option>
-                    <option value="hilang" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'hilang' ? 'selected' : '' }}>Hilang</option>
+                    <option value="hilang" {{ old('kondisi_barang', $pengembalian->kondisi_barang) === 'hilang' ? 'selected' : '' }}>Kunci Hilang</option>
                 </select>
                 @error('kondisi_barang')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Jenis Denda</label>
-                <select name="jenis_denda" 
-                        class="w-full px-3 py-2 border rounded-lg @error('jenis_denda') border-red-500 @enderror" 
-                        required>
-                    <option value="tidak_ada" {{ old('jenis_denda', $pengembalian->jenis_denda) === 'tidak_ada' ? 'selected' : '' }}>Tidak Ada Denda</option>
-                    <option value="telat" {{ old('jenis_denda', $pengembalian->jenis_denda) === 'telat' ? 'selected' : '' }}>Denda Keterlambatan</option>
-                    <option value="rusak" {{ old('jenis_denda', $pengembalian->jenis_denda) === 'rusak' ? 'selected' : '' }}>Denda Kerusakan</option>
-                    <option value="hilang" {{ old('jenis_denda', $pengembalian->jenis_denda) === 'hilang' ? 'selected' : '' }}>Denda Kehilangan</option>
-                </select>
-                @error('jenis_denda')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>

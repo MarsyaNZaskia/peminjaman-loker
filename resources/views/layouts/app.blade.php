@@ -272,31 +272,7 @@
     </main>
     @endguest
 
-    <!-- Auto hide alerts script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const alerts = document.querySelectorAll('[data-alert]');
-            alerts.forEach(alert => {
-                setTimeout(() => {
-                    alert.style.transition = 'opacity 0.5s';
-                    alert.style.opacity = '0';
-                    setTimeout(() => alert.remove(), 500);
-                }, 5000);
-            });
-        });
-    </script>
-    
-    @if (session('success') || session('error'))
-    <script>
-        setTimeout(function() {
-            const alerts = document.querySelectorAll('[data-alert]');
-            alerts.forEach(alert => {
-                alert.style.transition = 'opacity 0.5s';
-                alert.style.opacity = '0';
-                setTimeout(() => alert.remove(), 500);
-            });
-        }, 5000);
-    </script>
-    @endif
+    <!-- Flash Message Alerts -->
+    @include('components.flash-alerts')
 </body>
 </html>

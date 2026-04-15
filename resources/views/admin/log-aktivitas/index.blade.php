@@ -19,14 +19,7 @@
         </form>
     </div>
 
-    @if (session('success'))
-        <div data-alert class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 relative">
-            <span class="block sm:inline">{{ session('success') }}</span>
-            <button onclick="this.parentElement.remove()" class="absolute top-0 right-0 px-4 py-3">
-                <span class="text-2xl">&times;</span>
-            </button>
-        </div>
-    @endif
+
 
     <!-- Filter -->
     <div class="bg-white p-4 rounded-lg shadow mb-4">

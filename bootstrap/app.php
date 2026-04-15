@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'petugas' => \App\Http\Middleware\PetugasMiddleware::class,
             'peminjam' => \App\Http\Middleware\PeminjamMiddleware::class,
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'checkBiodata' => \App\Http\Middleware\CheckBiodata::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -123,42 +123,59 @@
                     </p>
                 </div>
                 <div class="bg-blue-50 p-4 rounded-lg">
-                    <p class="text-sm text-gray-500 mb-1">Keterlambatan</p>
-                    @php
-                        $keterlambatan = $peminjaman->pengembalian->hitungKeterlambatan();
-                        $isTerlambat = $keterlambatan > 0 || $peminjaman->pengembalian->jenis_denda === 'telat';
-                        
-                        // Jika jenis denda telat tapi perhitungan tanggal tidak mendeteksi, hitung dari denda
-                        if (!$isTerlambat && $peminjaman->pengembalian->jenis_denda === 'telat' && $peminjaman->pengembalian->total_denda > 0) {
-                            $keterlambatan = intval($peminjaman->pengembalian->total_denda / 5000); // DENDA_PER_HARI = 5000
-                            $isTerlambat = true;
-                        }
-                    @endphp
-                    @if($isTerlambat)
-                        <p class="text-lg font-bold text-red-600">
-                            Terlambat {{ $keterlambatan }} hari
-                            @if($peminjaman->pengembalian->jenis_denda === 'telat')
-                                <span class="text-sm block text-red-500">Denda: Rp {{ number_format($peminjaman->pengembalian->total_denda, 0, ',', '.') }}</span>
-                            @endif
-                        </p>
-                    @else
-                        <p class="text-lg font-bold text-green-600">Tepat Waktu ✅</p>
-                    @endif
-                </div>
-                <div class="bg-blue-50 p-4 rounded-lg">
                     <p class="text-sm text-gray-500 mb-1">Kondisi Loker</p>
                     <p class="text-lg font-bold text-gray-800">
-                        {{ ucfirst(str_replace('_', ' ', $peminjaman->pengembalian->kondisi_barang)) }}
+                        @if($peminjaman->pengembalian->kondisi_barang === 'baik')
+                            <span class="px-3 py-1 rounded bg-green-100 text-green-800">Baik</span>
+                        @elseif($peminjaman->pengembalian->kondisi_barang === 'rusak')
+                            <span class="px-3 py-1 rounded bg-orange-100 text-orange-800">Rusak</span>
+                        @else
+                            <span class="px-3 py-1 rounded bg-red-100 text-red-800">Hilang</span>
+                        @endif
                     </p>
                 </div>
                 <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="text-sm text-gray-500 mb-1">Keterangan Waktu</p>
+                    @php
+                        $keterlambatan = $peminjaman->pengembalian->hitungKeterlambatan();
+                    @endphp
+                    @if($peminjaman->pengembalian->kondisi_barang === 'baik')
+                        @if($keterlambatan > 0)
+                            <p class="text-lg font-bold text-red-600">Terlambat ({{ $keterlambatan }} hari)</p>
+                        @else
+                            <p class="text-lg font-bold text-green-600">Tepat Waktu ✅</p>
+                        @endif
+                    @else
+                        <p class="text-lg font-bold text-gray-600">-</p>
+                    @endif
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
                     <p class="text-sm text-gray-500 mb-1">Total Denda</p>
-                    @if($peminjaman->pengembalian->total_denda > 0)
+                    @php
+                        $keterlambatan = $peminjaman->pengembalian->hitungKeterlambatan();
+                    @endphp
+                    @if($peminjaman->pengembalian->kondisi_barang === 'baik')
+                        {{-- Kondisi Baik: Hanya ada denda jika terlambat --}}
+                        @if($keterlambatan > 0)
+                            <p class="text-lg font-bold text-red-600">
+                                Rp {{ number_format($peminjaman->pengembalian->total_denda, 0, ',', '.') }}
+                            </p>
+                            <p class="text-xs text-gray-600 mt-1">(Denda Keterlambatan: {{ $keterlambatan }} hari × Rp 5.000)</p>
+                        @else
+                            <p class="text-lg font-bold text-green-600">Rp 0</p>
+                        @endif
+                    @elseif($peminjaman->pengembalian->kondisi_barang === 'hilang')
+                        {{-- Kondisi Hilang: Selalu ada denda kehilangan --}}
                         <p class="text-lg font-bold text-red-600">
                             Rp {{ number_format($peminjaman->pengembalian->total_denda, 0, ',', '.') }}
                         </p>
-                    @else
-                        <p class="text-lg font-bold text-green-600">Rp 0</p>
+                        <p class="text-xs text-gray-600 mt-1">(Denda Kehilangan)</p>
+                    @elseif($peminjaman->pengembalian->kondisi_barang === 'rusak')
+                        {{-- Kondisi Rusak: Selalu ada denda kerusakan --}}
+                        <p class="text-lg font-bold text-red-600">
+                            Rp {{ number_format($peminjaman->pengembalian->total_denda, 0, ',', '.') }}
+                        </p>
+                        <p class="text-xs text-gray-600 mt-1">(Denda Kerusakan)</p>
                     @endif
                 </div>
                 @if($peminjaman->pengembalian->catatan)

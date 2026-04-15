@@ -9,7 +9,7 @@
         <div class="bg-gradient-to-r from-pink-100 to-purple-100 p-8 rounded-2xl shadow-lg border border-pink-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-4xl font-bold text-pink-800 mb-2">🌸 Halo, Petugas! 🌸</h1>
+                    <h1 class="text-4xl font-bold text-pink-800 mb-2">Halo, {{ auth()->user()->name }}!</h1>
                     <p class="text-pink-600 text-lg">Kelola peminjaman dan pengembalian loker dengan mudah</p>
                 </div>
                 <div class="text-6xl animate-bounce">👋</div>

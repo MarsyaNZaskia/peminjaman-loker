@@ -41,7 +41,6 @@ class PengembalianController extends Controller
         $validated = $request->validate([
             'tgl_kembali_realisasi' => 'required|date',
             'kondisi_barang' => 'required|in:baik,rusak,hilang',
-            'jenis_denda' => 'required|in:tidak_ada,telat,rusak,hilang',
             'total_denda' => 'required|integer|min:0',
             'catatan' => 'nullable|string',
         ]);

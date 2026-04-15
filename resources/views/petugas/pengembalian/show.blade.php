@@ -82,17 +82,6 @@
                 <p class="font-semibold">{{ $pengembalian->tgl_kembali_realisasi->format('d/m/Y') }}</p>
             </div>
             <div>
-                <p class="text-gray-600 text-sm">Keterlambatan</p>
-                @php
-                    $keterlambatan = $pengembalian->hitungKeterlambatan();
-                @endphp
-                @if($keterlambatan > 0)
-                    <p class="font-semibold text-red-600">{{ $keterlambatan }} hari</p>
-                @else
-                    <p class="font-semibold text-green-600">Tepat Waktu</p>
-                @endif
-            </div>
-            <div>
                 <p class="text-gray-600 text-sm">Kondisi Loker</p>
                 <p class="font-semibold">
                     @if($pengembalian->kondisi_barang === 'baik')
@@ -105,15 +94,41 @@
                 </p>
             </div>
             <div>
-                <p class="text-gray-600 text-sm">Jenis Denda</p>
-                <p class="font-semibold">{{ ucfirst(str_replace('_', ' ', $pengembalian->jenis_denda)) }}</p>
+                <p class="text-gray-600 text-sm">Keterangan Waktu</p>
+                @php
+                    $keterlambatan = $pengembalian->hitungKeterlambatan();
+                @endphp
+                @if($pengembalian->kondisi_barang === 'baik')
+                    @if($keterlambatan > 0)
+                        <p class="font-semibold text-red-600">Terlambat ({{ $keterlambatan }} hari)</p>
+                    @else
+                        <p class="font-semibold text-green-600">Tepat Waktu</p>
+                    @endif
+                @else
+                    <p class="font-semibold text-gray-600">-</p>
+                @endif
             </div>
             <div>
                 <p class="text-gray-600 text-sm">Total Denda</p>
-                @if($pengembalian->total_denda > 0)
+                @php
+                    $keterlambatan = $pengembalian->hitungKeterlambatan();
+                @endphp
+                @if($pengembalian->kondisi_barang === 'baik')
+                    {{-- Kondisi Baik: Hanya ada denda jika terlambat --}}
+                    @if($keterlambatan > 0)
+                        <p class="font-semibold text-red-600 text-xl">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
+                        <p class="text-xs text-gray-500 mt-1">(Denda Keterlambatan: {{ $keterlambatan }} hari × Rp 5.000)</p>
+                    @else
+                        <p class="font-semibold text-green-600">Rp 0</p>
+                    @endif
+                @elseif($pengembalian->kondisi_barang === 'hilang')
+                    {{-- Kondisi Hilang: Selalu ada denda kehilangan --}}
                     <p class="font-semibold text-red-600 text-xl">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
-                @else
-                    <p class="font-semibold text-green-600">Tidak Ada Denda</p>
+                    <p class="text-xs text-gray-500 mt-1">(Denda Kehilangan)</p>
+                @elseif($pengembalian->kondisi_barang === 'rusak')
+                    {{-- Kondisi Rusak: Selalu ada denda kerusakan --}}
+                    <p class="font-semibold text-red-600 text-xl">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
+                    <p class="text-xs text-gray-500 mt-1">(Denda Kerusakan)</p>
                 @endif
             </div>
             <div>

@@ -7,14 +7,7 @@
 <div class="max-w-4xl mx-auto space-y-6">
 
     <!-- Success Message -->
-    @if (session('success'))
-        <div data-alert class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-lg animate-slide-down">
-            <div class="flex items-center">
-                <span class="text-2xl mr-3">✅</span>
-                <p class="font-medium">{{ session('success') }}</p>
-            </div>
-        </div>
-    @endif
+
 
     <!-- Profile Card -->
     <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -105,13 +98,77 @@
                             <p class="text-xs text-gray-500">Username</p>
                             <p class="font-semibold text-gray-800">{{ Auth::user()->username }}</p>
                         </div>
-                        {{-- <div>
-                            <p class="text-xs text-gray-500">Role</p>
-                            <p class="font-semibold text-gray-800">{{ ucfirst(Auth::user()->role) }}</p>
-                        </div> --}}
+                        <div>
+                            <p class="text-xs text-gray-500">Email</p>
+                            <p class="font-semibold text-gray-800">
+                                @if(Auth::user()->email)
+                                    {{ Auth::user()->email }}
+                                @else
+                                    <span class="text-red-500">⚠️ Belum diisi</span>
+                                @endif
+                            </p>
+                        </div>
                     </div>
                 </div>
 
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h3 class="text-sm font-semibold text-gray-500 mb-3">Informasi Biodata</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-xs text-gray-500">No. Telepon</p>
+                            <p class="font-semibold text-gray-800">
+                                @if(Auth::user()->phone)
+                                    {{ Auth::user()->phone }}
+                                @else
+                                    <span class="text-red-500">⚠️ Belum diisi</span>
+                                @endif
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Alamat</p>
+                            <p class="font-semibold text-gray-800">
+                                @if(Auth::user()->address)
+                                    {{ Auth::user()->address }}
+                                @else
+                                    <span class="text-red-500">⚠️ Belum diisi</span>
+                                @endif
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Kelas/Tahun</p>
+                            <p class="font-semibold text-gray-800">
+                                @if(Auth::user()->class)
+                                    {{ Auth::user()->class }}
+                                @else
+                                    <span class="text-red-500">⚠️ Belum diisi</span>
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Biodata Warning for Peminjam -->
+            @if(Auth::user()->isPeminjam() && (empty(Auth::user()->email) || empty(Auth::user()->phone) || empty(Auth::user()->address) || empty(Auth::user()->class)))
+            <div class="mt-6 bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700 font-semibold">Peringatan: Biodata Belum Lengkap</p>
+                        <p class="text-sm text-red-600 mt-1">Lengkapi semua data biodata untuk dapat melakukan peminjaman loker. Klik tombol Edit di atas untuk melengkapi data.</p>
+                        <button onclick="openModal('editProfileModal')" class="mt-3 text-sm font-semibold text-red-700 hover:text-red-900">
+                            ✏️ Lengkapi Biodata Sekarang
+                        </button>
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <h3 class="text-sm font-semibold text-gray-500 mb-3">Keamanan</h3>
                     <div class="space-y-3">
@@ -176,6 +233,36 @@
                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('email') border-red-500 @enderror"
                            required>
                     @error('email')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">No. Telepon</label>
+                    <input type="text" name="phone" value="{{ old('phone', Auth::user()->phone) }}" 
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('phone') border-red-500 @enderror" 
+                           placeholder="Contoh: 081234567890">
+                    @error('phone')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Alamat</label>
+                    <textarea name="address" rows="2"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('address') border-red-500 @enderror" 
+                           placeholder="Masukkan alamat lengkap">{{ old('address', Auth::user()->address) }}</textarea>
+                    @error('address')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Kelas/Tahun</label>
+                    <input type="text" name="class" value="{{ old('class', Auth::user()->class) }}" 
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('class') border-red-500 @enderror" 
+                           placeholder="Contoh: XI IPA 1 atau 2024">
+                    @error('class')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
