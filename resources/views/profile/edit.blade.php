@@ -11,6 +11,12 @@
             @csrf
             @method('PUT')
 
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                <input type="text" name="username" value="{{ old('username', $user->username) }}"
+                    class="w-full px-3 py-2 border rounded-md">
+            </div>
+
             <!-- Name -->
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
@@ -70,12 +76,12 @@
                         <img src="{{ asset('storage/' . $user->photo) }}" alt="Current Photo" class="w-20 h-20 rounded-full object-cover">
                     </div>
                 @endif
-                <input type="file" id="photo" name="photo" accept="image/*"
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 @error('photo') border-red-500 @enderror">
+                <input type="file" id="photo" name="photo" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 @error('photo') border-red-500 @enderror">
                 @error('photo')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
+
 
             <!-- Submit Button -->
             <div class="flex justify-end space-x-4">

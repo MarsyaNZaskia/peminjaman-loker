@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -108,5 +110,19 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')
             ->with('success', 'User berhasil dihapus');
     }
+
+    public function import(Request $request) 
+{
+    $request->validate([
+        'file_excel' => 'required|mimes:xlsx,xls,csv|max:2048',
+    ]);
+
+    try {
+        Excel::import(new UsersImport, $request->file('file_excel'));
+        return redirect()->back()->with('success', 'Data user berhasil diimport!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Ada masalah saat import: ' . $e->getMessage());
+    }
+}
 
 }

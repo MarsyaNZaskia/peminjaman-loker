@@ -10,6 +10,17 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Petugas\LaporanController as PetugasLaporanController;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SocialiteController;
+
+
+// Google OAuth routes
+Route::get('/auth/google', [SocialiteController::class, 'redirect'])
+->name('google.redirect')
+->withoutMiddleware(['guest', App\Http\Middleware\RedirectIfAuthenticated::class]);
+
+Route::get('/auth/google/callback', [SocialiteController::class, 'callback'])
+->name('google.callback')
+->withoutMiddleware(['guest', App\Http\Middleware\RedirectIfAuthenticated::class]);
 
 // Auth routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
@@ -105,11 +116,31 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::delete('/profile/foto', [ProfileController::class, 'deleteFoto'])->name('profile.deleteFoto');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 });
 
+Route::post('/admin/users/import', [UserController::class, 'import'])->name('admin.users.import');
+
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
-    return redirect('/login');
-});
+    if (Auth::check()) {
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif (Auth::user()->role === 'petugas') {
+            return redirect()->route('petugas.dashboard');
+        } else {
+            return redirect()->route('peminjam.dashboard');
+        }
+    }
+
+    return view('welcome'); // ← landing page kamu
+})->name('landing');
+
+
+
+
 
 // Route::get('/', function () {
 //     return view('welcome');

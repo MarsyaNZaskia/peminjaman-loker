@@ -4,22 +4,48 @@
 @section('title', 'Profile Saya')
 
 @section('content')
+
+@if(session('success'))
+    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-xl">
+        ✅ {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl">
+        ❌ {{ session('error') }}
+    </div>
+@endif
 <div class="max-w-4xl mx-auto space-y-6">
 
-    <!-- Success Message -->
+    {{-- <!-- Skeleton Loading -->
+    <div id="skeleton" class="animate-pulse space-y-4">
+        <div class="h-32 bg-gray-200 rounded-xl"></div>
+        <div class="flex items-center space-x-4 -mt-16 px-6">
+            <div class="w-28 h-28 bg-gray-300 rounded-full"></div>
+            <div class="space-y-3 flex-1">
+                <div class="h-6 bg-gray-300 rounded w-1/3"></div>
+                <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-6">
+            <div class="h-32 bg-gray-200 rounded-xl"></div>
+            <div class="h-32 bg-gray-200 rounded-xl"></div>
+        </div>
+    </div> --}}
 
 
     <!-- Profile Card -->
     <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
         <!-- Header with Gradient -->
-        <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-32"></div>
+        <div class="bg-gradient-to-r from-indigo-500 to-blue-400 h-28"></div>
         
         <!-- Profile Content -->
         <div class="px-8 pb-8">
             <div class="flex flex-col md:flex-row items-center md:items-start -mt-16">
                 <!-- Profile Photo -->
                 <div class="relative group">
-                    <div class="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-gray-200">
+                    <div class="w-28 h-28 rounded-full ring-4 ring-white shadow-lg overflow-hidden bg-gray-200">
                         @if(Auth::user()->photo)
                             <img src="{{ asset('storage/' . Auth::user()->photo) }}?{{ time() }}" 
                                  alt="Profile Photo" 
@@ -159,16 +185,41 @@
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-red-700 font-semibold">Peringatan: Biodata Belum Lengkap</p>
-                        <p class="text-sm text-red-600 mt-1">Lengkapi semua data biodata untuk dapat melakukan peminjaman loker. Klik tombol Edit di atas untuk melengkapi data.</p>
-                        <button onclick="openModal('editProfileModal')" class="mt-3 text-sm font-semibold text-red-700 hover:text-red-900">
-                            ✏️ Lengkapi Biodata Sekarang
-                        </button>
-                    </div>
+                        <p class="text-sm text-red-600 mt-1">Lengkapi semua data biodata untuk dapat melakukan peminjaman loker. Klik tombol Edit untuk melengkapi data.</p>
+                        <a href="{{ route('profile.edit') }}" class="text-blue-500 hover:text-blue-700">✏️ Lengkapi biodata</a>
+                     </div>
                 </div>
             </div>
             @endif
 
             <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Akun Google</h3>
+                @if($user->google_id)
+                    <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-green-800 font-medium">Akun Google sudah terhubung</span>
+                    </div>
+                @else
+                    <div class="text-center py-4">
+                        <a href="{{ route('google.redirect') }}" 
+                           class="inline-flex items-center px-6 py-3 bg-white border-2 border-blue-500 rounded-lg hover:border-blue-600 hover:shadow-lg transition transform hover:scale-105 text-blue-600 font-semibold">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.83l2.66-2.07z"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Hubungkan Akun Google
+                        </a>
+                        <p class="text-sm text-gray-500 mt-2">Hubungkan akun Google untuk login lebih mudah</p>
+                    </div>
+                @endif
+                </div>
+
+
                 <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <h3 class="text-sm font-semibold text-gray-500 mb-3">Keamanan</h3>
                     <div class="space-y-3">
@@ -183,104 +234,19 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-</div>
-
-<!-- Modal Edit Profile -->
-<div id="editProfileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all" onclick="event.stopPropagation()">
-        <div class="p-6 border-b border-gray-200">
             <div class="flex items-center justify-between">
-                <h2 class="text-2xl font-bold text-gray-800">✏️ Edit Profile</h2>
-                <button onclick="closeModal('editProfileModal')" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <a href="{{ route('profile.edit')}}" class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-center px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lgtext-2xl font-bold text-gray-800">✏️ Edit Profile</a>
             </div>
         </div>
-        
-        <form method="POST" action="{{ route('profile.update') }}" class="p-6">
-            @csrf
-            @method('PUT')
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Nama Lengkap</label>
-                    <input type="text" name="name" value="{{ old('name', Auth::user()->name) }}" 
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('name') border-red-500 @enderror" 
-                           required>
-                    @error('name')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Username</label>
-                    <input type="text" name="username" value="{{ old('username', Auth::user()->username) }}" 
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('username') border-red-500 @enderror" 
-                           required>
-                    @error('username')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Email</label>
-                    <input type="email" name="email" value="{{ old('email', Auth::user()->email) }}"
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('email') border-red-500 @enderror"
-                           required>
-                    @error('email')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">No. Telepon</label>
-                    <input type="text" name="phone" value="{{ old('phone', Auth::user()->phone) }}" 
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('phone') border-red-500 @enderror" 
-                           placeholder="Contoh: 081234567890">
-                    @error('phone')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Alamat</label>
-                    <textarea name="address" rows="2"
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('address') border-red-500 @enderror" 
-                           placeholder="Masukkan alamat lengkap">{{ old('address', Auth::user()->address) }}</textarea>
-                    @error('address')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Kelas/Tahun</label>
-                    <input type="text" name="class" value="{{ old('class', Auth::user()->class) }}" 
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('class') border-red-500 @enderror" 
-                           placeholder="Contoh: XI IPA 1 atau 2024">
-                    @error('class')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="mt-6 flex space-x-3">
-                <button type="submit" 
-                        class="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
-                    💾 Simpan
-                </button>
-                <button type="button" onclick="closeModal('editProfileModal')" 
-                        class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-semibold transition-colors">
-                    Batal
-                </button>
-            </div>
-        </form>
     </div>
+
 </div>
+
+{{-- edit profil --}}
+<div class="p-6 border-b border-gray-200">
+            
+        </div>
+
 
 <!-- Modal Edit Foto -->
 <div id="editFotoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -417,6 +383,14 @@
 </div>
 
 <script>
+
+    window.onload = () => {
+    setTimeout(() => {
+        document.getElementById('skeleton').style.display = 'none';
+        document.getElementById('content').classList.remove('hidden');
+    }, 600);
+};
+
 // Modal functions
 function openModal(modalId) {
     document.getElementById(modalId).classList.remove('hidden');
@@ -450,6 +424,7 @@ function previewImage(event) {
         reader.readAsDataURL(file);
     }
 }
+
 </script>
 
 <style>

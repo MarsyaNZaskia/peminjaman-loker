@@ -21,7 +21,7 @@
     <div class="mb-10">
         <h2 class="text-2xl font-bold mb-6 text-pink-800 flex items-center">
             <span class="text-3xl mr-3">📦</span>
-            Statistik Loker
+            Informasi Loker
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-pink-200">
@@ -67,7 +67,7 @@
     <div class="mb-10">
         <h2 class="text-2xl font-bold mb-6 text-pink-800 flex items-center">
             <span class="text-3xl mr-3">👥</span>
-            Statistik User
+            Informasi User
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-blue-200">
@@ -104,7 +104,7 @@
     <div class="mb-10">
         <h2 class="text-2xl font-bold mb-6 text-pink-800 flex items-center">
             <span class="text-3xl mr-3">📊</span>
-            Statistik Peminjaman
+            Informasi Peminjaman
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-indigo-200">

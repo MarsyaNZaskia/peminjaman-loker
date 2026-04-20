@@ -66,6 +66,6 @@ public function logout(Request $request)
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect('/login')->with('success', 'Anda telah logout');
+    return redirect('/login');
 }
 }
