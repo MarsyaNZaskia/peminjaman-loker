@@ -6,7 +6,7 @@
 @section('content')
 <div class="max-w-4xl mx-auto px-4">
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-3xl font-bold">Detail Buku: {{ $buku->nomor_loker }}</h1>
+        <h1 class="text-3xl font-bold">Detail Buku: {{ $buku->kode_buku }}</h1>
         <a href="{{ route('admin.buku.index') }}" 
            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
             Kembali
@@ -74,7 +74,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($loker->peminjaman as $pinjam)
+                        @foreach($buku->peminjaman as $pinjam)
                             <tr>
                                 <td class="px-4 py-3">{{ $pinjam->user->name }}</td>
                                 <td class="px-4 py-3">{{ $pinjam->tanggal_pinjam->format('d/m/Y') }}</td>

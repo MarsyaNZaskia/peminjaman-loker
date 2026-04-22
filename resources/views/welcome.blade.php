@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Sistem Peminjaman Kunci Loker</title>
+    <title>Sistem Peminjaman Buku</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
 
@@ -27,7 +27,7 @@
       <div class="w-full container mx-auto">
         <div class="w-full flex items-center justify-between">
           <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
-            SIM<span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">LOK</span>
+            SIM<span class="bg-clip-text text-transparent bg-linear-to-r from-green-400 via-pink-500 to-purple-500">LOK</span>
           </a>
 
           <div class="flex w-1/2 justify-end items-center">
@@ -45,13 +45,13 @@
         <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
           <h1 class="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left">
             Sistem
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">
+            <span class="bg-clip-text text-transparent bg-linear-to-r from-green-400 via-pink-500 to-purple-500">
               Manajemen Peminjaman
             </span>
-            Loker
+            Buku
           </h1>
           <p class="leading-normal text-base md:text-2xl mb-8 text-center md:text-left">
-            Booking lemari loker mu disini!
+            Pinjam buku favorit mu disini!
           </p>
         </div>
 

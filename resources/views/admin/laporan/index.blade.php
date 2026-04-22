@@ -84,7 +84,7 @@
                 <h2 class="text-xl font-bold">Laporan Data Loker</h2>
             </div>
             
-            <form method="POST" action="{{ route('admin.laporan.loker') }}">
+            <form method="POST" action="{{ route('admin.laporan.buku') }}">
                 @csrf
                 
                 <div class="mb-4">

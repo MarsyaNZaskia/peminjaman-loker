@@ -58,7 +58,7 @@
             </div>
             <div class="bg-gray-50 p-4 rounded-lg">
                 <p class="text-sm text-gray-500 mb-1">Status Loker</p>
-                <p class="text-lg font-bold text-gray-800">{{ ucfirst($peminjaman->loker->status) }}</p>
+                <p class="text-lg font-bold text-gray-800">{{ ucfirst($peminjaman->buku->status) }}</p>
             </div>
         </div>
     </div>

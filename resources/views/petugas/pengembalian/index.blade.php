@@ -28,7 +28,7 @@
                     <tr>
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">{{ $item->peminjaman->user->name }}</td>
-                        <td class="px-6 py-4 font-semibold">{{ $item->peminjaman->loker->nomor_loker }}</td>
+                        <td class="px-6 py-4 font-semibold">{{ $item->peminjaman->buku->kode_buku }}</td>
                         <td class="px-6 py-4">{{ $item->tgl_kembali_realisasi->format('d/m/Y') }}</td>
                         <td class="px-6 py-4">
                             @if($item->kondisi_barang === 'baik')

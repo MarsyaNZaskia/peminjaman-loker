@@ -12,7 +12,7 @@ class Peminjaman extends Model
 
     protected $fillable = [
         'user_id',
-        'loker_id',
+        'buku_id',
         'approved_by',
         'tanggal_pinjam',
         'tanggal_kembali_rencana',
@@ -32,10 +32,16 @@ class Peminjaman extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Relasi ke Loker
-    public function loker(): BelongsTo
+    // Relasi ke Buku
+    public function buku(): BelongsTo
     {
         return $this->belongsTo(Buku::class);
+    }
+
+    // Alias untuk backward compatibility
+    public function loker(): BelongsTo
+    {
+        return $this->buku();
     }
 
     // Relasi ke User (Petugas yang approve)

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Peminjaman;
-use App\Models\Loker;
+use App\Models\Buku;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,23 +14,22 @@ class PeminjamanController extends Controller
 {
     // Lihat semua peminjaman
     public function index(Request $request)
-    {
-        $query = Peminjaman::with(['user', 'loker', 'petugas']);
-        
-        // Filter berdasarkan status
-        if ($request->has('status') && $request->status !== '') {
-            $query->where('status', $request->status);
-        }
-        
-        $peminjaman = $query->latest()->get();
-        
-        return view('admin.peminjaman.index', compact('peminjaman'));
+{
+    $query = Peminjaman::with(['user', 'buku', 'petugas']); // FIX
+
+    if ($request->has('status') && $request->status !== '') {
+        $query->where('status', $request->status);
     }
+
+    $peminjaman = $query->latest()->get();
+
+    return view('admin.peminjaman.index', compact('peminjaman'));
+}
 
     // Detail peminjaman
     public function show(Peminjaman $peminjaman)
     {
-        $peminjaman->load(['user', 'loker', 'petugas', 'pengembalian']);
+        $peminjaman->load(['user', 'buku', 'petugas', 'pengembalian']);
         return view('admin.peminjaman.show', compact('peminjaman'));
     }
 
@@ -38,35 +37,49 @@ class PeminjamanController extends Controller
     public function create()
     {
         $users = User::where('role', 'peminjam')->get();
-        $lokers = Loker::where('status', 'tersedia')->get();
-        return view('admin.peminjaman.create', compact('users', 'lokers'));
+        $bukus = Buku::where('status', 'tersedia')->get();
+        return view('admin.peminjaman.create', compact('users', 'bukus'));
     }
 
     // Simpan peminjaman
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'loker_id' => 'required|exists:lokers,id',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali_rencana' => 'required|date|after:tanggal_pinjam',
-            'keperluan' => 'required|string|max:500',
-            'status' => 'required|in:pending,disetujui,ditolak,selesai',
-        ]);
+        'user_id' => 'required|exists:users,id',
+        'buku_id' => 'required|exists:bukus,id', // FIX
+        'tanggal_pinjam' => 'required|date',
+        'tanggal_kembali_rencana' => 'required|date|after:tanggal_pinjam',
+        'keperluan' => 'required|string|max:500',
+        'status' => 'required|in:pending,disetujui,ditolak,selesai',
+    ]);
 
-        // Jika status disetujui, update status loker
+    $buku = Buku::find($request->buku_id);
+    
+    if ($buku->stok <= 0) {
+        return back()->with('error', 'Stok buku habis!');
+        }
+
         DB::transaction(function () use ($validated) {
-            // Set approved_by jika status = disetujui/ditolak
-            if (in_array($validated['status'], ['disetujui', 'ditolak'])) {
-                $validated['approved_by'] = Auth::id();
-                }
 
-            $peminjaman = Peminjaman::create($validated);
-            
-            if ($validated['status'] === 'disetujui') {
-                Loker::find($validated['loker_id'])->update(['status' => 'dipinjam']);
+    if (in_array($validated['status'], ['disetujui', 'ditolak'])) {
+        $validated['approved_by'] = Auth::id();
+    }
+
+    $peminjaman = Peminjaman::create($validated);
+
+    if ($validated['status'] === 'disetujui') {
+        $buku = Buku::find($validated['buku_id']);
+
+        if ($buku && $buku->stok > 0) {
+            $buku->decrement('stok');
+
+            // optional: ubah status kalau habis
+            if ($buku->stok == 0) {
+                $buku->update(['status' => 'dipinjam']);
             }
-        });
+        }
+    }
+});
 
         return redirect()->route('admin.peminjaman.index')
             ->with('success', 'Peminjaman berhasil ditambahkan');
@@ -76,8 +89,8 @@ class PeminjamanController extends Controller
     public function edit(Peminjaman $peminjaman)
     {
         $users = User::where('role', 'peminjam')->get();
-        $lokers = Loker::all();
-        return view('admin.peminjaman.edit', compact('peminjaman', 'users', 'lokers'));
+        $bukus = Buku::all();
+        return view('admin.peminjaman.edit', compact('peminjaman', 'users', 'bukus'));
     }
 
     // Update peminjaman
@@ -85,7 +98,7 @@ class PeminjamanController extends Controller
     {
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'loker_id' => 'required|exists:lokers,id',
+            'buku_id' => 'required|exists:buku,id',
             'tanggal_pinjam' => 'required|date',
             'tanggal_kembali_rencana' => 'required|date|after:tanggal_pinjam',
             'keperluan' => 'required|string|max:500',
@@ -93,27 +106,34 @@ class PeminjamanController extends Controller
             'catatan_petugas' => 'nullable|string',
         ]);
 
-        DB::transaction(function () use ($validated, $peminjaman) {
-            $oldStatus = $peminjaman->status;
-            $newStatus = $validated['status'];
+        $oldStatus = $peminjaman->status;
+$newStatus = $validated['status'];
 
-            // Set approved_by jika status berubah jadi disetujui/ditolak
-            if (in_array($newStatus, ['disetujui', 'ditolak']) && $peminjaman->approved_by === null) {
-                $validated['approved_by'] = Auth::id();
-                }
-            
-            // Update peminjaman
-            $peminjaman->update($validated);
-            
-            // Update status loker berdasarkan perubahan status
-            if ($oldStatus !== $newStatus) {
-                if ($newStatus === 'disetujui') {
-                    $peminjaman->loker->update(['status' => 'dipinjam']);
-                } elseif (in_array($newStatus, ['ditolak', 'selesai'])) {
-                    $peminjaman->loker->update(['status' => 'tersedia']);
-                }
+DB::transaction(function () use ($validated, $peminjaman, $oldStatus, $newStatus) {
+
+    if (in_array($newStatus, ['disetujui', 'ditolak']) && $peminjaman->approved_by === null) {
+        $validated['approved_by'] = Auth::id();
+    }
+
+    $peminjaman->update($validated);
+
+    if ($peminjaman->buku) {
+
+        // dari selain disetujui → disetujui
+        if ($oldStatus !== 'disetujui' && $newStatus === 'disetujui') {
+            if ($peminjaman->buku->stok <= 0) {
+                throw new \Exception('Stok buku habis!');
             }
-        });
+
+            $peminjaman->buku->decrement('stok');
+        }
+
+        // dari disetujui → selain disetujui
+        if ($oldStatus === 'disetujui' && in_array($newStatus, ['ditolak', 'selesai'])) {
+            $peminjaman->buku->increment('stok');
+        }
+    }
+});
 
         return redirect()->route('admin.peminjaman.index')
             ->with('success', 'Peminjaman berhasil diupdate');
@@ -129,13 +149,11 @@ class PeminjamanController extends Controller
         }
 
         DB::transaction(function () use ($peminjaman) {
-            // Jika status disetujui, kembalikan status loker
-            if ($peminjaman->status === 'disetujui') {
-                $peminjaman->loker->update(['status' => 'tersedia']);
-            }
-            
-            $peminjaman->delete();
-        });
+            if ($peminjaman->status === 'disetujui' && $peminjaman->buku) {
+                $peminjaman->buku->increment('stok');
+                }
+                $peminjaman->delete();
+                });
 
         return redirect()->route('admin.peminjaman.index')
             ->with('success', 'Peminjaman berhasil dihapus');

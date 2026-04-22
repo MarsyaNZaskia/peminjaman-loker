@@ -84,7 +84,7 @@
                 <h2 class="text-xl font-bold">Laporan Data Loker</h2>
             </div>
             
-            <form method="POST" action="{{ route('petugas.laporan.loker') }}">
+            <form method="POST" action="{{ route('petugas.laporan.buku') }}">
                 @csrf
                 
                 <div class="mb-4">

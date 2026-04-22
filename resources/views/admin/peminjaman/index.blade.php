@@ -42,7 +42,7 @@
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminjam</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loker</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Buku</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Pinjam</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
@@ -53,7 +53,7 @@
                     <tr>
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">{{ $item->user->name }}</td>
-                        <td class="px-6 py-4 font-semibold">{{ $item->loker->nomor_loker }}</td>
+                        <td class="px-6 py-4 font-semibold">{{ $item->buku?->kode_buku ?? '-' }} - {{ $item->buku->judul ?? '-'}}</td>
                         <td class="px-6 py-4">{{ $item->tanggal_pinjam->format('d/m/Y') }}</td>
                         <td class="px-6 py-4">
                             @if($item->status === 'pending')

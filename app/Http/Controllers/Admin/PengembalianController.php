@@ -14,7 +14,7 @@ class PengembalianController extends Controller
     // Lihat semua pengembalian
     public function index()
     {
-        $pengembalian = Pengembalian::with(['peminjaman.user', 'peminjaman.loker', 'user'])
+        $pengembalian = Pengembalian::with(['peminjaman.user', 'peminjaman.buku', 'user'])
             ->latest()
             ->get();
 
@@ -24,14 +24,14 @@ class PengembalianController extends Controller
     // Detail pengembalian
     public function show(Pengembalian $pengembalian)
     {
-        $pengembalian->load(['peminjaman.user', 'peminjaman.loker', 'user']);
+        $pengembalian->load(['peminjaman.user', 'peminjaman.buku', 'user']);
         return view('admin.pengembalian.show', compact('pengembalian'));
     }
 
     // Form edit pengembalian
     public function edit(Pengembalian $pengembalian)
     {
-        $pengembalian->load(['peminjaman.user', 'peminjaman.loker']);
+        $pengembalian->load(['peminjaman.user', 'peminjaman.buku']);
         return view('admin.pengembalian.edit', compact('pengembalian'));
     }
 
@@ -58,8 +58,8 @@ class PengembalianController extends Controller
             // Kembalikan status peminjaman ke disetujui
             $pengembalian->peminjaman->update(['status' => 'disetujui']);
             
-            // Kembalikan status loker ke dipinjam
-            $pengembalian->peminjaman->loker->update(['status' => 'dipinjam']);
+            // Kembalikan status buku ke dipinjam
+            $pengembalian->peminjaman->buku->update(['status' => 'dipinjam']);
             
             $pengembalian->delete();
         });

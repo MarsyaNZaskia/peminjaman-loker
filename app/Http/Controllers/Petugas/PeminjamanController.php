@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Petugas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Peminjaman;
-use App\Models\Loker;
+use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,8 +51,8 @@ class PeminjamanController extends Controller
                 'approved_by' => Auth::id(),
             ]);
 
-            // Update status loker
-            $peminjaman->loker->update([
+            // Update status buku
+            $peminjaman->buku->update([
                 'status' => 'dipinjam',
             ]);
         });
@@ -61,7 +61,7 @@ class PeminjamanController extends Controller
             'approve', 
             'Peminjaman', 
             $peminjaman->id, 
-            "Menyetujui peminjaman loker {$peminjaman->loker->nomor_loker} oleh {$peminjaman->user->name}"
+            "Menyetujui peminjaman buku {$peminjaman->buku->kode_buku} oleh {$peminjaman->user->name}"
         );
 
         return redirect()->route('petugas.peminjaman.index')
@@ -90,7 +90,7 @@ class PeminjamanController extends Controller
             'reject', 
             'Peminjaman', 
             $peminjaman->id, 
-            "Menolak peminjaman loker {$peminjaman->loker->nomor_loker} oleh {$peminjaman->user->name}"
+            "Menolak peminjaman buku {$peminjaman->buku->kode_buku} oleh {$peminjaman->user->name}"
         );
 
         return redirect()->route('petugas.peminjaman.index')

@@ -21,8 +21,8 @@
         <div class="bg-linear-to-br from-pink-50 to-pink-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-pink-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-pink-600 text-sm font-medium">Total Loker</h3>
-                    <p class="text-3xl font-bold mt-2 text-pink-800">{{ \App\Models\Loker::count() }}</p>
+                    <h3 class="text-pink-600 text-sm font-medium">Total Buku</h3>
+                    <p class="text-3xl font-bold mt-2 text-pink-800">{{ \App\Models\Buku::count() }}</p>
                 </div>
                 <div class="text-4xl">🔐</div>
             </div>
@@ -30,8 +30,8 @@
         <div class="bg-linear-to-br from-yellow-50 to-yellow-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-yellow-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-yellow-600 text-sm font-medium">Loker Dipinjam</h3>
-                    <p class="text-3xl font-bold text-yellow-700 mt-2">{{ \App\Models\Loker::where('status', 'dipinjam')->count() }}</p>
+                    <h3 class="text-yellow-600 text-sm font-medium">Buku Dipinjam</h3>
+                    <p class="text-3xl font-bold text-yellow-700 mt-2">{{ \App\Models\Buku::where('status', 'dipinjam')->count() }}</p>
                 </div>
                 <div class="text-4xl">⏳</div>
             </div>

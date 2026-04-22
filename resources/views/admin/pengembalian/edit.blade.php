@@ -10,7 +10,7 @@
     <div class="bg-white p-6 rounded-lg shadow mb-4">
         <h2 class="text-lg font-bold mb-2">Info Peminjaman</h2>
         <p><strong>Peminjam:</strong> {{ $pengembalian->peminjaman->user->name }}</p>
-        <p><strong>Loker:</strong> {{ $pengembalian->peminjaman->loker->nomor_loker }}</p>
+        <p><strong>Buku:</strong> {{ $pengembalian->peminjaman->buku->kode_buku }} - {{ $pengembalian->peminjaman->buku->judul }}</p>
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow">

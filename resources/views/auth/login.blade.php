@@ -49,16 +49,16 @@
             </div>
 
             <button type="submit" 
-                    class="w-full bg-gradient-to-r from-purple-500 to-blue-400 hover:from-purple-600 hover:to-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition transform hover:scale-[1.01] active:scale-95 duration-200 text-sm">
+                    class="w-full bg-linear-to-r from-purple-500 to-blue-400 hover:from-purple-600 hover:to-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition transform hover:scale-[1.01] active:scale-95 duration-200 text-sm">
                 Masuk Sekarang
             </button>
         </form>
 
         <div class="mt-6 text-center">
             <div class="relative flex items-center justify-center">
-                <div class="flex-grow border-t border-white/20"></div>
+                <div class="grow border-t border-white/20"></div>
                 <span class="mx-3 text-white/60 text-[10px] uppercase tracking-widest">Atau</span>
-                <div class="flex-grow border-t border-white/20"></div>
+                <div class="grow border-t border-white/20"></div>
             </div>
             
             <div class="flex justify-center mt-4">

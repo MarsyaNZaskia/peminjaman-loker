@@ -16,7 +16,7 @@
             </div>
             <div>
                 <p class="text-gray-600 text-sm">Loker</p>
-                <p class="font-semibold">{{ $peminjaman->loker->nomor_loker }}</p>
+                <p class="font-semibold">{{ $peminjaman->buku->kode_buku }} - {{ $peminjaman->buku->judul }}</p>
             </div>
             <div>
                 <p class="text-gray-600 text-sm">Tanggal Pinjam</p>

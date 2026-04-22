@@ -35,15 +35,15 @@
             <div class="space-y-2">
                 <div>
                     <p class="text-gray-600 text-sm">Nomor Loker</p>
-                    <p class="font-semibold text-lg">{{ $peminjaman->loker->nomor_loker }}</p>
+                    <p class="font-semibold text-lg">{{ $peminjaman->buku->kode_buku }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-600 text-sm">Lokasi</p>
-                    <p class="font-semibold">{{ $peminjaman->loker->lokasi }}</p>
+                    <p class="text-gray-600 text-sm">Judul</p>
+                    <p class="font-semibold">{{ $peminjaman->buku->judul }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-600 text-sm">Ukuran</p>
-                    <p class="font-semibold">{{ ucfirst($peminjaman->loker->ukuran) }}</p>
+                    <p class="text-gray-600 text-sm">Pengarang</p>
+                    <p class="font-semibold">{{ $peminjaman->buku->pengarang }}</p>
                 </div>
             </div>
         </div>
@@ -115,7 +115,7 @@
             </div>
 
             <!-- Modal Tolak -->
-            <div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div id="rejectModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div class="bg-white p-6 rounded-lg max-w-md w-full">
                     <h3 class="text-xl font-bold mb-4">Tolak Peminjaman</h3>
                     <form method="POST" action="{{ route('petugas.peminjaman.reject', $peminjaman) }}">

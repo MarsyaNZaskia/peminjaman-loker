@@ -53,14 +53,14 @@ class PengembalianController extends Controller
             'return', 
             'Pengembalian', 
             $pengembalian->id, 
-            "Mencatat pengembalian loker {$peminjaman->loker->nomor_loker} dengan denda Rp " . number_format($validated['total_denda'], 0, ',', '.')
+            "Mencatat pengembalian buku {$peminjaman->buku->kode_buku} dengan denda Rp " . number_format($validated['total_denda'], 0, ',', '.')
         );
 
             // Update status peminjaman
             $peminjaman->update(['status' => 'selesai']);
 
-            // Update status loker
-            $peminjaman->loker->update(['status' => 'tersedia']);
+            // Update status buku
+            $peminjaman->buku->update(['status' => 'tersedia']);
         });
 
         return redirect()->route('petugas.peminjaman.index')
@@ -70,7 +70,7 @@ class PengembalianController extends Controller
     // Lihat semua pengembalian
     public function index()
     {
-        $pengembalian = Pengembalian::with(['peminjaman.user', 'peminjaman.loker', 'user'])
+        $pengembalian = Pengembalian::with(['peminjaman.user', 'peminjaman.buku', 'user'])
             ->latest()
             ->get();
 
@@ -80,7 +80,7 @@ class PengembalianController extends Controller
     // Detail pengembalian
     public function show(Pengembalian $pengembalian)
     {
-        $pengembalian->load(['peminjaman.user', 'peminjaman.loker', 'user']);
+        $pengembalian->load(['peminjaman.user', 'peminjaman.buku', 'user']);
         return view('petugas.pengembalian.show', compact('pengembalian'));
     }
 

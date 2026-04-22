@@ -30,18 +30,18 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Loker</label>
-                <select name="loker_id" 
-                        class="w-full px-3 py-2 border rounded-lg @error('loker_id') border-red-500 @enderror" 
+                <label class="block text-gray-700 mb-2">Buku</label>
+                <select name="buku_id" 
+                        class="w-full px-3 py-2 border rounded-lg @error('buku_id') border-red-500 @enderror" 
                         required>
-                    <option value="">Pilih Loker</option>
-                    @foreach($lokers as $loker)
-                        <option value="{{ $loker->id }}" {{ old('loker_id', $peminjaman->loker_id) == $loker->id ? 'selected' : '' }}>
-                            {{ $loker->nomor_loker }} - {{ $loker->lokasi }} ({{ ucfirst($loker->status) }})
+                    <option value="">Pilih Buku</option>
+                    @foreach($bukus as $buku)
+                        <option value="{{ $buku->id }}" {{ old('buku_id', $peminjaman->buku_id) == $buku->id ? 'selected' : '' }}>
+                            {{ $buku->kode_buku }} - {{ $buku->judul }} ({{ ucfirst($buku->status) }})
                         </option>
                     @endforeach
                 </select>
-                @error('loker_id')
+                @error('buku_id')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>

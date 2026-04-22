@@ -26,7 +26,7 @@ class PeminjamanExport implements FromCollection, WithHeadings, WithMapping, Wit
 
     public function collection()
     {
-        $query = Peminjaman::with(['user', 'loker', 'petugas']);
+        $query = Peminjaman::with(['user', 'buku', 'petugas']);
         
         // Filter berdasarkan status
         if ($this->status) {
@@ -48,8 +48,9 @@ class PeminjamanExport implements FromCollection, WithHeadings, WithMapping, Wit
             'Nama Peminjam',
             'Username',
             'Kategori',
-            'Nomor Loker',
-            'Lokasi Loker',
+            'Kode Buku',
+            'Judul',
+            'Pengarang',
             'Tanggal Pinjam',
             'Tanggal Rencana Kembali',
             'Status',
@@ -69,8 +70,9 @@ class PeminjamanExport implements FromCollection, WithHeadings, WithMapping, Wit
             $peminjaman->user->name,
             $peminjaman->user->username,
             $peminjaman->user->kategori->nama_kategori ?? '-',
-            $peminjaman->loker->nomor_loker,
-            $peminjaman->loker->lokasi,
+            $peminjaman->buku->kode_buku,
+            $peminjaman->buku->judul,
+            $peminjaman->buku->pengarang,
             $peminjaman->tanggal_pinjam->format('d/m/Y'),
             $peminjaman->tanggal_kembali_rencana->format('d/m/Y'),
             ucfirst($peminjaman->status),

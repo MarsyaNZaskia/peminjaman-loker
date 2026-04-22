@@ -47,7 +47,7 @@
                 @forelse($peminjaman as $pinjam)
                     <tr>
                         <td class="px-6 py-4">{{ $pinjam->user->name }}</td>
-                        <td class="px-6 py-4 font-semibold">{{ $pinjam->loker->nomor_loker }}</td>
+                        <td class="px-6 py-4 font-semibold">{{ $pinjam->buku->kode_buku }}</td>
                         <td class="px-6 py-4">{{ $pinjam->tanggal_pinjam->format('d/m/Y') }}</td>
                         <td class="px-6 py-4">
                             @if($pinjam->status === 'pending')

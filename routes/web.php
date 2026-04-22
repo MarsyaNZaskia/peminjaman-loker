@@ -56,7 +56,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('laporan.index');
     Route::post('/laporan/peminjaman', [AdminLaporanController::class, 'exportPeminjaman'])->name('laporan.peminjaman');
     Route::post('/laporan/pengembalian', [AdminLaporanController::class, 'exportPengembalian'])->name('laporan.pengembalian');
-    Route::post('/laporan/loker', [AdminLaporanController::class, 'exportLoker'])->name('laporan.loker');
+    Route::post('/laporan/buku', [AdminLaporanController::class, 'exportBuku'])->name('laporan.buku');
 
 });
 
@@ -83,7 +83,7 @@ Route::middleware(['auth', 'petugas'])->prefix('petugas')->name('petugas.')->gro
     Route::get('/laporan', [PetugasLaporanController::class, 'index'])->name('laporan.index');
     Route::post('/laporan/peminjaman', [PetugasLaporanController::class, 'exportPeminjaman'])->name('laporan.peminjaman');
     Route::post('/laporan/pengembalian', [PetugasLaporanController::class, 'exportPengembalian'])->name('laporan.pengembalian');
-    Route::post('/laporan/loker', [PetugasLaporanController::class, 'exportLoker'])->name('laporan.loker');
+    Route::post('/laporan/buku', [PetugasLaporanController::class, 'exportBuku'])->name('laporan.buku');
 
 
 });
@@ -97,6 +97,9 @@ Route::middleware(['auth', 'peminjam'])->prefix('peminjam')->name('peminjam.')->
     // Routes peminjaman - dengan middleware checkBiodata
     Route::middleware('checkBiodata')->group(function () {
         Route::get('/peminjaman', [PeminjamPeminjamanController::class, 'index'])->name('peminjaman.index');
+
+        Route::get('/buku/{buku}', [PeminjamPeminjamanController::class, 'show'])->name('peminjaman.show');
+        
         Route::get('/peminjaman/create/{buku}', [PeminjamPeminjamanController::class, 'create'])->name('peminjaman.create');
         Route::post('/peminjaman', [PeminjamPeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::delete('/peminjaman/{peminjaman}', [PeminjamPeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
@@ -122,7 +125,6 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/admin/users/import', [UserController::class, 'import'])->name('admin.users.import');
 
-use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     if (Auth::check()) {

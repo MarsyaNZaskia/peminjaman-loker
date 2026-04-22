@@ -98,12 +98,6 @@
                         <span>Dashboard</span>
                     </a>
                     
-                    <a href="{{ route('admin.kategoris.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.kategoris.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg shrink-0">📚</span>
-                        <span>Kategori</span>
-                    </a>
-                    
                     <a href="{{ route('admin.buku.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.buku.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         <span class="text-lg shrink-0">🔐</span>
@@ -175,7 +169,7 @@
                     <a href="{{ route('peminjam.peminjaman.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('peminjam.peminjaman.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         <span class="text-lg shrink-0">🔐</span>
-                        <span>Peminjaman Loker</span>
+                        <span>Peminjaman Buku</span>
                     </a>
 
                     <a href="{{ route('peminjam.riwayat.index') }}" 

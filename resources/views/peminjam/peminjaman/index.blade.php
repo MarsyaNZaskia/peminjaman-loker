@@ -1,116 +1,127 @@
 @extends('layouts.app')
 
-@section('title', 'Peminjaman Loker')
+@section('title', 'Peminjaman Buku')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4">
-    <h1 class="text-3xl font-bold mb-6">Peminjaman Loker</h1>
+    <h1 class="text-3xl font-bold mb-6">Peminjaman Buku</h1>
 
+    <!-- Search & Filter -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <form method="GET" action="{{ route('peminjam.peminjaman.index') }}" class="flex flex-col md:flex-row gap-3">
+            <div class="flex-1">
+                <input type="text" name="search" value="{{ request('search') }}" 
+                       placeholder="Cari judul buku, penulis, atau ISBN..." 
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+            </div>
+            <select name="kategori" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                <option value="">Semua Kategori</option>
+                @foreach($kategoris ?? [] as $kategori)
+                    <option value="{{ $kategori->id }}" {{ request('kategori') == $kategori->id ? 'selected' : '' }}>
+                        {{ $kategori->nama }}
+                    </option>
+                @endforeach
+            </select>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
+                Cari
+            </button>
+        </form>
+    </div>
 
+    <!-- Buku Tersedia -->
     <div class="bg-white p-6 rounded-lg shadow mb-6">
-        <h2 class="text-xl font-bold mb-4">Loker Tersedia</h2>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">📚 Buku Tersedia</h2>
+            <span class="text-sm text-gray-500">{{ $bukus->count() }} buku ditemukan</span>
+        </div>
         
-        @if($lokers->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                @foreach($lokers as $loker)
-                    <div class="border rounded-lg p-4 hover:shadow-md transition">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-lg font-bold">{{ $loker->nomor_loker }}</h3>
-                            <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Tersedia</span>
+        @if($bukus->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                @foreach($bukus as $buku)
+                    <div class="border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
+                        
+                        {{-- Cover Buku --}}
+                        <div class="relative bg-gray-100 h-52 shrink-0">
+                            @if($buku->cover)
+                                <img src="{{ asset('storage/profile-photos' . $buku->cover) }}" 
+                                     alt="{{ $buku->judul }}" 
+                                     class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full flex flex-col items-center justify-center text-gray-300">
+                                    <svg class="w-16 h-16 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+                                              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                    <span class="text-xs">Tidak ada cover</span>
+                                </div>
+                            @endif
+
+                            {{-- Badge Stok --}}
+                            <span class="absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium 
+                                         {{ $buku->stok > 3 ? 'bg-green-500 text-white' : ($buku->stok > 0 ? 'bg-yellow-500 text-white' : 'bg-red-500 text-white') }}">
+                                Stok: {{ $buku->stok }}
+                            </span>
                         </div>
-                        <p class="text-gray-600 text-sm mb-1">📍 {{ $loker->lokasi }}</p>
-                        <p class="text-gray-600 text-sm mb-3">📦 Ukuran: {{ ucfirst($loker->ukuran) }}</p>
-                        <a href="{{ route('peminjam.peminjaman.create', $loker) }}" 
-                           class="block text-center bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                            Ajukan Peminjaman
-                        </a>
+
+                        {{-- Info Buku --}}
+                        <div class="p-4 flex flex-col flex-1">
+                            <h3 class="text-lg font-bold leading-tight mb-2 line-clamp-2" title="{{ $buku->judul }}">
+                                {{ $buku->judul }}
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-1">✍️ {{ $buku->penulis }}</p>
+                            <p class="text-gray-600 text-sm mb-1">📖 ISBN: {{ $buku->isbn ?? '-' }}</p>
+                            <p class="text-gray-600 text-sm mb-1">🏷️ {{ $buku->kategori->nama ?? 'Tanpa Kategori' }}</p>
+                            <p class="text-gray-600 text-sm mb-3">📅 Tahun: {{ $buku->tahun_terbit ?? '-' }}</p>
+                            
+                            {{-- Info stok --}}
+                            <div class="flex items-center justify-between mb-4 text-sm">
+                                <span class="text-gray-500">Max pinjam: <strong>{{ $buku->max_pinjam ?? 14 }} hari</strong></span>
+                            </div>
+
+                            <div class="flex gap-2 mt-auto">
+                                <a href="{{ route('peminjam.peminjaman.show', $buku) }}" 
+                                   class="flex-1 text-center border-2 border-blue-500 text-blue-500 hover:bg-blue-50 px-3 py-2 rounded transition text-sm font-medium">
+                                    Detail
+                                </a>
+                                <a href="{{ route('peminjam.peminjaman.create', $buku) }}" 
+                                   class="flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded transition text-sm font-medium">
+                                    Pinjam
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 @endforeach
             </div>
+
+            {{-- Pagination --}}
+            @if($bukus->hasPages())
+                <div class="mt-6 flex justify-center">
+                    {{ $bukus->links() }}
+                </div>
+            @endif
         @else
-            <p class="text-gray-500 text-center py-4">Tidak ada loker yang tersedia saat ini</p>
+            <div class="text-center py-8">
+                <p class="text-gray-400 text-5xl mb-3">📕</p>
+                <p class="text-gray-500">Tidak ada buku yang tersedia saat ini</p>
+            </div>
         @endif
     </div>
 
-    <!-- Peminjaman Saya -->
+    <!-- Menu Riwayat -->
     <div class="mt-8">
-    <a href="{{ route('peminjam.riwayat.index') }}" 
-       class="block bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 p-6 rounded-xl shadow-lg text-white group transition-all transform hover:scale-105">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="text-2xl font-bold mb-2">📚 Lihat Riwayat Peminjaman</h2>
-                <p class="text-purple-100">Cek history peminjaman loker Anda</p>
+        <a href="{{ route('peminjam.riwayat.index') }}" 
+           class="block bg-linear-to-r from-slate-900 to-indigo-900 hover:from-indigo-900 hover:to-slate-700 p-6 rounded-xl shadow-lg text-white group transition-all transform hover:scale-105">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold mb-2">📋 Lihat Riwayat Peminjaman</h2>
+                    <p class="text-purple-100">Cek status dan history peminjaman buku Anda</p>
+                </div>
+                <svg class="w-8 h-8 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
             </div>
-            <svg class="w-8 h-8 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-            </svg>
-        </div>
-    </a>
+        </a>
     </div>
-
-    {{-- <div class="bg-white p-6 rounded-lg shadow">
-        <h2 class="text-xl font-bold mb-4">Riwayat Peminjaman Saya</h2>
-        
-        @if($myPeminjaman->count() > 0)
-            <div class="overflow-x-auto">
-                <table class="min-w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loker</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Pinjam</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Keperluan</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($myPeminjaman as $pinjam)
-                            <tr>
-                                <td class="px-4 py-3 font-semibold">{{ $pinjam->loker->nomor_loker }}</td>
-                                <td class="px-4 py-3">{{ $pinjam->tanggal_pinjam->format('d/m/Y') }}</td>
-                                <td class="px-4 py-3">
-                                    @if($pinjam->status === 'pending')
-                                        <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">Menunggu Persetujuan</span>
-                                    @elseif($pinjam->status === 'disetujui')
-                                        <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Disetujui</span>
-                                    @elseif($pinjam->status === 'ditolak')
-                                        <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-800">Ditolak</span>
-                                    @else
-                                        <span class="px-2 py-1 rounded text-xs bg-blue-100 text-blue-800">Selesai</span>
-                                    @endif
-                                </td>
-                                <td class="px-4 py-3 text-sm">{{ Str::limit($pinjam->keperluan, 30) }}</td>
-                                <td class="px-4 py-3">
-                                    @if($pinjam->status === 'pending')
-                                        <form method="POST" action="{{ route('peminjam.peminjaman.destroy', $pinjam) }}"
-                                              id="deleteForm-peminjaman-{{ $pinjam->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button"
-                                                    onclick="deleteConfirm('deleteForm-peminjaman-{{ $pinjam->id }}')"
-                                                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
-                                                Batalkan
-                                            </button>
-                                        </form>
-                                    @elseif($pinjam->status === 'ditolak')
-                                        <button type="button"
-                                                onclick="showReasonAlert('{{ $pinjam->catatan_petugas }}')"
-                                                class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm">
-                                            Lihat Alasan
-                                        </button>
-                                    @else
-                                        <span class="text-gray-400 text-sm">-</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @else
-            <p class="text-gray-500 text-center py-4">Belum ada riwayat peminjaman</p>
-        @endif
-    </div> --}}
 </div>
 
 <script>

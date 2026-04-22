@@ -39,16 +39,16 @@
             <h2 class="text-xl font-bold mb-4">Informasi Loker</h2>
             <div class="space-y-2">
                 <div>
-                    <p class="text-gray-600 text-sm">Nomor Loker</p>
-                    <p class="font-semibold text-lg">{{ $pengembalian->peminjaman->loker->nomor_loker }}</p>
+                    <p class="text-gray-600 text-sm">Kode Buku</p>
+                    <p class="font-semibold text-lg">{{ $pengembalian->peminjaman->buku->kode_buku }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-600 text-sm">Lokasi</p>
-                    <p class="font-semibold">{{ $pengembalian->peminjaman->loker->lokasi }}</p>
+                    <p class="text-gray-600 text-sm">Judul</p>
+                    <p class="font-semibold">{{ $pengembalian->peminjaman->buku->judul }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-600 text-sm">Ukuran</p>
-                    <p class="font-semibold">{{ ucfirst($pengembalian->peminjaman->loker->ukuran) }}</p>
+                    <p class="text-gray-600 text-sm">Pengarang</p>
+                    <p class="font-semibold">{{ $pengembalian->peminjaman->buku->pengarang }}</p>
                 </div>
             </div>
         </div>

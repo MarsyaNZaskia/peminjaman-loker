@@ -78,8 +78,8 @@
                                 <div class="flex items-center">
                                     <span class="text-2xl mr-3">🔐</span>
                                     <div>
-                                        <div class="text-sm font-bold text-gray-900">{{ $item->loker->nomor_loker }}</div>
-                                        <div class="text-xs text-gray-500">{{ $item->loker->lokasi }}</div>
+                                        <div class="text-sm font-bold text-gray-900">{{ $item->buku->kode_buku }}</div>
+                                        <div class="text-xs text-gray-500">{{ $item->buku->judul }}</div>
                                     </div>
                                 </div>
                             </td>

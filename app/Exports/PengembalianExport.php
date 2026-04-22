@@ -23,7 +23,7 @@ class PengembalianExport implements FromCollection, WithHeadings, WithMapping, W
 
     public function collection()
     {
-        $query = Pengembalian::with(['peminjaman.user', 'peminjaman.loker', 'user']);
+        $query = Pengembalian::with(['peminjaman.user', 'peminjaman.buku', 'user']);
         
         // Filter berdasarkan tanggal
         if ($this->tanggalDari && $this->tanggalSampai) {
@@ -38,8 +38,9 @@ class PengembalianExport implements FromCollection, WithHeadings, WithMapping, W
         return [
             'No',
             'Nama Peminjam',
-            'Nomor Loker',
-            'Lokasi Loker',
+            'Kode Buku',
+            'Judul',
+            'Pengarang',
             'Tanggal Pinjam',
             'Tanggal Rencana Kembali',
             'Tanggal Kembali Aktual',
@@ -67,8 +68,9 @@ class PengembalianExport implements FromCollection, WithHeadings, WithMapping, W
         return [
             $no,
             $pengembalian->peminjaman->user->name,
-            $pengembalian->peminjaman->loker->nomor_loker,
-            $pengembalian->peminjaman->loker->lokasi,
+            $pengembalian->peminjaman->buku->kode_buku,
+            $pengembalian->peminjaman->buku->judul,
+            $pengembalian->peminjaman->buku->pengarang,
             $pengembalian->peminjaman->tanggal_pinjam->format('d/m/Y'),
             $pengembalian->peminjaman->tanggal_kembali_rencana->format('d/m/Y'),
             $pengembalian->tgl_kembali_realisasi->format('d/m/Y'),

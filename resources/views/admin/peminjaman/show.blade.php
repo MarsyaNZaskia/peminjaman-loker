@@ -8,6 +8,29 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold">Detail Peminjaman</h1>
         <div class="flex space-x-2">
+            @if($peminjaman->status === 'pending')
+    <form action="{{ route('admin.peminjaman.update', $peminjaman) }}" method="POST" class="inline">
+        @csrf
+        @method('PUT')
+
+        <input type="hidden" name="status" value="disetujui">
+
+        <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+            Setujui
+        </button>
+    </form>
+
+    <form action="{{ route('admin.peminjaman.update', $peminjaman) }}" method="POST" class="inline">
+        @csrf
+        @method('PUT')
+
+        <input type="hidden" name="status" value="ditolak">
+
+        <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+            Tolak
+        </button>
+    </form>
+@endif
             <a href="{{ route('admin.peminjaman.edit', $peminjaman) }}" 
                class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
                 Edit
@@ -22,7 +45,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- Info Peminjam -->
         <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">Informasi Peminjam</h2>
+            <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
             <div class="space-y-2">
                 <div>
                     <p class="text-gray-600 text-sm">Nama</p>
@@ -43,23 +66,40 @@
 
         <!-- Info Loker -->
         <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">Informasi Loker</h2>
-            <div class="space-y-2">
-                <div>
-                    <p class="text-gray-600 text-sm">Nomor Loker</p>
-                    <p class="font-semibold text-lg">{{ $peminjaman->loker->nomor_loker }}</p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Lokasi</p>
-                    <p class="font-semibold">{{ $peminjaman->loker->lokasi }}</p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Ukuran</p>
-                    <p class="font-semibold">{{ ucfirst($peminjaman->loker->ukuran) }}</p>
-                </div>
+    <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
+
+    <div class="flex gap-4">
+        <!-- Cover -->
+        <div>
+            <img src="{{ $peminjaman->buku?-> foto_cover 
+                ? asset('storage/'.$peminjaman->buku->cover) 
+                : 'https://via.placeholder.com/100x140?text=No+Image' }}"
+                class="w-24 h-32 object-cover rounded shadow">
+        </div>
+
+        <!-- Info -->
+        <div class="space-y-2">
+            <div>
+                <p class="text-gray-600 text-sm">Kode Buku</p>
+                <p class="font-semibold text-lg">
+                    {{ $peminjaman->buku?->kode_buku ?? '-' }}
+                </p>
+            </div>
+            <div>
+                <p class="text-gray-600 text-sm">Judul</p>
+                <p class="font-semibold">
+                    {{ $peminjaman->buku?-> judul ?? '-' }}
+                </p>
+            </div>
+            <div>
+                <p class="text-gray-600 text-sm">Stok</p>
+                <p class="font-semibold">
+                    {{ $peminjaman->buku?->stok ?? 0 }}
+                </p>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Detail Peminjaman -->
     <div class="bg-white p-6 rounded-lg shadow mb-6">

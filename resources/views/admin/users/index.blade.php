@@ -8,23 +8,6 @@
     <div class="flex justify-between items-center mb-6">
         <div>
             <h1 class="text-3xl font-bold">Kelola User</h1>
-            @if(session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: "{{ session('success') }}",
-                showConfirmButton: false,
-                timer: 3000
-            });
-            @endif
-            {{-- // Notifikasi SweetAlert untuk Session Error --}}
-            @if(session('error'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Waduh!',
-                text: "{{ session('error') }}",
-            });
-            @endif
         </div>
 
         <div class="flex space-x-2">
@@ -79,7 +62,7 @@
     </div>
 </div> {{-- Tutup max-w-7xl --}}
 
-<div id="modalImport" class="fixed inset-0 z-[999] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="modalImport" class="fixed inset-0 z-999 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="flex items-center justify-center min-h-screen px-4">
         
         <div class="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity" onclick="toggleModal('modalImport')"></div>
@@ -134,6 +117,24 @@
     const fileName = input.files[0] ? input.files[0].name : 'Klik untuk pilih file atau drag n drop';
     document.getElementById('file-name').textContent = fileName;
     }
+
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 3000
+        });
+    @endif
+
+    @if(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Waduh!',
+            text: "{{ session('error') }}",
+        });
+    @endif
 
     function toggleModal(modalId) {
         const modal = document.getElementById(modalId);

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Petugas;
 use App\Http\Controllers\Controller;
 use App\Exports\PeminjamanExport;
 use App\Exports\PengembalianExport;
-use App\Exports\LokerExport;
+use App\Exports\BukuExport;
 use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -57,8 +57,8 @@ class LaporanController extends Controller
         return Excel::download(new PengembalianExport($tanggalDari, $tanggalSampai), $filename);
     }
 
-    // Export Loker
-    public function exportLoker(Request $request)
+    // Export Buku
+    public function exportBuku(Request $request)
     {
         $validated = $request->validate([
             'status' => 'nullable|in:tersedia,dipinjam,rusak',
@@ -67,10 +67,10 @@ class LaporanController extends Controller
         $status = $validated['status'] ?? null;
 
         // Log aktivitas
-        LogAktivitas::catat('export', 'Loker', null, 'Export laporan loker ke Excel');
+        LogAktivitas::catat('export', 'Buku', null, 'Export laporan buku ke Excel');
 
-        $filename = 'Laporan_Loker_' . date('Y-m-d_His') . '.xlsx';
+        $filename = 'Laporan_Buku_' . date('Y-m-d_His') . '.xlsx';
         
-        return Excel::download(new LokerExport($status), $filename);
+        return Excel::download(new BukuExport($status), $filename);
     }
 }

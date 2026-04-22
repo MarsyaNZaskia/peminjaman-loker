@@ -10,7 +10,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold text-pink-800 mb-2">Halo, {{ auth()->user()->name }}!</h1>
-                    <p class="text-pink-600 text-base">Pinjam loker dengan mudah dan nyaman</p>
+                    <p class="text-pink-600 text-base">Pinjam buku disini</p>
                 </div>
                 <div class="text-4xl animate-bounce">👋</div>
             </div>

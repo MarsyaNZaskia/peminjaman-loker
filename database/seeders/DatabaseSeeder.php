@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeders\AdminSeeder;
-use Database\Seeders\LokerSeeder;
+use Database\Seeders\BukuSeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
         KategoriSeeder::class,
         AdminSeeder::class,
-        LokerSeeder::class,
+        BukuSeeder::class,
     ]);
     }
 }
