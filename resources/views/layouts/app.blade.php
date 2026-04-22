@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Peminjaman Loker')</title>
+    <title>@yield('title', 'Peminjaman Buku')</title>
      @vite(['resources/js/app.js'])
      @vite(['resources/css/app.css'])
     <style>
@@ -84,7 +84,7 @@
                         <span class="text-xl">🔐</span>
                     </div>
                     <div class="flex-1">
-                        <h1 class="text-white font-bold text-sm leading-tight">Loker System</h1>
+                        <h1 class="text-white font-bold text-sm leading-tight">BOOKBROW</h1>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     <a href="{{ route('admin.buku.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.buku.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         <span class="text-lg shrink-0">🔐</span>
-                        <span>Loker</span>
+                        <span>Buku</span>
                     </a>
                     
                     <a href="{{ route('admin.users.index') }}" 

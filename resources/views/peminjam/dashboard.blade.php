@@ -22,7 +22,7 @@
             <div class="text-center">
                 <div class="text-4xl mb-4">✅</div>
                 <h3 class="text-green-600 text-sm font-medium mb-2">Loker Tersedia</h3>
-                <p class="text-3xl font-bold text-green-700">{{ \App\Models\Loker::where('status', 'tersedia')->count() }}</p>
+                <p class="text-3xl font-bold text-green-700">{{ \App\Models\Buku::where('status', 'tersedia')->count() }}</p>
             </div>
         </div>
         <div class="bg-linear-to-br from-blue-50 to-blue-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-blue-200">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Peminjam;
 
 use App\Http\Controllers\Controller;
+use App\Models\Buku;
 use App\Models\Loker;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class PeminjamanController extends Controller
     // Lihat loker yang tersedia
     public function index()
     {
-        $lokers = Loker::where('status', 'tersedia')->get();
+        $lokers = Buku::where('status', 'tersedia')->get();
         $myPeminjaman = Peminjaman::where('user_id', Auth::id())
             ->with(['loker', 'petugas'])
             ->latest()
@@ -23,12 +24,12 @@ class PeminjamanController extends Controller
     }
 
     // Form ajukan peminjaman
-    public function create(Loker $loker)
+    public function create(Buku $buku)
     {
         // Cek apakah loker tersedia
-        if ($loker->status !== 'tersedia') {
+        if ($buku->status !== 'tersedia') {
             return redirect()->route('peminjam.peminjaman.index')
-                ->with('error', 'Loker tidak tersedia');
+                ->with('error', 'Buku tidak tersedia');
         }
 
         return view('peminjam.peminjaman.create', compact('loker'));
@@ -45,7 +46,7 @@ class PeminjamanController extends Controller
         ]);
 
         // Cek apakah loker masih tersedia
-        $loker = Loker::find($validated['loker_id']);
+        $loker = Buku::find($validated['loker_id']);
         if ($loker->status !== 'tersedia') {
             return redirect()->route('peminjam.peminjaman.index')
                 ->with('error', 'Loker sudah tidak tersedia');
