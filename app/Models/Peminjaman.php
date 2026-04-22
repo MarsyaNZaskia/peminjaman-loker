@@ -35,7 +35,7 @@ class Peminjaman extends Model
     // Relasi ke Loker
     public function loker(): BelongsTo
     {
-        return $this->belongsTo(Loker::class);
+        return $this->belongsTo(Buku::class);
     }
 
     // Relasi ke User (Petugas yang approve)

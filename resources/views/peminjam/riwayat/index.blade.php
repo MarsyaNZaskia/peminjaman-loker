@@ -6,13 +6,13 @@
 <div class="space-y-6">
     
     <!-- Header -->
-    <div class="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl shadow-xl p-8 text-white">
+    <div class="bg-linear-to-r from-indigo-600 via-blue-600 to-slate-800 rounded-2xl shadow-xl p-8 text-white">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl md:text-4xl font-bold mb-2">📚 Riwayat Peminjaman</h1>
                 <p class="text-purple-100">Lihat semua history peminjaman loker Anda</p>
             </div>
-            <div class="hidden md:block text-6xl opacity-20">📜</div>
+            <div class="hidden md:block text-6xl opacity-40">📜</div>
         </div>
     </div>
 

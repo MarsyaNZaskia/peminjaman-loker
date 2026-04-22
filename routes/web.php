@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\BukuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\LokerController;
 use App\Http\Controllers\Peminjam\PeminjamanController as PeminjamPeminjamanController;
 use App\Http\Controllers\Petugas\PeminjamanController as PetugasPeminjamanController;
 use App\Http\Controllers\Admin\KategoriController;
@@ -11,7 +11,7 @@ use App\Http\Controllers\Petugas\LaporanController as PetugasLaporanController;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
-
+use App\Models\Buku;
 
 // Google OAuth routes
 Route::get('/auth/google', [SocialiteController::class, 'redirect'])
@@ -34,7 +34,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     })->name('dashboard');
     
     Route::resource('users', UserController::class);
-    Route::resource('lokers', LokerController::class);
+    Route::resource('buku', BukuController::class);
     Route::resource('kategoris', KategoriController::class);
 
     // Routes Peminjaman 
@@ -97,7 +97,7 @@ Route::middleware(['auth', 'peminjam'])->prefix('peminjam')->name('peminjam.')->
     // Routes peminjaman - dengan middleware checkBiodata
     Route::middleware('checkBiodata')->group(function () {
         Route::get('/peminjaman', [PeminjamPeminjamanController::class, 'index'])->name('peminjaman.index');
-        Route::get('/peminjaman/create/{loker}', [PeminjamPeminjamanController::class, 'create'])->name('peminjaman.create');
+        Route::get('/peminjaman/create/{buku}', [PeminjamPeminjamanController::class, 'create'])->name('peminjaman.create');
         Route::post('/peminjaman', [PeminjamPeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::delete('/peminjaman/{peminjaman}', [PeminjamPeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
     });

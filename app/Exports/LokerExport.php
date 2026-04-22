@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Buku;
 use App\Models\Loker;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -21,7 +22,7 @@ class LokerExport implements FromCollection, WithHeadings, WithMapping, WithStyl
 
     public function collection()
     {
-        $query = Loker::query();
+        $query = Buku::query();
         
         if ($this->status) {
             $query->where('status', $this->status);

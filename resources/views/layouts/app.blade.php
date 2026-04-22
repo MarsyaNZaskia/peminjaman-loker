@@ -47,7 +47,7 @@
 @auth
 <body 
     x-data="{ 
-        darkMode: localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && true),
+        darkMode: localStorage.getItem('theme') === 'light' ? false : true,
         sidebarOpen: false,
         toggleTheme() {
             this.darkMode = !this.darkMode;
@@ -59,20 +59,26 @@
             }
         }
     }"
-    :class="{ 'dark': darkMode }"
-    class="bg-white dark:bg-slate-950 transition-colors duration-300"
+    x-init="
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    "
+    class="bg-slate-950 dark:bg-slate-950 transition-colors duration-300"
 >
     <div class="flex h-screen overflow-hidden">
         
         <!-- Sidebar -->
         <aside class="fixed inset-y-0 left-0 z-50 w-64 flex flex-col transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 shadow-2xl
     {{-- Warna saat Light Mode (Putih-Biru-Ungu) --}}
-    bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-600 
+    bg-linear-to-b from-slate-950 to-indigo-600 
     {{-- Warna saat Dark Mode (Hitam-Ungu-Biru Gelap) --}}
     dark:from-slate-950 dark:via-indigo-950 dark:to-slate-900"
     :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
             <!-- Logo / Brand (Fixed di atas) -->
-            <div class="flex-shrink-0 flex items-center justify-between px-4 h-16 bg-white/5 border-b border-white/10 backdrop-blur-sm">
+            <div class="shrink-0 flex items-center justify-between px-4 h-16 bg-white/5 border-b border-white/10 backdrop-blur-sm">
                 <div class="flex items-center space-x-2.5">
                     <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
                         <span class="text-xl">🔐</span>
@@ -88,113 +94,110 @@
                 @if(Auth::user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.dashboard') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span class="text-lg shrink-0">📊</span>
                         <span>Dashboard</span>
                     </a>
                     
                     <a href="{{ route('admin.kategoris.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.kategoris.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📚</span>
+                        <span class="text-lg shrink-0">📚</span>
                         <span>Kategori</span>
                     </a>
                     
-                    <a href="{{ route('admin.lokers.index') }}" 
-                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.lokers.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">🔐</span>
+                    <a href="{{ route('admin.buku.index') }}" 
+                       class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.buku.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        <span class="text-lg shrink-0">🔐</span>
                         <span>Loker</span>
                     </a>
                     
                     <a href="{{ route('admin.users.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.users.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">👥</span>
+                        <span class="text-lg shrink-0">👥</span>
                         <span>User</span>
                     </a>
                     
                     <a href="{{ route('admin.peminjaman.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.peminjaman.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📋</span>
+                        <span class="text-lg shrink-0">📋</span>
                         <span>Peminjaman</span>
                     </a>
                     
                     <a href="{{ route('admin.pengembalian.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.pengembalian.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">✅</span>
+                        <span class="text-lg shrink-0">✅</span>
                         <span>Pengembalian</span>
                     </a>
                     
                     <a href="{{ route('admin.log-aktivitas.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.log-aktivitas.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📝</span>
+                        <span class="text-lg shrink-0">📝</span>
                         <span>Log Aktivitas</span>
                     </a>
                     
                     <a href="{{ route('admin.laporan.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.laporan.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span class="text-lg shrink-0">📊</span>
                         <span>Laporan</span>
                     </a>
                     
                 @elseif(Auth::user()->isPetugas())
                     <a href="{{ route('petugas.dashboard') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('petugas.dashboard') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span class="text-lg shrink-0">📊</span>
                         <span>Dashboard</span>
                     </a>
                     
                     <a href="{{ route('petugas.peminjaman.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('petugas.peminjaman.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📋</span>
+                        <span class="text-lg shrink-0">📋</span>
                         <span>Kelola Peminjaman</span>
                     </a>
                     
                     <a href="{{ route('petugas.pengembalian.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('petugas.pengembalian.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">✅</span>
+                        <span class="text-lg shrink-0">✅</span>
                         <span>Data Pengembalian</span>
                     </a>
                     
                     <a href="{{ route('petugas.laporan.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('petugas.laporan.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span class="text-lg shrink-0">📊</span>
                         <span>Laporan</span>
                     </a>
                     
                 @else
                     <a href="{{ route('peminjam.dashboard') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('peminjam.dashboard') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📊</span>
+                        <span class="text-lg shrink-0">📊</span>
                         <span>Dashboard</span>
                     </a>
                     
                     <a href="{{ route('peminjam.peminjaman.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('peminjam.peminjaman.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">🔐</span>
+                        <span class="text-lg shrink-0">🔐</span>
                         <span>Peminjaman Loker</span>
                     </a>
 
                     <a href="{{ route('peminjam.riwayat.index') }}" 
                         class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('peminjam.riwayat.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg flex-shrink-0">📚</span>
+                        <span class="text-lg shrink-0">📚</span>
                         <span>Riwayat Peminjaman</span>
                     </a>
                 @endif
             </nav>
 
-            <div class="flex-shrink-0 px-4 py-3 border-t border-white/10">
-    {{-- Klik tombol ini akan memicu fungsi toggleTheme di x-data --}}
+            <div class="shrink-0 px-4 py-3 border-t border-white/10">
     <button @click="toggleTheme()" 
             class="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200 text-white">
-        
-        {{-- Icon berubah otomatis sesuai status darkMode --}}
         <span class="text-xl" x-text="darkMode ? '☀️' : '🌙'"></span>
         <span class="text-sm font-medium" x-text="darkMode ? 'Mode Terang' : 'Mode Gelap'"></span>
     </button>
 </div>
 
             <!-- User Info (Fixed di atas) -->
-            <div class="flex-shrink-0 px-4 py-3 bg-white/5 border-b border-white/10 backdrop-blur-sm" x-data="{ userMenuOpen: false }">
+            <div class="shrink-0 px-4 py-3 bg-white/5 border-b border-white/10 backdrop-blur-sm" x-data="{ userMenuOpen: false }">
                 <div class="flex items-center space-x-3">
-                    <div class="relative bg-white/20 p-2.5 rounded-full flex-shrink-0 backdrop-blur-sm">
+                    <div class="relative bg-white/20 p-2.5 rounded-full shrink-0 backdrop-blur-sm">
                         <span class="text-lg">
                             @if(Auth::user()->isAdmin())
                                 👑
@@ -316,6 +319,6 @@
 
     <!-- Flash Message Alerts -->
     @include('components.flash-alerts')
-    
+
 </body>
 </html>

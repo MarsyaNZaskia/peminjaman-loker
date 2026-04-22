@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lokers', function (Blueprint $table) {
+        Schema::create('buku', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor_loker')->unique();
+            $table->string('kode_buku')->unique();
             $table->string('lokasi');
             $table->enum('ukuran', ['kecil', 'sedang', 'besar'])->default('sedang');
             $table->enum('status', ['tersedia', 'dipinjam', 'rusak'])->default('tersedia');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lokers');
+        Schema::dropIfExists('buku');
     }
 };

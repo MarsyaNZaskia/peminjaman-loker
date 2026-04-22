@@ -38,7 +38,7 @@
     <!-- Profile Card -->
     <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
         <!-- Header with Gradient -->
-        <div class="bg-gradient-to-r from-indigo-500 to-blue-400 h-28"></div>
+        <div class="bg-linear-to-r from-indigo-500 to-blue-400 h-28"></div>
         
         <!-- Profile Content -->
         <div class="px-8 pb-8">
@@ -51,7 +51,7 @@
                                  alt="Profile Photo" 
                                  class="w-full h-full object-cover">
                         @else
-                            <div class="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-blue-400 to-purple-500 text-white">
+                            <div class="w-full h-full flex items-center justify-center text-5xl bg-linear-to-br from-blue-400 to-purple-500 text-white">
                                 @if(Auth::user()->isAdmin())
                                     👑
                                 @elseif(Auth::user()->isPetugas())
@@ -178,7 +178,7 @@
             @if(Auth::user()->isPeminjam() && (empty(Auth::user()->email) || empty(Auth::user()->phone) || empty(Auth::user()->address) || empty(Auth::user()->class)))
             <div class="mt-6 bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
                 <div class="flex items-start">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
                         </svg>
@@ -228,14 +228,14 @@
                             <p class="font-semibold text-gray-800">••••••••</p>
                         </div>
                         <button onclick="openModal('changePasswordModal')" 
-                                class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
+                                class="mt-4 w-full bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
                             🔒 Ganti Password
                         </button>
                     </div>
                 </div>
             </div>
             <div class="flex items-center justify-between">
-                <a href="{{ route('profile.edit')}}" class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-center px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lgtext-2xl font-bold text-gray-800">✏️ Edit Profile</a>
+                <a href="{{ route('profile.edit')}}" class="mt-4 w-full bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-70 text-center px-4 py-2 rounded-lg transition-all transform hover:scale-105 shadow-lgtext-2xl font-bold text-gray-800">✏️ Edit Profile</a>
             </div>
         </div>
     </div>
@@ -249,7 +249,7 @@
 
 
 <!-- Modal Edit Foto -->
-<div id="editFotoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div id="editFotoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all" onclick="event.stopPropagation()">
         <div class="p-6 border-b border-gray-200">
             <div class="flex items-center justify-between">
@@ -301,7 +301,7 @@
 
             <div class="flex flex-col space-y-3">
                 <button type="submit" 
-                        class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+                        class="w-full bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                     💾 Upload Foto
                 </button>
             </div>
@@ -321,7 +321,7 @@
 </div>
 
 <!-- Modal Change Password -->
-<div id="changePasswordModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div id="changePasswordModal" class=" fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all" onclick="event.stopPropagation()">
         <div class="p-6 border-b border-gray-200">
             <div class="flex items-center justify-between">
@@ -342,7 +342,7 @@
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Password Lama</label>
                     <input type="password" name="current_password" 
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('current_password') border-red-500 @enderror" 
+                           class="w-full px-4 py-3 border-2 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('current_password') border-red-500 @enderror" 
                            required>
                     @error('current_password')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -352,7 +352,7 @@
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Password Baru</label>
                     <input type="password" name="password" 
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('password') border-red-500 @enderror" 
+                           class="w-full px-4 py-3 border-2 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all @error('password') border-red-500 @enderror" 
                            required>
                     <p class="text-xs text-gray-500 mt-1">Min 8 karakter, huruf besar, kecil, angka, simbol</p>
                     @error('password')
@@ -370,7 +370,7 @@
 
             <div class="mt-6 flex space-x-3">
                 <button type="submit" 
-                        class="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+                        class="flex-1 bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                     💾 Ganti Password
                 </button>
                 <button type="button" onclick="closeModal('changePasswordModal')" 

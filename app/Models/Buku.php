@@ -5,14 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Loker extends Model
+class Buku extends Model
 {
+    protected $table = 'buku';
     protected $fillable = [
-        'nomor_loker',
-        'lokasi',
-        'ukuran',
+        'kode_buku',
+        'judul',
+        'pengarang',
+        'penerbit',
+        'tahun_terbit',
+        'kategori_buku',
+        'jumlah_halaman',
+        'stok',
         'status',
-        'keterangan',
+        'foto_cover',
+        'deskripsi',
     ];
 
     // Relasi ke peminjaman

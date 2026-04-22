@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'class',
+  darkMode: 'class', // Ini wajib ada supaya tombol kita fungsi
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",

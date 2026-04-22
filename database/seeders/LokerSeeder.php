@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Loker;
+use App\Models\Buku;
 
-class LokerSeeder extends Seeder
+class BukuSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -38,7 +38,7 @@ class LokerSeeder extends Seeder
         ];
 
         foreach ($lokers as $loker) {
-            Loker::create([
+            Buku::create([
                 'nomor_loker' => $loker['nomor_loker'],
                 'lokasi' => $loker['lokasi'],
                 'ukuran' => $loker['ukuran'],

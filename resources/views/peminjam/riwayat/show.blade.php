@@ -197,7 +197,7 @@
         <h2 class="text-xl font-bold text-gray-800 mb-4">📅 Timeline</h2>
         <div class="space-y-4">
             <div class="flex items-start">
-                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                <div class="shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                     <span class="text-xl">📝</span>
                 </div>
                 <div class="ml-4">
@@ -208,7 +208,7 @@
 
             @if($peminjaman->status !== 'pending')
                 <div class="flex items-start">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full {{ $peminjaman->status === 'ditolak' ? 'bg-red-100' : 'bg-green-100' }} flex items-center justify-center">
+                    <div class="shrink-0 w-10 h-10 rounded-full {{ $peminjaman->status === 'ditolak' ? 'bg-red-100' : 'bg-green-100' }} flex items-center justify-center">
                         <span class="text-xl">{{ $peminjaman->status === 'ditolak' ? '❌' : '✅' }}</span>
                     </div>
                     <div class="ml-4">
@@ -221,7 +221,7 @@
 
             @if($peminjaman->pengembalian)
                 <div class="flex items-start">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                    <div class="shrink-0 w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
                         <span class="text-xl">🏁</span>
                     </div>
                     <div class="ml-4">
