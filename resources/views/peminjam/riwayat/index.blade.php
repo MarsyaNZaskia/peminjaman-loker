@@ -6,7 +6,7 @@
 <div class="space-y-6">
     
     <!-- Header -->
-    <div class="bg-linear-to-r from-indigo-600 via-blue-600 to-slate-800 rounded-2xl shadow-xl p-8 text-white">
+    {{-- <div class="bg-linear-to-r from-indigo-600 via-blue-600 to-slate-800 rounded-2xl shadow-xl p-8 text-white">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl md:text-4xl font-bold mb-2">📚 Riwayat Peminjaman</h1>
@@ -14,7 +14,7 @@
             </div>
             <div class="hidden md:block text-6xl opacity-40">📜</div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Filter & Stats -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">

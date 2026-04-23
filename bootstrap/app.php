@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\CheckUserActive;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'peminjam' => \App\Http\Middleware\PeminjamMiddleware::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'checkBiodata' => \App\Http\Middleware\CheckBiodata::class,
+            'active' => CheckUserActive::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

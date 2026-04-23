@@ -5,10 +5,18 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4">
     
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Kelola Buku</h1>
-        
+    <div class="flex justify-end items-center mb-6">
         <div class="flex space-x-2">
+            <form method="GET" action="{{ route('admin.buku.index') }}" class="flex flex-col md:flex-row gap-3">
+                <div class="flex-1">
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                       placeholder="Cari judul buku, penulis, atau ISBN..." 
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
+                Cari
+            </button>
+            </form>
             <button type="button" onclick="toggleModal('modalImport')" 
                     class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

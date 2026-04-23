@@ -5,10 +5,6 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4">
-    <h1 class="text-3xl font-bold mb-6">Kelola Data Pengembalian</h1>
-
-
-
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <table class="min-w-full">
             <thead class="bg-gray-50">
@@ -18,6 +14,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Buku</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tgl Kembali</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kondisi</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Keterangan</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Denda</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
                 </tr>
@@ -38,6 +35,7 @@
                                 <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-800">Hilang</span>
                             @endif
                         </td>
+
                         <td class="px-6 py-4">
                             @if($item->total_denda > 0)
                                 <span class="text-red-600 font-semibold">Rp {{ number_format($item->total_denda, 0, ',', '.') }}</span>
@@ -68,7 +66,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">
                             Belum ada data pengembalian
                         </td>
                     </tr>

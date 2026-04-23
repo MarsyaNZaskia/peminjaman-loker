@@ -33,33 +33,47 @@ class PengembalianController extends Controller
     {
         $validated = $request->validate([
             'tgl_kembali_realisasi' => 'required|date',
-            'kondisi_barang' => 'required|in:baik,rusak,hilang',
-            'total_denda' => 'required|integer|min:0',
-            'catatan' => 'nullable|string',
+            'kondisi_barang'        => 'required|in:baik,rusak,hilang',
+            'catatan'               => 'nullable|string',
         ]);
 
-        DB::transaction(function () use ($validated, $peminjaman) {
-            // Catat pengembalian
+        // ── Hitung denda server-side ──────────────────────────────────────
+        $DENDA_PER_HARI = 5000;
+        $DENDA_RUSAK    = 50000;
+        $DENDA_HILANG   = 500000;
+
+        $tglRencana   = $peminjaman->tanggal_kembali_rencana;
+        $tglRealisasi = \Carbon\Carbon::parse($validated['tgl_kembali_realisasi']);
+        $totalDenda   = 0;
+
+        if ($validated['kondisi_barang'] === 'hilang') {
+            $totalDenda = $DENDA_HILANG;
+        } elseif ($validated['kondisi_barang'] === 'rusak') {
+            $totalDenda = $DENDA_RUSAK;
+        } elseif ($tglRealisasi->gt($tglRencana)) {
+            $hariTerlambat = (int) $tglRealisasi->diffInDays($tglRencana);
+            $totalDenda    = $hariTerlambat * $DENDA_PER_HARI;
+        }
+        // ─────────────────────────────────────────────────────────────────
+
+        DB::transaction(function () use ($validated, $peminjaman, $totalDenda) {
             $pengembalian = Pengembalian::create([
-                'user_id' => Auth::id(),
-                'peminjaman_id' => $peminjaman->id,
+                'user_id'               => Auth::id(),
+                'peminjaman_id'         => $peminjaman->id,
                 'tgl_kembali_realisasi' => $validated['tgl_kembali_realisasi'],
-                'kondisi_barang' => $validated['kondisi_barang'],
-                'total_denda' => $validated['total_denda'],
-                'catatan' => $validated['catatan'],
+                'kondisi_barang'        => $validated['kondisi_barang'],
+                'total_denda'           => $totalDenda,
+                'catatan'               => $validated['catatan'],
             ]);
 
             LogAktivitas::catat(
-            'return', 
-            'Pengembalian', 
-            $pengembalian->id, 
-            "Mencatat pengembalian buku {$peminjaman->buku->kode_buku} dengan denda Rp " . number_format($validated['total_denda'], 0, ',', '.')
-        );
+                'return',
+                'Pengembalian',
+                $pengembalian->id,
+                "Mencatat pengembalian buku {$peminjaman->buku->kode_buku} dengan denda Rp " . number_format($totalDenda, 0, ',', '.')
+            );
 
-            // Update status peminjaman
             $peminjaman->update(['status' => 'selesai']);
-
-            // Update status buku
             $peminjaman->buku->increment('stok');
             $peminjaman->buku->update(['status' => 'tersedia']);
         });

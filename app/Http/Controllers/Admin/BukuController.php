@@ -13,6 +13,16 @@ class BukuController extends Controller
 {
     public function index(Request $request)
     {
+        $bukus = Buku::where('stok', '>', 0)
+            ->when($request->search, function($query, $search) {
+                $query->where('judul', 'like', "%{$search}%")
+                      ->orWhere('pengarang', 'like', "%{$search}%")
+                      ->orWhere('kode_buku', 'like', "%{$search}%");
+            })
+            ->paginate(9);
+
+        $kategoris = Buku::all();
+
         $query = Buku::query();
 
         if ($request->status) {

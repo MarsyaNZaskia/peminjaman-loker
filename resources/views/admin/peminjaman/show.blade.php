@@ -162,39 +162,61 @@
 
     <!-- Info Pengembalian (jika ada) -->
     @if($peminjaman->pengembalian)
+        @php
+            $pengembalian = $peminjaman->pengembalian;
+            $keterlambatan = $pengembalian->hitungKeterlambatan();
+        @endphp
         <div class="bg-white p-6 rounded-lg shadow">
             <h2 class="text-xl font-bold mb-4">Informasi Pengembalian</h2>
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <p class="text-gray-600 text-sm">Tanggal Kembali</p>
-                    <p class="font-semibold">{{ $peminjaman->pengembalian->tgl_kembali_realisasi->format('d/m/Y') }}</p>
+                    <p class="font-semibold">{{ $pengembalian->tgl_kembali_realisasi->format('d/m/Y') }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-600 text-sm">Keterlambatan</p>
-                    @php
-                        $keterlambatan = $peminjaman->pengembalian->hitungKeterlambatan();
-                    @endphp
-                    @if($keterlambatan > 0)
-                        <p class="font-semibold text-red-600">{{ $keterlambatan }} hari</p>
+                    <p class="text-gray-600 text-sm">Kondisi Buku</p>
+                    @if($pengembalian->kondisi_barang === 'baik')
+                        <span class="px-3 py-1 rounded text-sm bg-green-100 text-green-800 font-semibold">Baik</span>
+                    @elseif($pengembalian->kondisi_barang === 'rusak')
+                        <span class="px-3 py-1 rounded text-sm bg-orange-100 text-orange-800 font-semibold">Rusak</span>
                     @else
-                        <p class="font-semibold text-green-600">Tepat Waktu</p>
+                        <span class="px-3 py-1 rounded text-sm bg-red-100 text-red-800 font-semibold">Hilang</span>
                     @endif
                 </div>
                 <div>
-                    <p class="text-gray-600 text-sm">Kondisi Barang</p>
-                    <p class="font-semibold">{{ ucfirst(str_replace('_', ' ', $peminjaman->pengembalian->kondisi_barang)) }}</p>
+                    <p class="text-gray-600 text-sm">Keterangan Waktu</p>
+                    @if($keterlambatan > 0)
+                        <p class="font-semibold text-red-600">Terlambat {{ $keterlambatan }} hari</p>
+                    @else
+                        <p class="font-semibold text-green-600">Tepat Waktu ✅</p>
+                    @endif
                 </div>
                 <div>
                     <p class="text-gray-600 text-sm">Total Denda</p>
-                    @if($peminjaman->pengembalian->total_denda > 0)
-                        <p class="font-semibold text-red-600">Rp {{ number_format($peminjaman->pengembalian->total_denda, 0, ',', '.') }}</p>
+                    @if($pengembalian->total_denda > 0)
+                        <p class="font-semibold text-red-600">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
+                        <p class="text-xs text-gray-500 mt-1">
+                            @if($pengembalian->kondisi_barang === 'hilang')
+                                (Denda Kehilangan)
+                            @elseif($pengembalian->kondisi_barang === 'rusak')
+                                (Denda Kerusakan)
+                            @else
+                                (Denda Keterlambatan: {{ $keterlambatan }} hari × Rp 5.000)
+                            @endif
+                        </p>
                     @else
                         <p class="font-semibold text-green-600">Tidak Ada Denda</p>
                     @endif
                 </div>
             </div>
+            @if($pengembalian->catatan)
+                <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                    <p class="text-gray-600 text-sm">Catatan</p>
+                    <p class="font-semibold text-gray-800">{{ $pengembalian->catatan }}</p>
+                </div>
+            @endif
             <div class="mt-4">
-                <a href="{{ route('admin.pengembalian.show', $peminjaman->pengembalian) }}" 
+                <a href="{{ route('admin.pengembalian.show', $pengembalian) }}" 
                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
                     Lihat Detail Pengembalian
                 </a>
