@@ -55,7 +55,6 @@
         
         <form method="POST" action="{{ route('peminjam.peminjaman.store') }}">
             @csrf
-            {{-- GANTI: loker_id menjadi buku_id --}}
             <input type="hidden" name="buku_id" value="{{ $buku->id }}">
 
             <div class="mb-4">

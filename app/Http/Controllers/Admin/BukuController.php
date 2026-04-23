@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 use App\Models\LogAktivitas;
+use App\Imports\BukuImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BukuController extends Controller
 {
@@ -104,4 +106,15 @@ class BukuController extends Controller
         return redirect()->route('admin.buku.index')
             ->with('success', 'Buku berhasil dihapus');
     }
+
+    public function import(Request $request)
+{
+    $request->validate([
+        'file_excel' => 'required|mimes:xlsx,xls'
+    ]);
+
+    Excel::import(new BukuImport, $request->file('file_excel'));
+
+    return back()->with('success', 'Data buku berhasil diimport!');
+}
 }

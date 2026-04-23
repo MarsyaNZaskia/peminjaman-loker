@@ -10,7 +10,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-4xl font-bold text-pink-800 mb-2">Halo, {{ auth()->user()->name }}!</h1>
-                    <p class="text-pink-600 text-lg">Kelola peminjaman dan pengembalian loker dengan mudah</p>
+                    <p class="text-pink-600 text-lg">Kelola peminjaman dan pengembalian buku dengan mudah</p>
                 </div>
                 <div class="text-6xl animate-bounce">👋</div>
             </div>
@@ -24,7 +24,7 @@
                     <h3 class="text-pink-600 text-sm font-medium">Total Buku</h3>
                     <p class="text-3xl font-bold mt-2 text-pink-800">{{ \App\Models\Buku::count() }}</p>
                 </div>
-                <div class="text-4xl">🔐</div>
+                <div class="text-4xl">📚</div>
             </div>
         </div>
         <div class="bg-linear-to-br from-yellow-50 to-yellow-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-yellow-200">
@@ -63,7 +63,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-2xl font-bold mb-2">Kelola Peminjaman</h2>
-                        <p class="mb-4 text-pink-100">Approve atau reject peminjaman loker</p>
+                        <p class="mb-4 text-pink-100">Approve atau reject peminjaman buku</p>
                         <a href="{{ route('petugas.peminjaman.index') }}" 
                            class="inline-flex items-center bg-white text-pink-600 px-6 py-2.5 rounded-full font-semibold hover:bg-pink-50 transition-all duration-300 shadow-lg hover:shadow-xl">
                             <span>Kelola Peminjaman</span>
@@ -81,7 +81,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-2xl font-bold mb-2">Data Pengembalian</h2>
-                        <p class="mb-4 text-purple-100">Lihat history pengembalian loker</p>
+                        <p class="mb-4 text-purple-100">Lihat history pengembalian buku</p>
                         <a href="{{ route('petugas.pengembalian.index') }}" 
                            class="inline-flex items-center bg-white text-purple-600 px-6 py-2.5 rounded-full font-semibold hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl">
                             <span>Lihat Data</span>

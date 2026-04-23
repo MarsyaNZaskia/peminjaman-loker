@@ -21,7 +21,7 @@
         <div class="bg-linear-to-br from-green-50 to-green-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-green-200">
             <div class="text-center">
                 <div class="text-4xl mb-4">✅</div>
-                <h3 class="text-green-600 text-sm font-medium mb-2">Loker Tersedia</h3>
+                <h3 class="text-green-600 text-sm font-medium mb-2">Buku Tersedia</h3>
                 <p class="text-3xl font-bold text-green-700">{{ \App\Models\Buku::where('status', 'tersedia')->count() }}</p>
             </div>
         </div>
@@ -50,15 +50,15 @@
         <div class="relative z-10">
             <div class="flex justify-between items-center">
                 <div>
-                    <h2 class="text-2xl font-bold mb-2">Peminjaman Loker</h2>
-                    <p class="mb-4 text-pink-100">Ajukan peminjaman loker yang tersedia dengan mudah</p>
+                    <h2 class="text-2xl font-bold mb-2">Peminjaman Buku</h2>
+                    <p class="mb-4 text-pink-100">Ajukan peminjaman buku yang tersedia dengan mudah</p>
                     <a href="{{ route('peminjam.peminjaman.index') }}" 
                        class="inline-flex items-center bg-white text-pink-600 px-6 py-2.5 rounded-full font-semibold hover:bg-pink-50 transition-all duration-300 shadow-lg hover:shadow-xl">
-                        <span>Lihat Loker Tersedia</span>
+                        <span>Lihat Buku Tersedia</span>
                         <span class="ml-2">→</span>
                     </a>
                 </div>
-                <div class="text-5xl opacity-20">🔐</div>
+                <div class="text-5xl opacity-20">📚</div>
             </div>
         </div>
     </div>

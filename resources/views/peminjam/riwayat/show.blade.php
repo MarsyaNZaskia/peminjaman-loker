@@ -37,28 +37,28 @@
         </div>
     </div>
 
-    <!-- Info Loker -->
+    <!-- Info Buku -->
     <div class="bg-white rounded-xl shadow-lg p-6">
         <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-            <span class="mr-2">🔐</span>
-            Informasi Loker
+            <span class="mr-2">📚</span>
+            Informasi Buku
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-gray-50 p-4 rounded-lg">
-                <p class="text-sm text-gray-500 mb-1">Nomor Loker</p>
-                <p class="text-lg font-bold text-gray-800">{{ $peminjaman->loker->nomor_loker }}</p>
+                <p class="text-sm text-gray-500 mb-1">Kode Buku</p>
+                <p class="text-lg font-bold text-gray-800">{{ $peminjaman->buku?->kode_buku ?? 'Buku Dihapus' }}</p>
             </div>
             <div class="bg-gray-50 p-4 rounded-lg">
-                <p class="text-sm text-gray-500 mb-1">Lokasi</p>
-                <p class="text-lg font-bold text-gray-800">{{ $peminjaman->loker->lokasi }}</p>
+                <p class="text-sm text-gray-500 mb-1">Judul Buku</p>
+                <p class="text-lg font-bold text-gray-800">{{ $peminjaman->buku?->judul ?? '-' }}</p>
             </div>
             <div class="bg-gray-50 p-4 rounded-lg">
-                <p class="text-sm text-gray-500 mb-1">Ukuran</p>
-                <p class="text-lg font-bold text-gray-800">{{ ucfirst($peminjaman->loker->ukuran) }}</p>
+                <p class="text-sm text-gray-500 mb-1">Kategori Buku</p>
+                <p class="text-lg font-bold text-gray-800">{{ $peminjaman->buku?->kategori_buku ?? '-' }}</p>
             </div>
             <div class="bg-gray-50 p-4 rounded-lg">
-                <p class="text-sm text-gray-500 mb-1">Status Loker</p>
-                <p class="text-lg font-bold text-gray-800">{{ ucfirst($peminjaman->buku->status) }}</p>
+                <p class="text-sm text-gray-500 mb-1">Status Buku</p>
+                <p class="text-lg font-bold text-gray-800">{{ ucfirst($peminjaman->buku?->status ?? 'tersedia') }}</p>
             </div>
         </div>
     </div>
@@ -123,7 +123,7 @@
                     </p>
                 </div>
                 <div class="bg-blue-50 p-4 rounded-lg">
-                    <p class="text-sm text-gray-500 mb-1">Kondisi Loker</p>
+                    <p class="text-sm text-gray-500 mb-1">Kondisi Buku</p>
                     <p class="text-lg font-bold text-gray-800">
                         @if($peminjaman->pengembalian->kondisi_barang === 'baik')
                             <span class="px-3 py-1 rounded bg-green-100 text-green-800">Baik</span>
@@ -225,7 +225,7 @@
                         <span class="text-xl">🏁</span>
                     </div>
                     <div class="ml-4">
-                        <p class="font-semibold text-gray-800">Loker Dikembalikan</p>
+                        <p class="font-semibold text-gray-800">Buku Dikembalikan</p>
                         <p class="text-sm text-gray-500">{{ $peminjaman->pengembalian->created_at->format('d F Y') }}</p>
                         <p class="text-xs text-gray-400">Dicatat oleh: {{ $peminjaman->pengembalian->user->name }}</p>
                     </div>

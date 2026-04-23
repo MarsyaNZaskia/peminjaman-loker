@@ -19,8 +19,8 @@ class PeminjamanController extends Controller
         $bukus = Buku::where('stok', '>', 0)
             ->when($request->search, function($query, $search) {
                 $query->where('judul', 'like', "%{$search}%")
-                      ->orWhere('penulis', 'like', "%{$search}%")
-                      ->orWhere('isbn', 'like', "%{$search}%");
+                      ->orWhere('pengarang', 'like', "%{$search}%")
+                      ->orWhere('kode_buku', 'like', "%{$search}%");
             })
             ->when($request->kategori, function($query, $kategori) {
                 $query->where('kategori_id', $kategori);
@@ -38,8 +38,7 @@ class PeminjamanController extends Controller
      */
     public function show(Buku $buku)
     {
-        $buku->load(['user', 'loker', 'petugas']);
-        return view('petugas.peminjaman.show', compact('peminjaman'));
+        return view('peminjam.peminjaman.show', compact('buku'));
     }
 
     /**
@@ -62,7 +61,7 @@ class PeminjamanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'buku_id' => 'required|exists:bukus,id', // Pastikan nama tabel benar (bukus)
+            'buku_id' => 'required|exists:buku,id', // Pastikan nama tabel benar (buku)
             'tanggal_pinjam' => 'required|date|after_or_equal:today',
             'tanggal_kembali_rencana' => 'required|date|after_or_equal:tanggal_pinjam',
             'keperluan' => 'nullable|string|max:500', // Saya buat nullable karena untuk buku biasanya opsional

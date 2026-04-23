@@ -77,11 +77,11 @@
             </form>
         </div>
 
-        <!-- Laporan Loker -->
+        <!-- Laporan Buku -->
         <div class="bg-white p-6 rounded-lg shadow">
             <div class="flex items-center mb-4">
-                <div class="text-4xl mr-4">🔐</div>
-                <h2 class="text-xl font-bold">Laporan Data Loker</h2>
+                <div class="text-4xl mr-4">📚</div>
+                <h2 class="text-xl font-bold">Laporan Data Buku</h2>
             </div>
             
             <form method="POST" action="{{ route('petugas.laporan.buku') }}">
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <p class="text-sm text-gray-500">Laporan data loker berdasarkan status</p>
+                    <p class="text-sm text-gray-500">Laporan data buku berdasarkan status</p>
                 </div>
 
                 <button type="submit" 

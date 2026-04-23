@@ -81,7 +81,7 @@
             <div class="shrink-0 flex items-center justify-between px-4 h-16 bg-white/5 border-b border-white/10 backdrop-blur-sm">
                 <div class="flex items-center space-x-2.5">
                     <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
-                        <span class="text-xl">🔐</span>
+                        <span class="text-xl">📚</span>
                     </div>
                     <div class="flex-1">
                         <h1 class="text-white font-bold text-sm leading-tight">BOOKBROW</h1>
@@ -100,7 +100,7 @@
                     
                     <a href="{{ route('admin.buku.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('admin.buku.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg shrink-0">🔐</span>
+                        <span class="text-lg shrink-0">📚</span>
                         <span>Buku</span>
                     </a>
                     
@@ -168,8 +168,8 @@
                     
                     <a href="{{ route('peminjam.peminjaman.index') }}" 
                        class="flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-sm {{ request()->routeIs('peminjam.peminjaman.*') ? 'bg-white/20 text-white font-semibold backdrop-blur-sm border border-white/30' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        <span class="text-lg shrink-0">🔐</span>
-                        <span>Peminjaman Buku</span>
+                        <span class="text-lg shrink-0">📚</span>
+                        <span>Katalog Buku</span>
                     </a>
 
                     <a href="{{ route('peminjam.riwayat.index') }}" 
@@ -279,7 +279,7 @@
                     </svg>
                     </button>
                     <div class="flex-1 text-center">
-                        <h1 class="text-base font-bold text-gray-800 dark:text-white">🔐 Loker System</h1>
+                        <h1 class="text-base font-bold text-gray-800 dark:text-white">📚 Buku System</h1>
                     </div>
                 </div>
             </header>
@@ -296,7 +296,7 @@
                 <div class="px-6 py-4">
                     <div class="text-center">
                         <p class="text-gray-600 text-sm">
-                            &copy; {{ date('Y') }} Sistem Peminjaman Loker.
+                            &copy; {{ date('Y') }} Sistem Peminjaman Buku.
                         </p>
                     </div>
                 </div>

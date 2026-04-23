@@ -16,7 +16,7 @@
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminjam</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loker</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Buku</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tgl Kembali</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kondisi</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Denda</th>
@@ -28,7 +28,7 @@
                     <tr>
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">{{ $item->peminjaman->user->name }}</td>
-                        <td class="px-6 py-4 font-semibold">{{ $item->peminjaman->buku->kode_buku }}</td>
+                        <td class="px-6 py-4 font-semibold">{{ $item->peminjaman->buku->kode_buku ?? '-' }} - {{ $item->peminjaman->buku->judul ?? '-' }}</td>
                         <td class="px-6 py-4">{{ $item->tgl_kembali_realisasi->format('d/m/Y') }}</td>
                         <td class="px-6 py-4">
                             @if($item->kondisi_barang === 'baik')

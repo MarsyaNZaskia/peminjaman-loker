@@ -37,7 +37,7 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminjam</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loker</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Buku</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Pinjam</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
@@ -47,7 +47,7 @@
                 @forelse($peminjaman as $pinjam)
                     <tr>
                         <td class="px-6 py-4">{{ $pinjam->user->name }}</td>
-                        <td class="px-6 py-4 font-semibold">{{ $pinjam->buku->kode_buku }}</td>
+                        <td class="px-6 py-4 font-semibold">{{ $pinjam->buku?->kode_buku ?? '-' }} - {{ $pinjam->buku?->judul ?? '-' }}</td>
                         <td class="px-6 py-4">{{ $pinjam->tanggal_pinjam->format('d/m/Y') }}</td>
                         <td class="px-6 py-4">
                             @if($pinjam->status === 'pending')

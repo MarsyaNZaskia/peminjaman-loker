@@ -8,9 +8,66 @@ use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\LogAktivitas;
 
 class PengembalianController extends Controller
 {
+    // Form catat pengembalian
+    public function create(Peminjaman $peminjaman)
+    {
+        if ($peminjaman->status !== 'disetujui') {
+            return redirect()->route('admin.peminjaman.index')
+                ->with('error', 'Peminjaman tidak dalam status aktif');
+        }
+
+        if ($peminjaman->sudahDikembalikan()) {
+            return redirect()->route('admin.peminjaman.index')
+                ->with('error', 'Peminjaman sudah dikembalikan');
+        }
+
+        return view('admin.pengembalian.create', compact('peminjaman'));
+    }
+
+    // Proses catat pengembalian
+    public function store(Request $request, Peminjaman $peminjaman)
+    {
+        $validated = $request->validate([
+            'tgl_kembali_realisasi' => 'required|date',
+            'kondisi_barang' => 'required|in:baik,rusak,hilang',
+            'total_denda' => 'required|integer|min:0',
+            'catatan' => 'nullable|string',
+        ]);
+
+        DB::transaction(function () use ($validated, $peminjaman) {
+            // Catat pengembalian
+            $pengembalian = Pengembalian::create([
+                'user_id' => Auth::id(),
+                'peminjaman_id' => $peminjaman->id,
+                'tgl_kembali_realisasi' => $validated['tgl_kembali_realisasi'],
+                'kondisi_barang' => $validated['kondisi_barang'],
+                'total_denda' => $validated['total_denda'],
+                'catatan' => $validated['catatan'],
+            ]);
+
+            LogAktivitas::catat(
+            'return', 
+            'Pengembalian', 
+            $pengembalian->id, 
+            "Mencatat pengembalian buku {$peminjaman->buku->kode_buku} dengan denda Rp " . number_format($validated['total_denda'], 0, ',', '.')
+        );
+
+            // Update status peminjaman
+            $peminjaman->update(['status' => 'selesai']);
+
+            // Update status buku
+            $peminjaman->buku->increment('stok');
+            $peminjaman->buku->update(['status' => 'tersedia']);
+        });
+
+        return redirect()->route('admin.peminjaman.index')
+            ->with('success', 'Pengembalian berhasil dicatat');
+    }
+
     // Lihat semua pengembalian
     public function index()
     {
@@ -59,7 +116,10 @@ class PengembalianController extends Controller
             $pengembalian->peminjaman->update(['status' => 'disetujui']);
             
             // Kembalikan status buku ke dipinjam
-            $pengembalian->peminjaman->buku->update(['status' => 'dipinjam']);
+            $pengembalian->peminjaman->buku->decrement('stok');
+            if ($pengembalian->peminjaman->buku->stok == 0) {
+                $pengembalian->peminjaman->buku->update(['status' => 'dipinjam']);
+            }
             
             $pengembalian->delete();
         });

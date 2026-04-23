@@ -185,7 +185,7 @@
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-red-700 font-semibold">Peringatan: Biodata Belum Lengkap</p>
-                        <p class="text-sm text-red-600 mt-1">Lengkapi semua data biodata untuk dapat melakukan peminjaman loker. Klik tombol Edit untuk melengkapi data.</p>
+                        <p class="text-sm text-red-600 mt-1">Lengkapi semua data biodata untuk dapat melakukan peminjaman buku. Klik tombol Edit untuk melengkapi data.</p>
                         <a href="{{ route('profile.edit') }}" class="text-blue-500 hover:text-blue-700">✏️ Lengkapi biodata</a>
                      </div>
                 </div>

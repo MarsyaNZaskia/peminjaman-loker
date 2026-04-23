@@ -1,4 +1,4 @@
-{{-- resources/views/admin/lokers/show.blade.php --}}
+{{-- resources/views/admin/bukus/show.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Detail Buku')
@@ -14,10 +14,17 @@
         
     </div>
 
-    <!-- Informasi Loker -->
+    <!-- Informasi Buku -->
     <div class="bg-white p-6 rounded-lg shadow mb-6">
-        <h2 class="text-xl font-bold mb-4">Informasi Loker</h2>
+        <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
         <div class="grid grid-cols-2 gap-4">
+            <!-- Cover -->
+            @if($buku->foto_cover)
+                <div class="col-span-2 mb-4">
+                    <p class="text-gray-600 mb-2">Foto Cover</p>
+                    <img src="{{ asset('storage/' . $buku->foto_cover) }}" alt="Cover Buku" class="w-32 h-48 object-cover rounded shadow">
+                </div>
+            @endif
             <div>
                 <p class="text-gray-600">Kode Buku</p>
                 <p class="font-semibold text-lg">{{ $buku->kode_buku }}</p>

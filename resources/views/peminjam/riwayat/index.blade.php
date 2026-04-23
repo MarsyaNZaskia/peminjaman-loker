@@ -10,14 +10,14 @@
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl md:text-4xl font-bold mb-2">📚 Riwayat Peminjaman</h1>
-                <p class="text-purple-100">Lihat semua history peminjaman loker Anda</p>
+                <p class="text-purple-100">Lihat semua history peminjaman buku Anda</p>
             </div>
             <div class="hidden md:block text-6xl opacity-40">📜</div>
         </div>
     </div>
 
     <!-- Filter & Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-yellow-500">
             <p class="text-gray-500 text-sm mb-1">Total Pending</p>
             <p class="text-2xl font-bold text-yellow-600">
@@ -42,12 +42,12 @@
                 {{ \App\Models\Peminjaman::where('user_id', Auth::id())->where('status', 'selesai')->count() }}
             </p>
         </div>
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-purple-500">
+        {{-- <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-purple-500">
             <p class="text-gray-500 text-sm mb-1">Total Riwayat</p>
             <p class="text-2xl font-bold text-purple-600">
                 {{ \App\Models\Peminjaman::where('user_id', Auth::id())->whereIn('status', ['pending', 'disetujui', 'ditolak', 'selesai'])->count() }}
             </p>
-        </div>
+        </div> --}}
     </div>
 
     <!-- Riwayat List -->
@@ -61,7 +61,7 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Loker</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buku</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pinjam</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Kembali</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -76,10 +76,10 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <span class="text-2xl mr-3">🔐</span>
+                                    <span class="text-2xl mr-3">📚</span>
                                     <div>
-                                        <div class="text-sm font-bold text-gray-900">{{ $item->buku->kode_buku }}</div>
-                                        <div class="text-xs text-gray-500">{{ $item->buku->judul }}</div>
+                                        <div class="text-sm font-bold text-gray-900">{{ $item->buku?->kode_buku ?? 'Buku Dihapus' }}</div>
+                                        <div class="text-xs text-gray-500">{{ $item->buku?->judul ?? '-' }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -129,7 +129,7 @@
                                 <div class="flex flex-col items-center justify-center">
                                     <span class="text-6xl mb-4">📭</span>
                                     <p class="text-gray-500 font-medium">Belum ada riwayat peminjaman</p>
-                                    <p class="text-gray-400 text-sm mt-1">Mulai ajukan peminjaman loker untuk melihat riwayat di sini</p>
+                                    <p class="text-gray-400 text-sm mt-1">Mulai ajukan peminjaman buku untuk melihat riwayat di sini</p>
                                 </div>
                             </td>
                         </tr>

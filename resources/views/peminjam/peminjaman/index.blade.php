@@ -42,8 +42,8 @@
                         
                         {{-- Cover Buku --}}
                         <div class="relative bg-gray-100 h-52 shrink-0">
-                            @if($buku->cover)
-                                <img src="{{ asset('storage/profile-photos' . $buku->cover) }}" 
+                            @if($buku->foto_cover)
+                                <img src="{{ asset('storage/' . $buku->foto_cover) }}" 
                                      alt="{{ $buku->judul }}" 
                                      class="w-full h-full object-cover">
                             @else
@@ -68,8 +68,8 @@
                             <h3 class="text-lg font-bold leading-tight mb-2 line-clamp-2" title="{{ $buku->judul }}">
                                 {{ $buku->judul }}
                             </h3>
-                            <p class="text-gray-600 text-sm mb-1">✍️ {{ $buku->penulis }}</p>
-                            <p class="text-gray-600 text-sm mb-1">📖 ISBN: {{ $buku->isbn ?? '-' }}</p>
+                            <p class="text-gray-600 text-sm mb-1">✍️ Pengarang : {{ $buku->pengarang }}</p>
+                            <p class="text-gray-600 text-sm mb-1">📖 ISBN: {{ $buku->kode_buku ?? '-' }}</p>
                             <p class="text-gray-600 text-sm mb-1">🏷️ {{ $buku->kategori->nama ?? 'Tanpa Kategori' }}</p>
                             <p class="text-gray-600 text-sm mb-3">📅 Tahun: {{ $buku->tahun_terbit ?? '-' }}</p>
                             

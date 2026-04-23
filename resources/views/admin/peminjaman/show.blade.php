@@ -8,6 +8,16 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold">Detail Peminjaman</h1>
         <div class="flex space-x-2">
+            @if ($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Error!</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @if($peminjaman->status === 'pending')
     <form action="{{ route('admin.peminjaman.update', $peminjaman) }}" method="POST" class="inline">
         @csrf
@@ -15,7 +25,7 @@
 
         <input type="hidden" name="status" value="disetujui">
 
-        <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
             Setujui
         </button>
     </form>
@@ -26,11 +36,17 @@
 
         <input type="hidden" name="status" value="ditolak">
 
-        <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
             Tolak
         </button>
     </form>
 @endif
+            @if($peminjaman->status === 'disetujui')
+                <a href="{{ route('admin.pengembalian.create', $peminjaman) }}"
+                   class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded">
+                    Kembalikan
+                </a>
+            @endif
             <a href="{{ route('admin.peminjaman.edit', $peminjaman) }}" 
                class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
                 Edit
@@ -64,15 +80,15 @@
             </div>
         </div>
 
-        <!-- Info Loker -->
+        <!-- Info Buku -->
         <div class="bg-white p-6 rounded-lg shadow">
     <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
 
     <div class="flex gap-4">
         <!-- Cover -->
         <div>
-            <img src="{{ $peminjaman->buku?-> foto_cover 
-                ? asset('storage/'.$peminjaman->buku->cover) 
+            <img src="{{ $peminjaman->buku?->foto_cover 
+                ? asset('storage/'.$peminjaman->buku->foto_cover) 
                 : 'https://via.placeholder.com/100x140?text=No+Image' }}"
                 class="w-24 h-32 object-cover rounded shadow">
         </div>

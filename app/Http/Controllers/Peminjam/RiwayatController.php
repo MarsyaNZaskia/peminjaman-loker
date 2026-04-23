@@ -14,7 +14,7 @@ class RiwayatController extends Controller
      */
     public function index()
     {
-        $riwayat= Peminjaman::with(['loker', 'petugas', 'pengembalian.peminjaman'])
+        $riwayat= Peminjaman::with(['buku', 'petugas', 'pengembalian.peminjaman'])
         ->where('user_id', Auth::id())
         ->whereIn('status', ['pending', 'disetujui', 'ditolak', 'selesai'])
         ->latest()
@@ -48,7 +48,7 @@ class RiwayatController extends Controller
             abort(403);
         }
 
-        $peminjaman->load(['loker', 'petugas', 'pengembalian.peminjaman']);
+        $peminjaman->load(['buku', 'petugas', 'pengembalian.peminjaman']);
 
         return view('peminjam.riwayat.show', compact ('peminjaman'));
     }

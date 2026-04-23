@@ -38,11 +38,6 @@ class Peminjaman extends Model
         return $this->belongsTo(Buku::class);
     }
 
-    // Alias untuk backward compatibility
-    public function loker(): BelongsTo
-    {
-        return $this->buku();
-    }
 
     // Relasi ke User (Petugas yang approve)
     public function petugas(): BelongsTo

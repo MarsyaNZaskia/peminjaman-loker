@@ -29,12 +29,12 @@
             </div>
         </div>
 
-        <!-- Info Loker -->
+        <!-- Info Buku -->
         <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">Informasi Loker</h2>
+            <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
             <div class="space-y-2">
                 <div>
-                    <p class="text-gray-600 text-sm">Nomor Loker</p>
+                    <p class="text-gray-600 text-sm">Nomor Buku</p>
                     <p class="font-semibold text-lg">{{ $peminjaman->buku->kode_buku }}</p>
                 </div>
                 <div>
@@ -160,7 +160,7 @@
 function approveConfirm() {
     Swal.fire({
         title: 'Setujui Peminjaman?',
-        text: 'Peminjaman akan disetujui dan loker siap dipinjam',
+        text: 'Peminjaman akan disetujui dan buku siap dipinjam',
         icon: 'info',
         showCancelButton: true,
         confirmButtonText: 'Ya, Setujui',
@@ -177,7 +177,7 @@ function approveConfirm() {
 function returnConfirm() {
     Swal.fire({
         title: 'Catat Pengembalian?',
-        text: 'Lanjut ke halaman pencatatan pengembalian loker',
+        text: 'Lanjut ke halaman pencatatan pengembalian buku',
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Ya, Lanjut',

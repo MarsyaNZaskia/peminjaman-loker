@@ -38,7 +38,7 @@
     <div class="bg-white p-6 rounded-lg shadow">
         <h2 class="text-xl font-bold mb-4">Form Pengembalian</h2>
         
-        <form method="POST" action="{{ route('petugas.pengembalian.store', $peminjaman) }}" id="formPengembalian">
+        <form method="POST" action="{{ route('admin.pengembalian.store', $peminjaman) }}" id="formPengembalian">
             @csrf
 
             <div class="mb-4">
@@ -100,7 +100,7 @@
                         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
                     Simpan Pengembalian
                 </button>
-                <a href="{{ route('petugas.peminjaman.show', $peminjaman) }}"
+                <a href="{{ route('admin.peminjaman.show', $peminjaman) }}"
                    class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
                     Batal
                 </a>

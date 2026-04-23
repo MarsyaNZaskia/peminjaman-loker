@@ -1,4 +1,4 @@
-{{-- resources/views/admin/lokers/create.blade.php --}}
+{{-- resources/views/admin/bukus/create.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Tambah Buku')
@@ -101,7 +101,7 @@
 
             <div class="mb-4">
                 <label class="block text-gray-700 mb-2">Foto Cover</label>
-                <input type="file" name="cover" value="{{ old('foto_cover') }}" 
+                <input type="file" name="foto_cover" value="{{ old('foto_cover') }}" 
                        placeholder="" 
                        class="w-full px-3 py-2 border rounded-lg @error('foto_cover') border-red-500 @enderror" >
                 @error('foto_cover')

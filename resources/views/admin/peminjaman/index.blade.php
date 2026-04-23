@@ -53,7 +53,7 @@
                     <tr>
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">{{ $item->user->name }}</td>
-                        <td class="px-6 py-4 font-semibold">{{ $item->buku?->kode_buku ?? '-' }} - {{ $item->buku->judul ?? '-'}}</td>
+                        <td class="px-6 py-4 font-semibold">{{ $item->buku?->kode_buku ?? '-' }} - {{ $item->buku?->judul ?? '-'}}</td>
                         <td class="px-6 py-4">{{ $item->tanggal_pinjam->format('d/m/Y') }}</td>
                         <td class="px-6 py-4">
                             @if($item->status === 'pending')
@@ -71,6 +71,12 @@
                                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
                                 Detail
                             </a>
+                            {{-- @if($item->status === 'disetujui')
+                                <a href="{{ route('admin.pengembalian.create', $item) }}"
+                                   class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm">
+                                    Kembalikan
+                                </a>
+                            @endif --}}
                             <a href="{{ route('admin.peminjaman.edit', $item) }}"
                                class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm">
                                 Edit

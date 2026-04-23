@@ -60,6 +60,7 @@ class PengembalianController extends Controller
             $peminjaman->update(['status' => 'selesai']);
 
             // Update status buku
+            $peminjaman->buku->increment('stok');
             $peminjaman->buku->update(['status' => 'tersedia']);
         });
 

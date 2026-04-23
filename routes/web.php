@@ -42,6 +42,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Routes Pengembalian 
     Route::get('/pengembalian', [\App\Http\Controllers\Admin\PengembalianController::class, 'index'])->name('pengembalian.index');
+    Route::get('/pengembalian/create/{peminjaman}', [\App\Http\Controllers\Admin\PengembalianController::class, 'create'])->name('pengembalian.create');
+    Route::post('/pengembalian/{peminjaman}', [\App\Http\Controllers\Admin\PengembalianController::class, 'store'])->name('pengembalian.store');
     Route::get('/pengembalian/{pengembalian}', [\App\Http\Controllers\Admin\PengembalianController::class, 'show'])->name('pengembalian.show');
     Route::get('/pengembalian/{pengembalian}/edit', [\App\Http\Controllers\Admin\PengembalianController::class, 'edit'])->name('pengembalian.edit');
     Route::put('/pengembalian/{pengembalian}', [\App\Http\Controllers\Admin\PengembalianController::class, 'update'])->name('pengembalian.update');
@@ -124,6 +126,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/admin/users/import', [UserController::class, 'import'])->name('admin.users.import');
+Route::post('/admin/buku/import', [BukuController::class, 'import'])->name('admin.buku.import');
 
 
 Route::get('/', function () {

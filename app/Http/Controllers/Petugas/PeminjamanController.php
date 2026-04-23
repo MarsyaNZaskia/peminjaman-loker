@@ -17,7 +17,7 @@ class PeminjamanController extends Controller
     // Lihat semua peminjaman
     public function index(Request $request)
     {
-        $query = Peminjaman::with(['user', 'loker', 'petugas']);
+        $query = Peminjaman::with(['user', 'buku', 'petugas']);
     
     // Filter berdasarkan status
     if ($request->has('status') && $request->status !== '') {
@@ -32,16 +32,20 @@ class PeminjamanController extends Controller
     // Detail peminjaman
     public function show(Peminjaman $peminjaman)
     {
-        $peminjaman->load(['user', 'loker', 'petugas']);
+        $peminjaman->load(['user', 'buku', 'petugas']);
         return view('petugas.peminjaman.show', compact('peminjaman'));
     }
 
-    // Approve peminjaman
     public function approve(Peminjaman $peminjaman)
     {
         if ($peminjaman->status !== 'pending') {
             return redirect()->route('petugas.peminjaman.index')
                 ->with('error', 'Peminjaman sudah diproses');
+        }
+
+        if ($peminjaman->buku->stok <= 0) {
+            return redirect()->route('petugas.peminjaman.index')
+                ->with('error', 'Stok buku habis!');
         }
 
         DB::transaction(function () use ($peminjaman) {
@@ -52,9 +56,12 @@ class PeminjamanController extends Controller
             ]);
 
             // Update status buku
-            $peminjaman->buku->update([
-                'status' => 'dipinjam',
-            ]);
+            $peminjaman->buku->decrement('stok');
+            if ($peminjaman->buku->stok == 0) {
+                $peminjaman->buku->update([
+                    'status' => 'dipinjam',
+                ]);
+            }
         });
 
         LogAktivitas::catat(

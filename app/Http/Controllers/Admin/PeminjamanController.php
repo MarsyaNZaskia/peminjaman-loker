@@ -96,18 +96,24 @@ class PeminjamanController extends Controller
     // Update peminjaman
     public function update(Request $request, Peminjaman $peminjaman)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'buku_id' => 'required|exists:buku,id',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali_rencana' => 'required|date|after:tanggal_pinjam',
-            'keperluan' => 'required|string|max:500',
+        $rules = [
             'status' => 'required|in:pending,disetujui,ditolak,selesai',
             'catatan_petugas' => 'nullable|string',
-        ]);
+        ];
+
+        // Jika request dari form edit lengkap
+        if ($request->has('user_id')) {
+            $rules['user_id'] = 'required|exists:users,id';
+            $rules['buku_id'] = 'required|exists:buku,id';
+            $rules['tanggal_pinjam'] = 'required|date';
+            $rules['tanggal_kembali_rencana'] = 'required|date|after_or_equal:tanggal_pinjam';
+            $rules['keperluan'] = 'required|string|max:500';
+        }
+
+        $validated = $request->validate($rules);
 
         $oldStatus = $peminjaman->status;
-$newStatus = $validated['status'];
+        $newStatus = $validated['status'];
 
 DB::transaction(function () use ($validated, $peminjaman, $oldStatus, $newStatus) {
 
@@ -126,11 +132,16 @@ DB::transaction(function () use ($validated, $peminjaman, $oldStatus, $newStatus
             }
 
             $peminjaman->buku->decrement('stok');
+            
+            if ($peminjaman->buku->stok == 0) {
+                $peminjaman->buku->update(['status' => 'dipinjam']);
+            }
         }
 
         // dari disetujui → selain disetujui
         if ($oldStatus === 'disetujui' && in_array($newStatus, ['ditolak', 'selesai'])) {
             $peminjaman->buku->increment('stok');
+            $peminjaman->buku->update(['status' => 'tersedia']);
         }
     }
 });

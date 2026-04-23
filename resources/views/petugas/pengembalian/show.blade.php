@@ -34,9 +34,9 @@
             </div>
         </div>
 
-        <!-- Info Loker -->
+        <!-- Info Buku -->
         <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">Informasi Loker</h2>
+            <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
             <div class="space-y-2">
                 <div>
                     <p class="text-gray-600 text-sm">Kode Buku</p>
@@ -82,7 +82,7 @@
                 <p class="font-semibold">{{ $pengembalian->tgl_kembali_realisasi->format('d/m/Y') }}</p>
             </div>
             <div>
-                <p class="text-gray-600 text-sm">Kondisi Loker</p>
+                <p class="text-gray-600 text-sm">Kondisi Buku</p>
                 <p class="font-semibold">
                     @if($pengembalian->kondisi_barang === 'baik')
                         <span class="px-3 py-1 rounded bg-green-100 text-green-800">Baik</span>

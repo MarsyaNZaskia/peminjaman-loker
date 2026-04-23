@@ -11,8 +11,8 @@
     <div class="bg-white/20 backdrop-blur-lg border border-white/30 p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-y-auto">
         
         <div class="text-center mb-6"> <!-- Margin dikurangi -->
-            <div class="text-4xl mb-2">🔐</div> <!-- Ukuran icon dikecilkan -->
-            <h2 class="text-2xl font-extrabold text-white tracking-tight">Peminjaman Loker</h2>
+            <div class="text-4xl mb-2">📚</div> <!-- Ukuran icon dikecilkan -->
+            <h2 class="text-2xl font-extrabold text-white tracking-tight">Peminjaman Buku</h2>
             <p class="text-indigo-100 text-sm font-medium">Selamat Datang! Silakan Login</p>
         </div>
 

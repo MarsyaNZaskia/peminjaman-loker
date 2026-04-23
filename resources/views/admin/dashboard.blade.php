@@ -10,18 +10,18 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold text-pink-800 mb-2">Selamat Datang, Admin!</h1>
-                    <p class="text-pink-600 text-base">Pantau dan kelola sistem peminjaman loker dengan mudah</p>
+                    <p class="text-pink-600 text-base">Pantau dan kelola sistem peminjaman buku dengan mudah</p>
                 </div>
                 <div class="text-4xl animate-bounce">👋</div>
             </div>
         </div>
     </div>
 
-    <!-- Statistik Loker -->
+    <!-- Statistik Buku -->
     <div class="mb-10">
         <h2 class="text-2xl font-bold mb-6 text-pink-800 flex items-center">
             <span class="text-3xl mr-3">📦</span>
-            Informasi Loker
+            Informasi Buku
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="bg-linear-to-br from-pink-50 to-pink-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-pink-200">
@@ -30,13 +30,13 @@
                         <h3 class="text-pink-600 text-sm font-medium">Total Buku</h3>
                         <p class="text-3xl font-bold mt-2 text-pink-800">{{ \App\Models\Buku::count() }}</p>
                     </div>
-                    <div class="text-4xl">🔐</div>
+                    <div class="text-4xl">📚</div>
                 </div>
             </div>
             <div class="bg-linear-to-br from-green-50 to-green-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-green-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-green-600 text-sm font-medium">Loker Tersedia</h3>
+                        <h3 class="text-green-600 text-sm font-medium">Buku Tersedia</h3>
                         <p class="text-3xl font-bold text-green-700 mt-2">{{ \App\Models\Buku::where('status', 'tersedia')->count() }}</p>
                     </div>
                     <div class="text-4xl">✅</div>
@@ -45,7 +45,7 @@
             <div class="bg-linear-to-br from-yellow-50 to-yellow-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-yellow-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-yellow-600 text-sm font-medium">Loker Dipinjam</h3>
+                        <h3 class="text-yellow-600 text-sm font-medium">Buku Dipinjam</h3>
                         <p class="text-3xl font-bold text-yellow-700 mt-2">{{ \App\Models\Buku::where('status', 'dipinjam')->count() }}</p>
                     </div>
                     <div class="text-4xl">⏳</div>
@@ -54,7 +54,7 @@
             <div class="bg-linear-to-br from-red-50 to-red-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-red-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-red-600 text-sm font-medium">Loker Rusak</h3>
+                        <h3 class="text-red-600 text-sm font-medium">Buku Rusak</h3>
                         <p class="text-3xl font-bold text-red-700 mt-2">{{ \App\Models\Buku::where('status', 'rusak')->count() }}</p>
                     </div>
                     <div class="text-4xl">⚠️</div>
@@ -153,15 +153,15 @@
             <div class="relative z-10">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h2 class="text-2xl font-bold mb-2">Kelola Loker</h2>
-                        <p class="mb-4 text-pink-100">Tambah, edit, atau hapus data loker dengan mudah</p>
+                        <h2 class="text-2xl font-bold mb-2">Kelola Buku</h2>
+                        <p class="mb-4 text-pink-100">Tambah, edit, atau hapus data buku dengan mudah</p>
                         <a href="{{ route('admin.buku.index') }}" 
                            class="inline-flex items-center bg-white text-pink-600 px-6 py-2.5 rounded-full font-semibold hover:bg-pink-50 transition-all duration-300 shadow-lg hover:shadow-xl">
-                            <span>Kelola Loker</span>
+                            <span>Kelola Buku</span>
                             <span class="ml-2">→</span>
                         </a>
                     </div>
-                    <div class="text-5xl opacity-20">🔐</div>
+                    <div class="text-5xl opacity-20">📚</div>
                 </div>
             </div>
         </div>
