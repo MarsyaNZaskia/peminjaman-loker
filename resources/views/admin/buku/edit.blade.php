@@ -107,18 +107,29 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Foto Cover</label>
-                @if($buku->foto_cover)
-                    <div class="mb-2">
-                        <img src="{{ asset('storage/' . $buku->foto_cover) }}" alt="Cover Buku" class="w-32 rounded shadow">
-                    </div>
-                @endif
-                <input type="file" name="foto_cover"
-                       class="w-full px-3 py-2 border rounded-lg @error('foto_cover') border-red-500 @enderror" >
-                @error('foto_cover')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-                <p class="text-sm text-gray-500 mt-1">Kosongkan jika tidak ingin mengubah cover.</p>
+                <label class="block text-gray-700 mb-2 font-medium">Foto Cover</label>
+                {{-- Preview --}}
+                <div class="mb-3">
+                    <img id="previewImage"
+                    src="{{ $buku->foto_cover ? asset('storage/' . $buku->foto_cover) : 'https://via.placeholder.com/150x200?text=No+Image' }}"
+                    class="w-32 h-44 object-cover rounded-lg shadow border">
+            </div>
+
+                {{-- Input --}}
+                <input type="file" name="foto_cover" id="foto_cover"
+                class="w-full px-3 py-2 border rounded-lg cursor-pointer
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-lg file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-pink-100 file:text-pink-700
+                  hover:file:bg-pink-200
+                  @error('foto_cover') border-red-500 @enderror">
+                  @error('foto_cover')
+                  <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                  @enderror
+                  <p class="text-sm text-gray-500 mt-1">
+                    Kosongkan jika tidak ingin mengubah cover.
+                </p>
             </div>
 
             <div class="mb-6">
@@ -144,3 +155,11 @@
     </div>
 </div>
 @endsection
+<script>
+document.getElementById('foto_cover').addEventListener('change', function (e) {
+    const [file] = e.target.files;
+    if (file) {
+        document.getElementById('previewImage').src = URL.createObjectURL(file);
+    }
+});
+</script>

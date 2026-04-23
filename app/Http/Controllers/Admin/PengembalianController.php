@@ -83,8 +83,11 @@ class PengembalianController extends Controller
     // Detail pengembalian
     public function show(Pengembalian $pengembalian)
     {
+        
         $pengembalian->load(['peminjaman.user', 'peminjaman.buku', 'user']);
-        return view('admin.pengembalian.show', array_merge(compact('pengembalian'), $this->dendaConfig()));
+        return view('admin.pengembalian.show', array_merge(compact('pengembalian'),
+        $this->dendaConfig()
+));
     }
 
     // Form edit pengembalian
@@ -140,28 +143,30 @@ class PengembalianController extends Controller
     private function dendaConfig(): array
     {
         return [
-            'dendaPerHari' => (int) (Setting::getValue('denda_per_hari') ?? 5000),
-            'dendaRusak'   => 50000,
-            'dendaHilang'  => 500000,
+            'dendaPerHari' => (int) (Setting::getValue('denda_per_hari') ?? 2000),
+            'dendaRusak'   => 20000,
+            'dendaHilang'  => 22000,
         ];
     }
 
-    private function hitungTotalDenda(Peminjaman $peminjaman, string $tglKembaliRealisasi, string $kondisiBarang): int
-    {
-        $config = $this->dendaConfig();
-        $tglRencana = $peminjaman->tanggal_kembali_rencana;
-        $tglRealisasi = \Carbon\Carbon::parse($tglKembaliRealisasi);
-        $totalDenda = 0;
+   private function hitungTotalDenda(Peminjaman $peminjaman, string $tglKembaliRealisasi, string $kondisiBarang): int
+{
+    $config = $this->dendaConfig();
 
-        if ($kondisiBarang === 'hilang') {
-            $totalDenda = $config['dendaHilang'];
-        } elseif ($kondisiBarang === 'rusak') {
-            $totalDenda = $config['dendaRusak'];
-        } elseif ($tglRealisasi->gt($tglRencana)) {
-            $hariTerlambat = $tglRealisasi->diffInDays($tglRencana);
-            $totalDenda = $hariTerlambat * $config['dendaPerHari'];
-        }
+    $tglRencana = \Carbon\Carbon::parse($peminjaman->tanggal_kembali_rencana);
+    $tglRealisasi = \Carbon\Carbon::parse($tglKembaliRealisasi)->startOfDay();
 
-        return $totalDenda;
+    $totalDenda = 0;
+
+    if ($kondisiBarang === 'hilang') {
+        $totalDenda = $config['dendaHilang'];
+    } elseif ($kondisiBarang === 'rusak') {
+        $totalDenda = $config['dendaRusak'];
+    } elseif ($tglRealisasi->gt($tglRencana)) {
+        $hariTerlambat = $tglRencana->diffInDays($tglRealisasi);
+        $totalDenda = $hariTerlambat * $config['dendaPerHari'];
     }
+
+    return $totalDenda;
+}
 }

@@ -5,30 +5,36 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4">
     
-    <div class="flex justify-end items-center mb-6">
-        <div class="flex space-x-2">
-            <form method="GET" action="{{ route('admin.buku.index') }}" class="flex flex-col md:flex-row gap-3">
-                <div class="flex-1">
-                    <input type="text" name="search" value="{{ request('search') }}" 
-                       placeholder="Cari judul buku, penulis, atau ISBN..." 
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                </div>
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
-                Cari
-            </button>
-            </form>
-            <button type="button" onclick="toggleModal('modalImport')" 
-                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                </svg>
-                Import Buku
-            </button>
-            <a href="{{ route('admin.buku.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                + Tambah Buku
-            </a>
-        </div>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+
+    <!-- SEARCH -->
+    <form method="GET" action="{{ route('admin.buku.index') }}" 
+          class="flex w-full md:w-2/3 gap-2">
+
+        <input type="text" name="search" value="{{ request('search') }}" 
+            placeholder="Cari judul, pengarang, atau kode buku..." 
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg 
+                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+
+        <button type="submit" 
+            class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg transition">
+            Cari
+        </button>
+    </form>
+
+    <!-- BUTTONS -->
+    <div class="flex gap-2">
+        <button type="button" onclick="toggleModal('modalImport')" 
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center">
+            Import
+        </button>
+
+        <a href="{{ route('admin.buku.create') }}" 
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            + Tambah
+        </a>
     </div>
+</div>
 
     <!-- Filter Status -->
     <div class="bg-white p-4 rounded-lg shadow mb-4">

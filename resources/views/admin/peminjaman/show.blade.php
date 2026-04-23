@@ -201,7 +201,7 @@
                             @elseif($pengembalian->kondisi_barang === 'rusak')
                                 (Denda Kerusakan)
                             @else
-                                (Denda Keterlambatan: {{ $keterlambatan }} hari × Rp 5.000)
+                                (Denda Keterlambatan: {{ $keterlambatan }} hari × Rp {{ number_format($dendaPerHari, 0, ',', '.') }})
                             @endif
                         </p>
                     @else

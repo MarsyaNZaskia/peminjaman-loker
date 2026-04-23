@@ -62,7 +62,7 @@
                 <label for="class" class="block text-sm font-medium text-gray-700 mb-2">Kelas/Tahun</label>
                 <input type="text" id="class" name="class" value="{{ old('class', $user->class) }}"
                        placeholder="Contoh: XI IPA 1 atau 2024"
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 @error('class') border-red-500 @enderror">
+                       class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 @error('class') border-red-500 @enderror">
                 @error('class')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror

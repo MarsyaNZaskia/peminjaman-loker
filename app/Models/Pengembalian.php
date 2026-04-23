@@ -35,21 +35,17 @@ class Pengembalian extends Model
     }
 
     // Helper: Hitung keterlambatan berdasarkan tanggal pengembalian tersimpan
-    public function hitungKeterlambatan(): int
-    {
-        $tanggalRencana = $this->peminjaman?->tanggal_kembali_rencana;
-        $tanggalRealisasi = $this->tgl_kembali_realisasi;
+    public function hitungKeterlambatan()
+{
+    $tglRencana = \Carbon\Carbon::parse($this->peminjaman->tanggal_kembali_rencana);
+    $tglRealisasi = \Carbon\Carbon::parse($this->tgl_kembali_realisasi);
 
-        if (!$tanggalRencana || !$tanggalRealisasi) {
-            return 0;
-        }
-
-        if ($tanggalRealisasi->lte($tanggalRencana)) {
-            return 0;
-        }
-
-        return $tanggalRealisasi->diffInDays($tanggalRencana);
+    if ($tglRealisasi->gt($tglRencana)) {
+        return $tglRealisasi->diffInDays($tglRencana);
     }
+
+    return 0;
+}
 
     // Helper: Ambil denda yang sudah disimpan oleh controller
     public function hitungDenda(): int

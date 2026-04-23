@@ -8,30 +8,32 @@ use Illuminate\Http\Request;
 use App\Models\LogAktivitas;
 use App\Imports\BukuImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
     public function index(Request $request)
     {
-        $bukus = Buku::where('stok', '>', 0)
-            ->when($request->search, function($query, $search) {
-                $query->where('judul', 'like', "%{$search}%")
-                      ->orWhere('pengarang', 'like', "%{$search}%")
-                      ->orWhere('kode_buku', 'like', "%{$search}%");
-            })
-            ->paginate(9);
-
-        $kategoris = Buku::all();
-
         $query = Buku::query();
 
-        if ($request->status) {
-            $query->where('status', $request->status);
-        }
+    // 🔍 SEARCH
+    if ($request->search) {
+        $query->where(function ($q) use ($request) {
+            $q->where('judul', 'like', "%{$request->search}%")
+              ->orWhere('pengarang', 'like', "%{$request->search}%")
+              ->orWhere('kode_buku', 'like', "%{$request->search}%");
+        });
+    }
 
-        $bukus = $query->latest()->get();
+    //  FILTER STATUS
+    if ($request->status) {
+        $query->where('status', $request->status);
+    }
 
-        return view('admin.buku.index', compact('bukus'));
+    // PAGINATION
+    $bukus = $query->latest()->paginate(9)->withQueryString();
+
+    return view('admin.buku.index', compact('bukus'));
     }
 
     public function create()
@@ -94,9 +96,17 @@ class BukuController extends Controller
             'deskripsi' => 'nullable|string',
         ]);
 
+        // kalau upload cover baru
         if ($request->hasFile('foto_cover')) {
-            $validated['foto_cover'] = $request->file('foto_cover')->store('covers', 'public');
+
+        // hapus cover lama kalau ada
+        if ($buku->foto_cover && Storage::disk('public')->exists($buku->foto_cover)) {
+            Storage::disk('public')->delete($buku->foto_cover);
         }
+
+        // simpan cover baru
+        $validated['foto_cover'] = $request->file('foto_cover')->store('covers', 'public');
+    }
 
         $buku->update($validated);
 
@@ -109,6 +119,9 @@ class BukuController extends Controller
     public function destroy(Buku $buku)
     {
         $judul = $buku->judul;
+        if ($buku->foto_cover && Storage::disk('public')->exists($buku->foto_cover)) {
+            Storage::disk('public')->delete($buku->foto_cover);
+            }
         $buku->delete();
 
         LogAktivitas::catat('delete', 'Buku', null, "Hapus buku {$judul}");

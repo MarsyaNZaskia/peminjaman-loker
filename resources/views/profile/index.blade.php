@@ -10,17 +10,6 @@
     $completionPct = $totalPeminjaman > 0 ? round(($selesai / $totalPeminjaman) * 100) : 0;
 @endphp
 
-@if(session('success'))
-<div class="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-300 dark:border-green-700 text-green-700 dark:text-green-300 rounded-xl text-sm flex items-center gap-2">
-    <span>✅</span> {{ session('success') }}
-</div>
-@endif
-@if(session('error'))
-<div class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 rounded-xl text-sm flex items-center gap-2">
-    <span>❌</span> {{ session('error') }}
-</div>
-@endif
-
 <div class="max-w-5xl mx-auto space-y-5">
 
 {{-- ═══════════════ HERO CARD ═══════════════ --}}

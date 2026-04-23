@@ -127,7 +127,7 @@
                     {{-- Kondisi Baik: Hanya ada denda jika terlambat --}}
                     @if($keterlambatan > 0)
                         <p class="font-semibold text-red-600 text-xl">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
-                        <p class="text-xs text-gray-500 mt-1">(Denda Keterlambatan: {{ $keterlambatan }} hari × Rp 5.000)</p>
+                        <p class="text-xs text-gray-500 mt-1">(Denda Keterlambatan: {{ $keterlambatan }} hari × Rp {{ number_format($dendaPerHari, 0, ',', '.') }})</p>
                     @else
                         <p class="font-semibold text-green-600">Rp 0</p>
                     @endif
