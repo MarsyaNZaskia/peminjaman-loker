@@ -71,6 +71,11 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
+        if (!$user->is_active) {
+            $user->is_active = true;
+            $user->save();
+            }
+
         if ($request->hasFile('photo')) {
             // Delete old photo if exists
             if ($user->photo && \Storage::disk('public')->exists($user->photo)) {
@@ -83,6 +88,10 @@ class ProfileController extends Controller
         }
 
         $user->update($validated);
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
+            }
 
         return redirect()->route('profile.index')
             ->with('success', 'Profile berhasil diupdate!');

@@ -16,6 +16,11 @@ class PeminjamanController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Auth::user()->is_active) {
+            return redirect()->route('aktivasi.index')
+            ->with('error', 'Lengkapi data dulu sebelum meminjam!');
+            }
+
         $bukus = Buku::where('stok', '>', 0)
             ->when($request->search, function($query, $search) {
                 $query->where('judul', 'like', "%{$search}%")

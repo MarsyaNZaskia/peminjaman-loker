@@ -34,22 +34,26 @@ class Pengembalian extends Model
         return $this->belongsTo(Peminjaman::class);
     }
 
-    // Helper: Hitung keterlambatan
-    // Terlambat jika tanggal pengembalian aktual > tanggal rencana kembali
+    // Helper: Hitung keterlambatan berdasarkan tanggal pengembalian tersimpan
     public function hitungKeterlambatan(): int
     {
-        if (!$this->tgl_kembali_realisasi || !$this->peminjaman || !$this->peminjaman->tanggal_kembali_rencana) {
+        $tanggalRencana = $this->peminjaman?->tanggal_kembali_rencana;
+        $tanggalRealisasi = $this->tgl_kembali_realisasi;
+
+        if (!$tanggalRencana || !$tanggalRealisasi) {
             return 0;
         }
 
-        $tanggalRencana = $this->peminjaman->tanggal_kembali_rencana;
-        $tanggalRealisasi = $this->tgl_kembali_realisasi;
-
-        // Perbandingan tanggal: Jika realisasi > rencana, maka terlambat
-        if ($tanggalRealisasi->gt($tanggalRencana)) {
-            return (int) $tanggalRealisasi->diffInDays($tanggalRencana);
+        if ($tanggalRealisasi->lte($tanggalRencana)) {
+            return 0;
         }
 
-        return 0;
+        return $tanggalRealisasi->diffInDays($tanggalRencana);
+    }
+
+    // Helper: Ambil denda yang sudah disimpan oleh controller
+    public function hitungDenda(): int
+    {
+        return (int) ($this->total_denda ?? 0);
     }
 }

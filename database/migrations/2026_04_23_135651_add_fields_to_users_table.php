@@ -10,22 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::table('peminjaman', function (Blueprint $table) {        
-        // Rename column
-        $table->renameColumn('loker_id', 'buku_id');
-        
-        // Add foreign key baru
-        $table->foreign('buku_id')->references('id')->on('buku')->onDelete('cascade');
+{
+    Schema::table('users', function (Blueprint $table) {
+        // Aktivasi & verifikasi
+        $table->string('email_verification_token')->nullable();
     });
-    }
+}
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('buku', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

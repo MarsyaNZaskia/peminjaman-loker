@@ -12,14 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buku', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_buku')->unique();
-            $table->string('lokasi');
-            $table->enum('ukuran', ['kecil', 'sedang', 'besar'])->default('sedang');
-            $table->enum('status', ['tersedia', 'dipinjam', 'rusak'])->default('tersedia');
-            $table->text('keterangan')->nullable();
-            $table->timestamps();
-        });
+        $table->id();
+        $table->string('kode_buku')->unique();
+        $table->string('judul');
+        $table->string('pengarang');
+        $table->string('penerbit');
+        $table->year('tahun_terbit');
+        $table->string('kategori_buku');
+        $table->integer('jumlah_halaman');
+        $table->integer('stok')->default(0);
+        $table->enum('status', ['tersedia', 'dipinjam', 'habis'])->default('tersedia');
+        $table->text('deskripsi')->nullable();
+        $table->timestamps();
+    });
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pengembalian;
 use App\Models\Peminjaman;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,7 @@ class PengembalianController extends Controller
                 ->with('error', 'Peminjaman sudah dikembalikan');
         }
 
-        return view('admin.pengembalian.create', compact('peminjaman'));
+        return view('admin.pengembalian.create', array_merge(compact('peminjaman'), $this->dendaConfig()));
     }
 
     // Proses catat pengembalian
@@ -37,25 +38,11 @@ class PengembalianController extends Controller
             'catatan'               => 'nullable|string',
         ]);
 
-        // ── Hitung denda server-side ──────────────────────────────────────
-        $DENDA_PER_HARI = 5000;
-        $DENDA_RUSAK    = 50000;
-        $DENDA_HILANG   = 500000;
-
-        $tglRencana    = $peminjaman->tanggal_kembali_rencana; // Carbon
-        $tglRealisasi  = \Carbon\Carbon::parse($validated['tgl_kembali_realisasi']);
-        $totalDenda    = 0;
-
-        if ($validated['kondisi_barang'] === 'hilang') {
-            $totalDenda = $DENDA_HILANG;
-        } elseif ($validated['kondisi_barang'] === 'rusak') {
-            $totalDenda = $DENDA_RUSAK;
-        } elseif ($tglRealisasi->gt($tglRencana)) {
-            // Terlambat: realisasi > rencana
-            $hariTerlambat = (int) $tglRealisasi->diffInDays($tglRencana);
-            $totalDenda    = $hariTerlambat * $DENDA_PER_HARI;
-        }
-        // ─────────────────────────────────────────────────────────────────
+        $totalDenda = $this->hitungTotalDenda(
+            $peminjaman,
+            $validated['tgl_kembali_realisasi'],
+            $validated['kondisi_barang']
+        );
 
         DB::transaction(function () use ($validated, $peminjaman, $totalDenda) {
             $pengembalian = Pengembalian::create([
@@ -79,7 +66,7 @@ class PengembalianController extends Controller
             $peminjaman->buku->update(['status' => 'tersedia']);
         });
 
-        return redirect()->route('admin.peminjaman.index')
+        return redirect()->route('admin.pengembalian.index')
             ->with('success', 'Pengembalian berhasil dicatat');
     }
 
@@ -97,14 +84,14 @@ class PengembalianController extends Controller
     public function show(Pengembalian $pengembalian)
     {
         $pengembalian->load(['peminjaman.user', 'peminjaman.buku', 'user']);
-        return view('admin.pengembalian.show', compact('pengembalian'));
+        return view('admin.pengembalian.show', array_merge(compact('pengembalian'), $this->dendaConfig()));
     }
 
     // Form edit pengembalian
     public function edit(Pengembalian $pengembalian)
     {
         $pengembalian->load(['peminjaman.user', 'peminjaman.buku']);
-        return view('admin.pengembalian.edit', compact('pengembalian'));
+        return view('admin.pengembalian.edit', array_merge(compact('pengembalian'), $this->dendaConfig()));
     }
 
     // Update pengembalian
@@ -113,11 +100,18 @@ class PengembalianController extends Controller
         $validated = $request->validate([
             'tgl_kembali_realisasi' => 'required|date',
             'kondisi_barang' => 'required|in:baik,rusak,hilang',
-            'total_denda' => 'required|integer|min:0',
             'catatan' => 'nullable|string',
         ]);
 
-        $pengembalian->update($validated);
+        $totalDenda = $this->hitungTotalDenda(
+            $pengembalian->peminjaman,
+            $validated['tgl_kembali_realisasi'],
+            $validated['kondisi_barang']
+        );
+
+        $pengembalian->update(array_merge($validated, [
+            'total_denda' => $totalDenda,
+        ]));
 
         return redirect()->route('admin.pengembalian.index')
             ->with('success', 'Data pengembalian berhasil diupdate');
@@ -141,5 +135,33 @@ class PengembalianController extends Controller
 
         return redirect()->route('admin.pengembalian.index')
             ->with('success', 'Data pengembalian berhasil dihapus');
+    }
+
+    private function dendaConfig(): array
+    {
+        return [
+            'dendaPerHari' => (int) (Setting::getValue('denda_per_hari') ?? 5000),
+            'dendaRusak'   => 50000,
+            'dendaHilang'  => 500000,
+        ];
+    }
+
+    private function hitungTotalDenda(Peminjaman $peminjaman, string $tglKembaliRealisasi, string $kondisiBarang): int
+    {
+        $config = $this->dendaConfig();
+        $tglRencana = $peminjaman->tanggal_kembali_rencana;
+        $tglRealisasi = \Carbon\Carbon::parse($tglKembaliRealisasi);
+        $totalDenda = 0;
+
+        if ($kondisiBarang === 'hilang') {
+            $totalDenda = $config['dendaHilang'];
+        } elseif ($kondisiBarang === 'rusak') {
+            $totalDenda = $config['dendaRusak'];
+        } elseif ($tglRealisasi->gt($tglRencana)) {
+            $hariTerlambat = $tglRealisasi->diffInDays($tglRencana);
+            $totalDenda = $hariTerlambat * $config['dendaPerHari'];
+        }
+
+        return $totalDenda;
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BukuController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Peminjam\PeminjamanController as PeminjamPeminjamanController;
@@ -11,7 +12,25 @@ use App\Http\Controllers\Petugas\LaporanController as PetugasLaporanController;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\AktivasiController;
 use App\Models\Buku;
+
+// notice
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+// verify
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/')->with('success', 'Email berhasil diverifikasi!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// resend
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('success', 'Link verifikasi dikirim ulang!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // Google OAuth routes
 Route::get('/auth/google', [SocialiteController::class, 'redirect'])
@@ -91,7 +110,7 @@ Route::middleware(['auth', 'petugas'])->prefix('petugas')->name('petugas.')->gro
 });
 
 // Peminjam routes
-Route::middleware(['auth', 'peminjam'])->prefix('peminjam')->name('peminjam.')->group(function () {
+Route::middleware(['auth', 'peminjam', 'active', 'verified'])->prefix('peminjam')->name('peminjam.')->group(function () {
     Route::get('/dashboard', function () {
         return view('peminjam.dashboard');
     })->name('dashboard');
@@ -123,6 +142,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile/foto', [ProfileController::class, 'deleteFoto'])->name('profile.deleteFoto');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/aktivasi', [AktivasiController::class, 'index'])->name('aktivasi.index');
+    Route::post('/aktivasi', [AktivasiController::class, 'store'])->name('aktivasi.store');
 });
 
 
@@ -144,11 +165,3 @@ Route::get('/', function () {
 
     return view('welcome'); // ← landing page kamu
 })->name('landing');
-
-
-
-
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });

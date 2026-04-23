@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Petugas;
 use App\Http\Controllers\Controller;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
+use App\Models\Setting;
 use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ class PengembalianController extends Controller
                 ->with('error', 'Peminjaman sudah dikembalikan');
         }
 
-        return view('petugas.pengembalian.create', compact('peminjaman'));
+        return view('petugas.pengembalian.create', array_merge(compact('peminjaman'), $this->dendaConfig()));
     }
 
     // Proses catat pengembalian
@@ -37,24 +38,11 @@ class PengembalianController extends Controller
             'catatan'               => 'nullable|string',
         ]);
 
-        // ── Hitung denda server-side ──────────────────────────────────────
-        $DENDA_PER_HARI = 5000;
-        $DENDA_RUSAK    = 50000;
-        $DENDA_HILANG   = 500000;
-
-        $tglRencana   = $peminjaman->tanggal_kembali_rencana;
-        $tglRealisasi = \Carbon\Carbon::parse($validated['tgl_kembali_realisasi']);
-        $totalDenda   = 0;
-
-        if ($validated['kondisi_barang'] === 'hilang') {
-            $totalDenda = $DENDA_HILANG;
-        } elseif ($validated['kondisi_barang'] === 'rusak') {
-            $totalDenda = $DENDA_RUSAK;
-        } elseif ($tglRealisasi->gt($tglRencana)) {
-            $hariTerlambat = (int) $tglRealisasi->diffInDays($tglRencana);
-            $totalDenda    = $hariTerlambat * $DENDA_PER_HARI;
-        }
-        // ─────────────────────────────────────────────────────────────────
+        $totalDenda = $this->hitungTotalDenda(
+            $peminjaman,
+            $validated['tgl_kembali_realisasi'],
+            $validated['kondisi_barang']
+        );
 
         DB::transaction(function () use ($validated, $peminjaman, $totalDenda) {
             $pengembalian = Pengembalian::create([
@@ -99,4 +87,31 @@ class PengembalianController extends Controller
         return view('petugas.pengembalian.show', compact('pengembalian'));
     }
 
+    private function dendaConfig(): array
+    {
+        return [
+            'dendaPerHari' => (int) (Setting::getValue('denda_per_hari') ?? 5000),
+            'dendaRusak'   => 50000,
+            'dendaHilang'  => 500000,
+        ];
+    }
+
+    private function hitungTotalDenda(Peminjaman $peminjaman, string $tglKembaliRealisasi, string $kondisiBarang): int
+    {
+        $config = $this->dendaConfig();
+        $tglRencana = $peminjaman->tanggal_kembali_rencana;
+        $tglRealisasi = \Carbon\Carbon::parse($tglKembaliRealisasi);
+        $totalDenda = 0;
+
+        if ($kondisiBarang === 'hilang') {
+            $totalDenda = $config['dendaHilang'];
+        } elseif ($kondisiBarang === 'rusak') {
+            $totalDenda = $config['dendaRusak'];
+        } elseif ($tglRealisasi->gt($tglRencana)) {
+            $hariTerlambat = $tglRealisasi->diffInDays($tglRencana);
+            $totalDenda = $hariTerlambat * $config['dendaPerHari'];
+        }
+
+        return $totalDenda;
+    }
 }

@@ -8,8 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;  
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     public function peminjaman(): HasMany
     {
@@ -50,6 +51,8 @@ class User extends Authenticatable
         'address',
         'class',
         'google_id',
+        'nisn',
+        'is_active',
     ];
 
     /**
@@ -89,6 +92,11 @@ class User extends Authenticatable
     {
         return $this->role === 'peminjam';
     }
+
+    public function isActive()
+{
+    return $this->is_active;
+}
 
     
 }

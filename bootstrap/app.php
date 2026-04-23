@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'peminjam' => \App\Http\Middleware\PeminjamMiddleware::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'checkBiodata' => \App\Http\Middleware\CheckBiodata::class,
-            'active' => CheckUserActive::class,
+            'active' => App\Http\Middleware\CheckUserActive::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

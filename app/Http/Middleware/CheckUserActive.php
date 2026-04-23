@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckUserActive
@@ -14,12 +15,12 @@ class CheckUserActive
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle($request, Closure $next)
-{
-    if (auth()->check() && !auth()->user()->is_active) {
+    {
+        if (Auth::check() && !Auth::user()->is_active) {
         return redirect()->route('profile.edit')
-            ->with('error', 'Lengkapi biodata dulu ya!');
+            ->with('error', 'Lengkapi data dulu ya sebelum pakai sistem!');
     }
 
     return $next($request);
-}
+    }
 }

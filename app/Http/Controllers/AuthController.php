@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\LogAktivitas;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -39,10 +40,16 @@ class AuthController extends Controller
 
         if ($usernameAttempt) {
             $request->session()->regenerate();
-            LogAktivitas::catat('login', 'User', Auth::id(), 'User login ke sistem');
 
             // Redirect berdasarkan role
             $user = Auth::user();
+
+            if (!$user->is_active) {
+                return redirect()->route('profile.edit')
+                ->with('error', 'Akun belum aktif, lengkapi dulu ya!');
+                }
+
+            LogAktivitas::catat('login', 'User', Auth::id(), 'User login ke sistem');
             
             if ($user->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'));
