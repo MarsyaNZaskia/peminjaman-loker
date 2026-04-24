@@ -6,7 +6,7 @@
 <div class="max-w-5xl mx-auto px-4 py-6">
 
     {{-- HEADER ACTION --}}
-    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl mb-6 flex flex-col md:flex-row md:justify-end md:items-center gap-3">
         <div class="flex flex-col md:flex-row md:justify-end md:items-center gap-2">
 
             {{-- ERROR --}}
@@ -32,7 +32,7 @@
                         @method('PATCH')
                         <button type="button"
                         onclick="setujuiPeminjaman({{ $peminjaman->id }})"
-                        class="px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm transition">
+                        class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-emerald-500/20 active:scale-95 uppercase tracking-wider">
                         Setujui
                     </button>
                 </form>
@@ -40,27 +40,27 @@
                     {{-- TOLAK (MODAL) --}}
                     <button type="button"
                             onclick="tolakPeminjaman('{{ route('admin.peminjaman.tolak', $peminjaman) }}')"
-                            class="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl text-sm transition">
+                            class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-rose-500/20 active:scale-95 uppercase tracking-wider">
                         Tolak
                     </button>
                 @endif
 
                 {{-- EDIT --}}
                 <a href="{{ route('admin.peminjaman.edit', $peminjaman) }}"
-                   class="px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl text-sm transition">
+                   class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-amber-500/20 active:scale-95 uppercase tracking-wider">
                     Edit
                 </a>
 
                 {{-- KEMBALI / KEMBALIKAN --}}
                 @if($peminjaman->status === 'disetujui' && !$peminjaman->pengembalian)
                     <a href="{{ route('admin.pengembalian.create', $peminjaman) }}"
-                       class="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm transition">
+                       class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95 uppercase tracking-wider">
                         Catat Pengembalian
                     </a>
                 @endif
 
                 <a href="{{ route('admin.peminjaman.index') }}"
-                   class="px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-xl text-sm transition">
+                   class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl text-xs font-bold transition-all active:scale-95 uppercase tracking-wider">
                     Kembali
                 </a>
 
@@ -72,24 +72,24 @@
     <div class="grid md:grid-cols-2 gap-6 mb-6">
 
         {{-- PEMINJAM --}}
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h2 class="text-lg font-semibold mb-4 text-gray-700">Informasi Peminjam</h2>
+        <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl">
+            <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6 ml-1">Informasi Peminjam</h2>
 
-            <div class="space-y-3 text-sm">
-                <div>
-                    <p class="text-gray-500">Nama</p>
-                    <p class="font-semibold text-gray-800">{{ $peminjaman->user->name }}</p>
+            <div class="space-y-4">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Nama</p>
+                    <p class="font-bold text-white">{{ $peminjaman->user->name }}</p>
                 </div>
 
-                <div>
-                    <p class="text-gray-500">Username</p>
-                    <p class="font-semibold text-gray-800">{{ $peminjaman->user->username }}</p>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Username</p>
+                    <p class="font-bold text-white">{{ $peminjaman->user->username }}</p>
                 </div>
 
                 @if($peminjaman->user->kategori)
-                <div>
-                    <p class="text-gray-500">Kategori</p>
-                    <p class="font-semibold text-gray-800">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Kategori</p>
+                    <p class="font-bold text-indigo-400">
                         {{ $peminjaman->user->kategori->nama_kategori }}
                     </p>
                 </div>
@@ -98,31 +98,33 @@
         </div>
 
         {{-- BUKU --}}
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h2 class="text-lg font-semibold mb-4 text-gray-700">Informasi Buku</h2>
+        <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl">
+            <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6 ml-1">Informasi Buku</h2>
 
-            <div class="flex gap-4">
-                <img
-                    src="{{ Str::startsWith($peminjaman->buku?->foto_cover, 'storage/')
-                        ? asset($peminjaman->buku->foto_cover)
-                        : asset('storage/'.$peminjaman->buku?->foto_cover) }}"
-                    class="w-24 h-32 object-cover rounded-xl shadow-sm"
-                >
+            <div class="flex gap-6">
+                <div class="shrink-0">
+                    <img
+                        src="{{ Str::startsWith($peminjaman->buku?->foto_cover, 'storage/')
+                            ? asset($peminjaman->buku->foto_cover)
+                            : asset('storage/'.$peminjaman->buku?->foto_cover) }}"
+                        class="w-24 h-32 object-cover rounded-xl shadow-2xl ring-2 ring-white/10"
+                    >
+                </div>
 
-                <div class="space-y-2 text-sm">
-                    <div>
-                        <p class="text-gray-500">Kode Buku</p>
-                        <p class="font-semibold text-gray-800">{{ $peminjaman->buku?->kode_buku ?? '-' }}</p>
+                <div class="flex-1 space-y-4">
+                    <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">Kode Buku</p>
+                        <p class="font-bold text-white">{{ $peminjaman->buku?->kode_buku ?? '-' }}</p>
                     </div>
 
-                    <div>
-                        <p class="text-gray-500">Judul</p>
-                        <p class="font-semibold text-gray-800">{{ $peminjaman->buku?->judul ?? '-' }}</p>
+                    <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">Judul</p>
+                        <p class="font-bold text-white leading-tight">{{ $peminjaman->buku?->judul ?? '-' }}</p>
                     </div>
 
-                    <div>
-                        <p class="text-gray-500">Stok</p>
-                        <p class="font-semibold text-gray-800">{{ $peminjaman->buku?->stok ?? 0 }}</p>
+                    <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">Stok</p>
+                        <p class="font-bold text-white">{{ $peminjaman->buku?->stok ?? 0 }}</p>
                     </div>
                 </div>
             </div>
@@ -130,58 +132,62 @@
     </div>
 
     {{-- DETAIL --}}
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h2 class="text-lg font-semibold mb-4 text-gray-700">Detail Peminjaman</h2>
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl">
+        <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-8 ml-1">Detail Peminjaman</h2>
 
-        <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div class="grid md:grid-cols-2 gap-8">
 
-            <div>
-                <p class="text-gray-500">Tanggal Pinjam</p>
-                <p class="font-semibold text-gray-800">
-                    {{ $peminjaman->tanggal_pinjam->format('d/m/Y') }}
-                </p>
+            <div class="space-y-6">
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Tanggal Pinjam</p>
+                    <p class="text-xl font-black text-white">
+                        {{ $peminjaman->tanggal_pinjam->format('d M Y') }}
+                    </p>
+                </div>
+
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Rencana Kembali</p>
+                    <p class="text-xl font-black text-indigo-400">
+                        {{ $peminjaman->tanggal_kembali_rencana->format('d M Y') }}
+                    </p>
+                </div>
+
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Status Saat Ini</p>
+                    <p>
+                        @if($peminjaman->status === 'pending')
+                            <span class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 shadow-lg shadow-amber-500/10">Pending Approval</span>
+                        @elseif($peminjaman->status === 'disetujui')
+                            <span class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-lg shadow-emerald-500/10">Sedang Dipinjam</span>
+                        @elseif($peminjaman->status === 'ditolak')
+                            <span class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-lg shadow-rose-500/10">Ditolak</span>
+                        @else
+                            <span class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-lg shadow-indigo-500/10">Sudah Kembali</span>
+                        @endif
+                    </p>
+                </div>
             </div>
 
-            <div>
-                <p class="text-gray-500">Rencana Kembali</p>
-                <p class="font-semibold text-gray-800">
-                    {{ $peminjaman->tanggal_kembali_rencana->format('d/m/Y') }}
-                </p>
-            </div>
+            <div class="space-y-6">
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Disetujui Oleh</p>
+                    <p class="font-bold text-white">{{ $peminjaman->petugas->name ?? '-' }}</p>
+                </div>
 
-            <div>
-                <p class="text-gray-500">Status</p>
-                <p>
-                    @if($peminjaman->status === 'pending')
-                        <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">Pending</span>
-                    @elseif($peminjaman->status === 'disetujui')
-                        <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">Disetujui</span>
-                    @elseif($peminjaman->status === 'ditolak')
-                        <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-700">Ditolak</span>
-                    @else
-                        <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">Selesai</span>
-                    @endif
-                </p>
-            </div>
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Keperluan</p>
+                    <p class="font-medium text-slate-300 leading-relaxed">{{ $peminjaman->keperluan }}</p>
+                </div>
 
-            <div>
-                <p class="text-gray-500">Disetujui Oleh</p>
-                <p class="font-semibold text-gray-800">{{ $peminjaman->petugas->name ?? '-' }}</p>
+                @if($peminjaman->catatan_petugas)
+                <div class="bg-rose-500/10 p-5 rounded-2xl border border-rose-500/20 shadow-lg shadow-rose-500/5">
+                    <p class="text-[10px] font-bold text-rose-400 uppercase tracking-widest mb-2">Catatan Petugas</p>
+                    <p class="font-bold text-rose-400">
+                        {{ $peminjaman->catatan_petugas }}
+                    </p>
+                </div>
+                @endif
             </div>
-
-            <div class="md:col-span-2">
-                <p class="text-gray-500">Keperluan</p>
-                <p class="font-semibold text-gray-800">{{ $peminjaman->keperluan }}</p>
-            </div>
-
-            @if($peminjaman->catatan_petugas)
-            <div class="md:col-span-2">
-                <p class="text-gray-500">Catatan Petugas</p>
-                <p class="font-semibold text-red-500">
-                    {{ $peminjaman->catatan_petugas }}
-                </p>
-            </div>
-            @endif
 
         </div>
     </div>

@@ -6,90 +6,91 @@
 <div class="max-w-7xl mx-auto px-4 py-8">
     <!-- Welcome Section -->
     <div class="mb-8">
-        <div class="bg-linear-to-r from-pink-100 to-purple-100 p-8 rounded-2xl shadow-lg border border-pink-200">
-            <div class="flex items-center justify-between">
+        <div class="bg-slate-900/50 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all duration-700"></div>
+            <div class="relative z-10 flex items-center justify-between">
                 <div>
-                    <h1 class="text-4xl font-bold text-pink-800 mb-2">Halo, {{ auth()->user()->name }}!</h1>
-                    <p class="text-pink-600 text-lg">Kelola peminjaman dan pengembalian buku dengan mudah</p>
+                    <h1 class="text-4xl font-black text-white mb-2 tracking-tight">Halo, <span class="text-indigo-400">{{ auth()->user()->name }}</span>!</h1>
+                    <p class="text-slate-400 text-lg">Siap untuk mengelola sirkulasi buku hari ini?</p>
                 </div>
-                <div class="text-6xl animate-bounce">👋</div>
+                <div class="text-6xl drop-shadow-2xl">👮</div>
             </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-        <div class="bg-linear-to-br from-pink-50 to-pink-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-pink-200">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+        <div class="bg-slate-900/50 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-xl hover:bg-white/[0.08] transition-all group">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-pink-600 text-sm font-medium">Total Buku</h3>
-                    <p class="text-3xl font-bold mt-2 text-pink-800">{{ \App\Models\Buku::count() }}</p>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Buku</h3>
+                    <p class="text-3xl font-black mt-2 text-white">{{ \App\Models\Buku::count() }}</p>
                 </div>
-                <div class="text-4xl">📚</div>
+                <div class="text-3xl opacity-20 group-hover:opacity-100 transition-opacity">📚</div>
             </div>
         </div>
-        <div class="bg-linear-to-br from-yellow-50 to-yellow-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-yellow-200">
+        <div class="bg-slate-900/50 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-xl hover:bg-white/[0.08] transition-all group">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-yellow-600 text-sm font-medium">Buku Dipinjam</h3>
-                    <p class="text-3xl font-bold text-yellow-700 mt-2">{{ \App\Models\Buku::where('status', 'dipinjam')->count() }}</p>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Buku Dipinjam</h3>
+                    <p class="text-3xl font-black text-amber-400 mt-2">{{ \App\Models\Buku::where('status', 'dipinjam')->count() }}</p>
                 </div>
-                <div class="text-4xl">⏳</div>
+                <div class="text-3xl opacity-20 group-hover:opacity-100 transition-opacity">⏳</div>
             </div>
         </div>
-        <div class="bg-linear-to-br from-orange-50 to-orange-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-orange-200">
+        <div class="bg-slate-900/50 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-xl hover:bg-white/[0.08] transition-all group">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-orange-600 text-sm font-medium">Menunggu Approval</h3>
-                    <p class="text-3xl font-bold text-orange-700 mt-2">{{ \App\Models\Peminjaman::where('status', 'pending')->count() }}</p>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Pending</h3>
+                    <p class="text-3xl font-black text-rose-400 mt-2">{{ \App\Models\Peminjaman::where('status', 'pending')->count() }}</p>
                 </div>
-                <div class="text-4xl">⏰</div>
+                <div class="text-3xl opacity-20 group-hover:opacity-100 transition-opacity">⏰</div>
             </div>
         </div>
-        <div class="bg-linear-to-br from-green-50 to-green-100 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-green-200">
+        <div class="bg-slate-900/50 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-xl hover:bg-white/[0.08] transition-all group">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-green-600 text-sm font-medium">Total Pengembalian</h3>
-                    <p class="text-3xl font-bold text-green-700 mt-2">{{ \App\Models\Pengembalian::count() }}</p>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Pengembalian</h3>
+                    <p class="text-3xl font-black text-emerald-400 mt-2">{{ \App\Models\Pengembalian::count() }}</p>
                 </div>
-                <div class="text-4xl">✅</div>
+                <div class="text-3xl opacity-20 group-hover:opacity-100 transition-opacity">✅</div>
             </div>
         </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-linear-to-r from-pink-400 to-pink-500 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 text-white relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-12 -mt-12"></div>
-            <div class="relative z-10">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-2xl font-bold mb-2">Kelola Peminjaman</h2>
-                        <p class="mb-4 text-pink-100">Approve atau reject peminjaman buku</p>
-                        <a href="{{ route('petugas.peminjaman.index') }}" 
-                           class="inline-flex items-center bg-white text-pink-600 px-6 py-2.5 rounded-full font-semibold hover:bg-pink-50 transition-all duration-300 shadow-lg hover:shadow-xl">
-                            <span>Kelola Peminjaman</span>
-                            <span class="ml-2">→</span>
-                        </a>
-                    </div>
-                    <div class="text-5xl opacity-20">📋</div>
+        <div class="bg-slate-900/50 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-all duration-500"></div>
+            <div class="relative z-10 flex flex-col h-full">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-2xl">📋</div>
+                    <h2 class="text-2xl font-black text-white">Kelola Peminjaman</h2>
                 </div>
+                <p class="text-slate-400 mb-8 leading-relaxed">
+                    Setujui atau tolak permintaan peminjaman buku dari siswa dengan cepat dan efisien.
+                </p>
+                <a href="{{ route('petugas.peminjaman.index') }}" 
+                   class="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95 mt-auto">
+                    <span>Masuk ke Modul</span>
+                    <span class="ml-2">→</span>
+                </a>
             </div>
         </div>
 
-        <div class="bg-linear-to-r from-purple-400 to-purple-500 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 text-white relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-12 -mt-12"></div>
-            <div class="relative z-10">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-2xl font-bold mb-2">Data Pengembalian</h2>
-                        <p class="mb-4 text-purple-100">Lihat history pengembalian buku</p>
-                        <a href="{{ route('petugas.pengembalian.index') }}" 
-                           class="inline-flex items-center bg-white text-purple-600 px-6 py-2.5 rounded-full font-semibold hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl">
-                            <span>Lihat Data</span>
-                            <span class="ml-2">→</span>
-                        </a>
-                    </div>
-                    <div class="text-5xl opacity-20">📊</div>
+        <div class="bg-slate-900/50 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl group-hover:bg-emerald-500/10 transition-all duration-500"></div>
+            <div class="relative z-10 flex flex-col h-full">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl">🏁</div>
+                    <h2 class="text-2xl font-black text-white">Data Pengembalian</h2>
                 </div>
+                <p class="text-slate-400 mb-8 leading-relaxed">
+                    Pantau histori pengembalian buku, periksa kondisi barang, dan kelola data denda jika ada.
+                </p>
+                <a href="{{ route('petugas.pengembalian.index') }}" 
+                   class="inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-emerald-500/20 active:scale-95 mt-auto">
+                    <span>Buka Histori</span>
+                    <span class="ml-2">→</span>
+                </a>
             </div>
         </div>
     </div>

@@ -6,114 +6,103 @@
 <div class="max-w-7xl mx-auto px-4 py-2 space-y-6">
 
     {{-- HEADER --}}
-    <div>
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">
-            Download laporan berdasarkan filter data
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl mb-6">
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+            Download Laporan <span class="text-indigo-400">Sistem</span>
         </h1>
+        <p class="text-slate-400 mt-2">Export data ke format Excel berdasarkan filter yang Anda tentukan.</p>
     </div>
 
     {{-- GRID --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         {{-- PEMINJAMAN --}}
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div class="flex items-center gap-3 mb-5">
-                <div class="text-3xl">📋</div>
-                <h2 class="text-lg font-semibold text-gray-800">Laporan Peminjaman</h2>
+        <div class="bg-slate-900/50 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-white/10 flex flex-col">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-xl">📋</div>
+                <h2 class="text-lg font-bold text-white">Laporan Peminjaman</h2>
             </div>
 
             <form method="POST" action="{{ route('admin.laporan.peminjaman') }}" class="space-y-4">
                 @csrf
 
                 <div>
-                    <label class="text-sm text-gray-600">Status</label>
+                    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Status</label>
                     <select name="status"
-                            class="w-full mt-1 px-3 py-2 border rounded-xl text-sm">
-                        <option value="">Semua Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="disetujui">Disetujui</option>
-                        <option value="ditolak">Ditolak</option>
-                        <option value="selesai">Selesai</option>
+                            class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition appearance-none">
+                        <option value="" class="bg-slate-900">Semua Status</option>
+                        <option value="pending" class="bg-slate-900">Pending</option>
+                        <option value="disetujui" class="bg-slate-900">Disetujui</option>
+                        <option value="ditolak" class="bg-slate-900">Ditolak</option>
+                        <option value="selesai" class="bg-slate-900">Selesai</option>
                     </select>
                 </div>
 
-                <div>
-                    <label class="text-sm text-gray-600">Tanggal Dari</label>
-                    <input type="date" name="tanggal_dari"
-                           class="w-full mt-1 px-3 py-2 border rounded-xl text-sm">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Dari</label>
+                        <input type="date" name="tanggal_dari"
+                               class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Sampai</label>
+                        <input type="date" name="tanggal_sampai"
+                               class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition">
+                    </div>
                 </div>
 
-                <div>
-                    <label class="text-sm text-gray-600">Tanggal Sampai</label>
-                    <input type="date" name="tanggal_sampai"
-                           class="w-full mt-1 px-3 py-2 border rounded-xl text-sm">
-                </div>
-
-                <button class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                    Download Excel
+                <button class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-lg shadow-indigo-500/20 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <span>📥</span> Download Excel
                 </button>
             </form>
         </div>
 
         {{-- PENGEMBALIAN --}}
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div class="flex items-center gap-3 mb-5">
-                <div class="text-3xl">✅</div>
-                <h2 class="text-lg font-semibold text-gray-800">Laporan Pengembalian</h2>
+        <div class="bg-slate-900/50 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-white/10 flex flex-col">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-xl">✅</div>
+                <h2 class="text-lg font-bold text-white">Laporan Pengembalian</h2>
             </div>
 
             <form method="POST" action="{{ route('admin.laporan.pengembalian') }}" class="space-y-4">
                 @csrf
 
-                <div>
-                    <label class="text-sm text-gray-600">Tanggal Dari</label>
-                    <input type="date" name="tanggal_dari"
-                           class="w-full mt-1 px-3 py-2 border rounded-xl text-sm">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Dari</label>
+                        <input type="date" name="tanggal_dari"
+                               class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Sampai</label>
+                        <input type="date" name="tanggal_sampai"
+                               class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition">
+                    </div>
                 </div>
 
-                <div>
-                    <label class="text-sm text-gray-600">Tanggal Sampai</label>
-                    <input type="date" name="tanggal_sampai"
-                           class="w-full mt-1 px-3 py-2 border rounded-xl text-sm">
-                </div>
-
-                <p class="text-xs text-gray-400">
-                    Kosongkan jika ingin export semua data
+                <p class="text-xs text-slate-500 italic">
+                    * Kosongkan filter tanggal untuk mengunduh seluruh data pengembalian.
                 </p>
 
-                <button class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                    Download Excel
+                <button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <span>📥</span> Download Excel
                 </button>
             </form>
         </div>
 
         {{-- BUKU --}}
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div class="flex items-center gap-3 mb-5">
-                <div class="text-3xl">📚</div>
-                <h2 class="text-lg font-semibold text-gray-800">Laporan Data Buku</h2>
+        <div class="bg-slate-900/50 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-white/10 flex flex-col">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-xl">📚</div>
+                <h2 class="text-lg font-bold text-white">Laporan Data Buku</h2>
             </div>
 
             <form method="POST" action="{{ route('admin.laporan.buku') }}" class="space-y-4">
                 @csrf
-
-                <div>
-                    <label class="text-sm text-gray-600">Status Buku</label>
-                    <select name="status"
-                            class="w-full mt-1 px-3 py-2 border rounded-xl text-sm">
-                        <option value="">Semua Status</option>
-                        <option value="tersedia">Tersedia</option>
-                        <option value="dipinjam">Dipinjam</option>
-                        <option value="rusak">Rusak</option>
-                    </select>
-                </div>
-
-                <p class="text-xs text-gray-400">
-                    Export data buku berdasarkan status
-                </p>
-
-                <button class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                    Download Excel
+                <button class="w-full mt-auto bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-lg shadow-amber-500/20 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <span>📥</span> Download Excel
                 </button>
             </form>
         </div>
@@ -121,10 +110,14 @@
     </div>
 
     {{-- INFO --}}
-    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4">
-        <p class="text-sm text-blue-800">
-            💡 <strong>Tips:</strong> File Excel akan otomatis ter-download setelah proses export selesai.
-        </p>
+    <div class="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-5 flex items-start gap-4">
+        <span class="text-2xl">💡</span>
+        <div>
+            <p class="text-indigo-400 font-bold mb-1 text-sm">Informasi</p>
+            <p class="text-sm text-indigo-300/80 leading-relaxed">
+                File Excel akan otomatis terunduh setelah server memproses data Anda. Pastikan filter sudah sesuai sebelum menekan tombol download.
+            </p>
+        </div>
     </div>
 
 </div>

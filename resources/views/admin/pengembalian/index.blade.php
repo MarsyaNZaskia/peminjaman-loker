@@ -4,75 +4,75 @@
 @section('title', 'Kelola Pengembalian')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4">
-
-    {{-- HEADER --}}
-    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
+<div class="max-w-7xl mx-auto px-4 py-2">
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl mb-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             
             <div>
-                <h1 class="text-lg font-semibold text-gray-800">Data pengembalian buku</h1>
+                <h1 class="text-xl font-bold text-white">Data Pengembalian Buku</h1>
             </div>
 
         </div>
     </div>
 
     {{-- TABLE --}}
-    <div class="bg-white rounded-2xl shadow overflow-hidden">
-        <table class="min-w-full">
-            <thead class="bg-gray-50">
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+        <table class="min-w-full text-sm text-slate-300">
+            <thead class="bg-white/5 text-slate-400 uppercase text-xs">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminjam</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Buku</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tgl Kembali</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kondisi</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Denda</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                <tr>
+                    <th class="px-6 py-4 text-left">No</th>
+                    <th class="px-6 py-4 text-left">Peminjam</th>
+                    <th class="px-6 py-4 text-left">Buku</th>
+                    <th class="px-6 py-4 text-left">Tgl Kembali</th>
+                    <th class="px-6 py-4 text-left">Kondisi</th>
+                    <th class="px-6 py-4 text-left">Denda</th>
+                    <th class="px-6 py-4 text-left">Aksi</th>
+                </tr>
                 </tr>
             </thead>
 
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody>
                 @forelse($pengembalian as $item)
-                    <tr>
+                    <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-4">{{ $item->peminjaman->user->name }}</td>
-                        <td class="px-6 py-4 font-semibold">
+                        <td class="px-6 py-4 font-medium text-white">{{ $item->peminjaman->user->name }}</td>
+                        <td class="px-6 py-4 font-bold text-white">
                             {{ $item->peminjaman->buku->kode_buku ?? '-' }}
                         </td>
 
-                        <td class="px-6 py-4">
-                            {{ $item->tgl_kembali_realisasi->format('d/m/Y') }}
+                        <td class="px-6 py-4 text-slate-400">
+                            {{ $item->tgl_kembali_realisasi->format('d M Y') }}
                         </td>
 
                         <td class="px-6 py-4">
                             @if($item->kondisi_barang === 'baik')
-                                <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">Baik</span>
+                                <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Baik</span>
                             @elseif($item->kondisi_barang === 'rusak')
-                                <span class="px-2 py-1 rounded-full text-xs bg-orange-100 text-orange-800">Rusak</span>
+                                <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">Rusak</span>
                             @else
-                                <span class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-800">Hilang</span>
+                                <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">Hilang</span>
                             @endif
                         </td>
 
                         <td class="px-6 py-4">
                             @if($item->total_denda > 0)
-                                <span class="text-red-600 font-semibold">
+                                <span class="text-rose-400 font-bold">
                                     Rp {{ number_format($item->total_denda, 0, ',', '.') }}
                                 </span>
                             @else
-                                <span class="text-gray-500">-</span>
+                                <span class="text-slate-500">-</span>
                             @endif
                         </td>
 
-                        <td class="px-6 py-4 flex space-x-2">
+                        <td class="px-6 py-4 flex items-center gap-2">
                             <a href="{{ route('admin.pengembalian.show', $item) }}"
-                               class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-2xl text-sm">
+                               class="px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500 text-indigo-400 hover:text-white border border-indigo-500/20 rounded-lg text-[10px] font-bold uppercase transition-all">
                                 Detail
                             </a>
 
                             <a href="{{ route('admin.pengembalian.edit', $item) }}"
-                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-2xl text-sm">
+                               class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500 text-amber-400 hover:text-white border border-amber-500/20 rounded-lg text-[10px] font-bold uppercase transition-all">
                                 Edit
                             </a>
 
@@ -84,7 +84,7 @@
 
                                 <button type="button"
                                         onclick="deleteConfirm('deleteForm-pengembalian-{{ $item->id }}')"
-                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-2xl text-sm">
+                                        class="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white border border-rose-500/20 rounded-lg text-[10px] font-bold uppercase transition-all">
                                     Hapus
                                 </button>
                             </form>
@@ -92,8 +92,11 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                            Belum ada data pengembalian
+                        <td colspan="7" class="px-6 py-12 text-center text-slate-500">
+                            <div class="flex flex-col items-center">
+                                <span class="text-4xl mb-2">✅</span>
+                                <p>Belum ada data pengembalian</p>
+                            </div>
                         </td>
                     </tr>
                 @endforelse

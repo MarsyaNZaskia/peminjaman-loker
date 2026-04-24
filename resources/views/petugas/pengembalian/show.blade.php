@@ -3,144 +3,149 @@
 @section('title', 'Detail Pengembalian')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Detail Pengembalian</h1>
+<div class="max-w-5xl mx-auto px-4 py-8">
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl mb-8 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-xl shadow-lg shadow-indigo-500/10">📜</div>
+            <h1 class="text-xl font-black text-white tracking-tight">Detail <span class="text-indigo-400">Pengembalian</span></h1>
+        </div>
         <a href="{{ route('petugas.pengembalian.index') }}" 
-           class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+           class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl text-xs font-bold transition-all active:scale-95 uppercase tracking-wider">
             Kembali
         </a>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- Info Peminjam -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">Informasi Peminjam</h2>
-            <div class="space-y-2">
-                <div>
-                    <p class="text-gray-600 text-sm">Nama Peminjam</p>
-                    <p class="font-semibold">{{ $pengembalian->peminjaman->user->name }}</p>
+        <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl">
+            <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6 ml-1">Informasi Peminjam</h2>
+            <div class="space-y-4">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Nama Peminjam</p>
+                    <p class="font-bold text-white">{{ $pengembalian->peminjaman->user->name }}</p>
                 </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Username</p>
-                    <p class="font-semibold">{{ $pengembalian->peminjaman->user->username }}</p>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Username</p>
+                    <p class="font-bold text-white">{{ $pengembalian->peminjaman->user->username }}</p>
                 </div>
                 @if($pengembalian->peminjaman->user->kategori)
-                    <div>
-                        <p class="text-gray-600 text-sm">Kategori</p>
-                        <p class="font-semibold">{{ $pengembalian->peminjaman->user->kategori->nama_kategori }}</p>
+                    <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Kategori</p>
+                        <p class="font-bold text-indigo-400">{{ $pengembalian->peminjaman->user->kategori->nama_kategori }}</p>
                     </div>
                 @endif
             </div>
         </div>
 
         <!-- Info Buku -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
-            <div class="space-y-2">
-                <div>
-                    <p class="text-gray-600 text-sm">Kode Buku</p>
-                    <p class="font-semibold text-lg">{{ $pengembalian->peminjaman->buku->kode_buku }}</p>
+        <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl">
+            <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6 ml-1">Informasi Buku</h2>
+            <div class="space-y-4">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Kode Buku</p>
+                    <p class="font-black text-xl text-white tracking-tighter">{{ $pengembalian->peminjaman->buku->kode_buku }}</p>
                 </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Judul</p>
-                    <p class="font-semibold">{{ $pengembalian->peminjaman->buku->judul }}</p>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Judul</p>
+                    <p class="font-bold text-white">{{ $pengembalian->peminjaman->buku->judul }}</p>
                 </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Pengarang</p>
-                    <p class="font-semibold">{{ $pengembalian->peminjaman->buku->pengarang }}</p>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Pengarang</p>
+                    <p class="font-bold text-slate-400">{{ $pengembalian->peminjaman->buku->pengarang }}</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Detail Peminjaman -->
-    <div class="bg-white p-6 rounded-lg shadow mb-6">
-        <h2 class="text-xl font-bold mb-4">Detail Peminjaman</h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <p class="text-gray-600 text-sm">Tanggal Pinjam</p>
-                <p class="font-semibold">{{ $pengembalian->peminjaman->tanggal_pinjam->format('d/m/Y') }}</p>
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl mb-6">
+        <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6 ml-1">Detail Peminjaman</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Tanggal Pinjam</p>
+                <p class="font-bold text-white">{{ $pengembalian->peminjaman->tanggal_pinjam->format('d M Y') }}</p>
             </div>
-            <div>
-                <p class="text-gray-600 text-sm">Rencana Kembali</p>
-                <p class="font-semibold">{{ $pengembalian->peminjaman->tanggal_kembali_rencana->format('d/m/Y') }}</p>
+            <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Rencana Kembali</p>
+                <p class="font-bold text-indigo-400">{{ $pengembalian->peminjaman->tanggal_kembali_rencana->format('d M Y') }}</p>
             </div>
-            <div class="col-span-2">
-                <p class="text-gray-600 text-sm">Keperluan</p>
-                <p class="font-semibold">{{ $pengembalian->peminjaman->keperluan }}</p>
+            <div class="col-span-2 bg-white/5 p-4 rounded-xl border border-white/5">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Keperluan</p>
+                <p class="font-medium text-slate-300">{{ $pengembalian->peminjaman->keperluan }}</p>
             </div>
         </div>
     </div>
 
     <!-- Detail Pengembalian -->
-    <div class="bg-white p-6 rounded-lg shadow mb-6">
-        <h2 class="text-xl font-bold mb-4">Detail Pengembalian</h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <p class="text-gray-600 text-sm">Tanggal Pengembalian Aktual</p>
-                <p class="font-semibold">{{ $pengembalian->tgl_kembali_realisasi->format('d/m/Y') }}</p>
-            </div>
-            <div>
-                <p class="text-gray-600 text-sm">Kondisi Buku</p>
-                <p class="font-semibold">
-                    @if($pengembalian->kondisi_barang === 'baik')
-                        <span class="px-3 py-1 rounded bg-green-100 text-green-800">Baik</span>
-                    @elseif($pengembalian->kondisi_barang === 'rusak')
-                        <span class="px-3 py-1 rounded bg-orange-100 text-orange-800">Rusak</span>
-                    @else
-                        <span class="px-3 py-1 rounded bg-red-100 text-red-800">Hilang</span>
-                    @endif
-                </p>
-            </div>
-            <div>
-                <p class="text-gray-600 text-sm">Keterangan Waktu</p>
-                @php
-                    $keterlambatan = $pengembalian->hitungKeterlambatan();
-                @endphp
-                @if($pengembalian->kondisi_barang === 'baik')
-                    @if($keterlambatan > 0)
-                        <p class="font-semibold text-red-600">Terlambat ({{ $keterlambatan }} hari)</p>
-                    @else
-                        <p class="font-semibold text-green-600">Tepat Waktu</p>
-                    @endif
-                @else
-                    <p class="font-semibold text-gray-600">-</p>
-                @endif
-            </div>
-            <div>
-                <p class="text-gray-600 text-sm">Total Denda</p>
-                @php
-                    $keterlambatan = $pengembalian->hitungKeterlambatan();
-                @endphp
-                @if($pengembalian->kondisi_barang === 'baik')
-                    {{-- Kondisi Baik: Hanya ada denda jika terlambat --}}
-                    @if($keterlambatan > 0)
-                        <p class="font-semibold text-red-600 text-xl">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
-                        <p class="text-xs text-gray-500 mt-1">(Denda Keterlambatan: {{ $keterlambatan }} hari × Rp 5.000)</p>
-                    @else
-                        <p class="font-semibold text-green-600">Rp 0</p>
-                    @endif
-                @elseif($pengembalian->kondisi_barang === 'hilang')
-                    {{-- Kondisi Hilang: Selalu ada denda kehilangan --}}
-                    <p class="font-semibold text-red-600 text-xl">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
-                    <p class="text-xs text-gray-500 mt-1">(Denda Kehilangan)</p>
-                @elseif($pengembalian->kondisi_barang === 'rusak')
-                    {{-- Kondisi Rusak: Selalu ada denda kerusakan --}}
-                    <p class="font-semibold text-red-600 text-xl">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
-                    <p class="text-xs text-gray-500 mt-1">(Denda Kerusakan)</p>
-                @endif
-            </div>
-            <div>
-                <p class="text-gray-600 text-sm">Dicatat Oleh</p>
-                <p class="font-semibold">{{ $pengembalian->user->name }}</p>
-            </div>
-            @if($pengembalian->catatan)
-                <div class="col-span-2">
-                    <p class="text-gray-600 text-sm">Catatan</p>
-                    <p class="font-semibold">{{ $pengembalian->catatan }}</p>
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl mb-6">
+        <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-8 ml-1">Detail Pengembalian</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-6">
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Tanggal Pengembalian Aktual</p>
+                    <p class="text-xl font-black text-white">{{ $pengembalian->tgl_kembali_realisasi->format('d M Y') }}</p>
                 </div>
-            @endif
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Kondisi Buku Saat Kembali</p>
+                    <p>
+                        @if($pengembalian->kondisi_barang === 'baik')
+                            <span class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Kondisi Baik</span>
+                        @elseif($pengembalian->kondisi_barang === 'rusak')
+                            <span class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">Buku Rusak</span>
+                        @else
+                            <span class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">Buku Hilang</span>
+                        @endif
+                    </p>
+                </div>
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Keterangan Waktu</p>
+                    @php
+                        $keterlambatan = $pengembalian->hitungKeterlambatan();
+                    @endphp
+                    @if($pengembalian->kondisi_barang === 'baik')
+                        @if($keterlambatan > 0)
+                            <p class="font-bold text-rose-400 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                                Terlambat ({{ $keterlambatan }} hari)
+                            </p>
+                        @else
+                            <p class="font-bold text-emerald-400 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                Tepat Waktu
+                            </p>
+                        @endif
+                    @else
+                        <p class="font-bold text-slate-500">-</p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-indigo-500/10 p-6 rounded-3xl border border-indigo-500/20 shadow-xl shadow-indigo-500/5">
+                    <p class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-2">Total Denda</p>
+                    @if($pengembalian->total_denda > 0)
+                        <p class="text-3xl font-black text-white tracking-tighter">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
+                        <p class="text-[10px] font-bold text-rose-400 mt-2 uppercase tracking-widest">
+                            @if($pengembalian->kondisi_barang === 'hilang') Denda Kehilangan @elseif($pengembalian->kondisi_barang === 'rusak') Denda Kerusakan @else Denda Keterlambatan @endif
+                        </p>
+                    @else
+                        <p class="text-3xl font-black text-emerald-400 tracking-tighter">Rp 0</p>
+                        <p class="text-[10px] font-bold text-emerald-500/50 mt-2 uppercase tracking-widest">Bebas Denda</p>
+                    @endif
+                </div>
+
+                <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dicatat Oleh</p>
+                    <p class="font-bold text-white">{{ $pengembalian->user->name }}</p>
+                </div>
+
+                @if($pengembalian->catatan)
+                    <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Catatan</p>
+                        <p class="font-medium text-slate-300 leading-relaxed">{{ $pengembalian->catatan }}</p>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 </div>

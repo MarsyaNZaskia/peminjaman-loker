@@ -116,28 +116,38 @@ class PengembalianController extends Controller
             'total_denda' => $totalDenda,
         ]));
 
+        LogAktivitas::catat('update', 'Pengembalian', $pengembalian->id,
+        'Mengupdate data pengembalian buku: ' . $pengembalian->peminjaman->buku->kode_buku);
+
+
         return redirect()->route('admin.pengembalian.index')
             ->with('success', 'Data pengembalian berhasil diupdate');
     }
 
     // Hapus pengembalian
     public function destroy(Pengembalian $pengembalian)
-    {
-        DB::transaction(function () use ($pengembalian) {
-            // Kembalikan status peminjaman ke disetujui
-            $pengembalian->peminjaman->update(['status' => 'disetujui']);
-            
-            // Kembalikan status buku ke dipinjam
-            $pengembalian->peminjaman->buku->decrement('stok');
-            if ($pengembalian->peminjaman->buku->stok == 0) {
-                $pengembalian->peminjaman->buku->update(['status' => 'dipinjam']);
-            }
-            
-            $pengembalian->delete();
-        });
+{
+    // Simpan dulu sebelum dihapus
+    $pengembalianId = $pengembalian->id;
+    $kodeBuku = $pengembalian->peminjaman->buku->kode_buku;
 
-        return redirect()->route('admin.pengembalian.index')
-            ->with('success', 'Data pengembalian berhasil dihapus');
+    DB::transaction(function () use ($pengembalian) {
+        $pengembalian->peminjaman->update(['status' => 'disetujui']);
+        
+        $pengembalian->peminjaman->buku->decrement('stok');
+        if ($pengembalian->peminjaman->buku->stok == 0) {
+            $pengembalian->peminjaman->buku->update(['status' => 'dipinjam']);
+        }
+        
+        $pengembalian->delete();
+    });
+
+    // Log setelah transaction selesai
+    LogAktivitas::catat('delete', 'Pengembalian', $pengembalianId,
+        'Menghapus data pengembalian buku: ' . $kodeBuku);
+
+    return redirect()->route('admin.pengembalian.index')
+        ->with('success', 'Data pengembalian berhasil dihapus');
     }
 
     private function dendaConfig(): array

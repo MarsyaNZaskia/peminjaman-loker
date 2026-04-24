@@ -17,28 +17,28 @@
     </div> --}}
 
     <!-- Filter & Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-yellow-500">
-            <p class="text-gray-500 text-sm mb-1">Total Pending</p>
-            <p class="text-2xl font-bold text-yellow-600">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-amber-500/20 p-5 shadow-2xl">
+            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Total Pending</p>
+            <p class="text-2xl font-extrabold text-amber-500 leading-none">
                 {{ \App\Models\Peminjaman::where('user_id', Auth::id())->where('status', 'pending')->count() }}
             </p>
         </div>
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-green-500">
-            <p class="text-gray-500 text-sm mb-1">Total Disetujui</p>
-            <p class="text-2xl font-bold text-green-600">
+        <div class="bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-emerald-500/20 p-5 shadow-2xl">
+            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Total Disetujui</p>
+            <p class="text-2xl font-extrabold text-emerald-500 leading-none">
                 {{ \App\Models\Peminjaman::where('user_id', Auth::id())->where('status', 'disetujui')->count() }}
             </p>
         </div>
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-red-500">
-            <p class="text-gray-500 text-sm mb-1">Total Ditolak</p>
-            <p class="text-2xl font-bold text-red-600">
+        <div class="bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-rose-500/20 p-5 shadow-2xl">
+            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Total Ditolak</p>
+            <p class="text-2xl font-extrabold text-rose-500 leading-none">
                 {{ \App\Models\Peminjaman::where('user_id', Auth::id())->where('status', 'ditolak')->count() }}
             </p>
         </div>
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-blue-500">
-            <p class="text-gray-500 text-sm mb-1">Total Selesai</p>
-            <p class="text-2xl font-bold text-blue-600">
+        <div class="bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-indigo-500/20 p-5 shadow-2xl">
+            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Total Selesai</p>
+            <p class="text-2xl font-extrabold text-indigo-500 leading-none">
                 {{ \App\Models\Peminjaman::where('user_id', Auth::id())->where('status', 'selesai')->count() }}
             </p>
         </div>
@@ -51,42 +51,42 @@
     </div>
 
     <!-- Riwayat List -->
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-        <div class="p-6 border-b border-gray-200">
-            <h2 class="text-xl font-bold text-gray-800">📋 Daftar Riwayat</h2>
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-6 border-b border-white/5 bg-white/5">
+            <h2 class="text-xl font-bold text-white">📋 Daftar Riwayat</h2>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <table class="min-w-full text-sm text-slate-300">
+                <thead class="bg-white/5 text-slate-400 uppercase text-[10px] font-bold tracking-widest">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buku</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pinjam</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Kembali</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                        <th class="px-6 py-4 text-left">No</th>
+                        <th class="px-6 py-4 text-left">Buku</th>
+                        <th class="px-6 py-4 text-left">Tanggal Pinjam</th>
+                        <th class="px-6 py-4 text-left">Tanggal Kembali</th>
+                        <th class="px-6 py-4 text-left">Status</th>
+                        <th class="px-6 py-4 text-left">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-white/5">
                     @forelse($riwayat as $item)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-slate-400">
                                 {{ $loop->iteration + ($riwayat->currentPage() - 1) * $riwayat->perPage() }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <span class="text-2xl mr-3">📚</span>
-                                    <div>
-                                        <div class="text-sm font-bold text-gray-900">{{ $item->buku?->kode_buku ?? 'Buku Dihapus' }}</div>
-                                        <div class="text-xs text-gray-500">{{ $item->buku?->judul ?? '-' }}</div>
+                                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-xl mr-4 shrink-0">📚</div>
+                                    <div class="min-w-0">
+                                        <div class="text-sm font-bold text-white truncate">{{ $item->buku?->judul ?? 'Buku Dihapus' }}</div>
+                                        <div class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">{{ $item->buku?->kode_buku ?? '-' }}</div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">
                                 {{ $item->tanggal_pinjam->format('d M Y') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">
                                 @if($item->pengembalian)
                                     {{ $item->pengembalian->tgl_kembali_realisasi->format('d M Y') }}
                                 @else
@@ -95,41 +95,37 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($item->status === 'pending')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
                                         ⏳ Pending
                                     </span>
                                 @elseif($item->status === 'disetujui')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                                         ✅ Disetujui
                                     </span>
                                 @elseif($item->status === 'ditolak')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                                         ❌ Ditolak
                                     </span>
                                 @elseif($item->status === 'selesai')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                                         🏁 Selesai
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <td class="px-6 py-4 whitespace-nowrap">
                                 <a href="{{ route('peminjam.riwayat.show', $item) }}" 
-                                   class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors shadow-sm hover:shadow-md">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                    </svg>
+                                   class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95">
                                     Detail
                                 </a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center">
+                            <td colspan="6" class="px-6 py-16 text-center text-slate-600">
                                 <div class="flex flex-col items-center justify-center">
-                                    <span class="text-6xl mb-4">📭</span>
-                                    <p class="text-gray-500 font-medium">Belum ada riwayat peminjaman</p>
-                                    <p class="text-gray-400 text-sm mt-1">Mulai ajukan peminjaman buku untuk melihat riwayat di sini</p>
+                                    <span class="text-6xl mb-4 opacity-50">📭</span>
+                                    <p class="text-slate-400 font-bold">Belum ada riwayat peminjaman</p>
+                                    <p class="text-slate-500 text-xs mt-2">Katalog buku menantimu untuk dijelajahi!</p>
                                 </div>
                             </td>
                         </tr>
@@ -140,7 +136,7 @@
 
         <!-- Pagination -->
         @if($riwayat->hasPages())
-            <div class="px-6 py-4 border-t border-gray-200">
+            <div class="px-6 py-4 border-t border-white/5">
                 {{ $riwayat->links() }}
             </div>
         @endif
