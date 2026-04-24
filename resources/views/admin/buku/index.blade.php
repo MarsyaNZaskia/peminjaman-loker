@@ -3,121 +3,122 @@
 @section('title', 'Kelola Buku')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4">
-    
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+<div class="max-w-7xl mx-auto px-4 py-2">
 
-    <!-- SEARCH -->
-    <form method="GET" action="{{ route('admin.buku.index') }}" 
-          class="flex w-full md:w-2/3 gap-2">
+    <!-- HEADER -->
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-6">
+        
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-        <input type="text" name="search" value="{{ request('search') }}" 
-            placeholder="Cari judul, pengarang, atau kode buku..." 
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg 
-                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+            <!-- SEARCH -->
+            <form method="GET" action="{{ route('admin.buku.index') }}" 
+                  class="flex w-full md:w-2/3 gap-2">
 
-        <button type="submit" 
-            class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg transition">
-            Cari
-        </button>
-    </form>
+                <input type="text" name="search" value="{{ request('search') }}" 
+                    placeholder="Cari judul, pengarang, atau kode buku..."
+                    class="flex-1 px-4 py-2.5 text-sm border border-gray-200 rounded-xl 
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
 
-    <!-- BUTTONS -->
-    <div class="flex gap-2">
-        <button type="button" onclick="toggleModal('modalImport')" 
-            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center">
-            Import
-        </button>
+                <button type="submit"
+                    class="px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm font-medium shadow-sm transition">
+                    Cari
+                </button>
+            </form>
 
-        <a href="{{ route('admin.buku.create') }}" 
-            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-            + Tambah
-        </a>
-    </div>
-</div>
+            <!-- BUTTON -->
+            <div class="flex gap-2">
+                <button type="button" onclick="toggleModal('modalImport')" 
+                    class="px-4 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-medium shadow-sm transition">
+                    Import
+                </button>
 
-    <!-- Filter Status -->
-    <div class="bg-white p-4 rounded-lg shadow mb-4">
-        <div class="flex space-x-4">
-            <a href="{{ route('admin.buku.index') }}" 
-               class="px-4 py-2 rounded {{ !request('status') ? 'bg-blue-500 text-white' : 'bg-gray-200' }}">
-                Semua ({{ \App\Models\Buku::count() }})
-            </a>
-            <a href="{{ route('admin.buku.index', ['status' => 'tersedia']) }}" 
-               class="px-4 py-2 rounded {{ request('status') === 'tersedia' ? 'bg-green-500 text-white' : 'bg-gray-200' }}">
-                Tersedia ({{ \App\Models\Buku::where('status', 'tersedia')->count() }})
-            </a>
-            <a href="{{ route('admin.buku.index', ['status' => 'dipinjam']) }}" 
-               class="px-4 py-2 rounded {{ request('status') === 'dipinjam' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
-                Dipinjam ({{ \App\Models\Buku::where('status', 'dipinjam')->count() }})
-            </a>
-            <a href="{{ route('admin.buku.index', ['status' => 'rusak']) }}" 
-               class="px-4 py-2 rounded {{ request('status') === 'rusak' ? 'bg-red-500 text-white' : 'bg-gray-200' }}">
-                Rusak ({{ \App\Models\Buku::where('status', 'rusak')->count() }})
-            </a>
+                <a href="{{ route('admin.buku.create') }}"
+                    class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-sm transition">
+                    Tambah
+                </a>
+            </div>
+
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kode Buku</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Judul</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Pengarang</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stok</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @forelse ($bukus as $buku)
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
                     <tr>
-                        <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-4 font-semibold">{{ $buku->kode_buku }}</td>
-                        <td class="px-6 py-4">{{ $buku->judul }}</td>
-                        <td class="px-6 py-4">{{ $buku->pengarang }}</td>
-                        <td class="px-6 py-4">{{ $buku->stok }}</td>
-                        <td class="px-6 py-4">
-                            @if($buku->status === 'tersedia')
-                                <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Tersedia</span>
-                            @elseif($buku->status === 'dipinjam')
-                                <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">Dipinjam</span>
-                            @else
-                                <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-800">Rusak</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 flex space-x-2">
-                            <a href="{{ route('admin.buku.show', $buku) }}"
-                               class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
-                                Detail
-                            </a>
-                            <a href="{{ route('admin.buku.edit', $buku) }}"
-                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm">
-                                Edit
-                            </a>
-                            <form method="POST" action="{{ route('admin.buku.destroy', $buku) }}"
-                                  id="deleteForm-buku-{{ $buku->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button"
-                                        onclick="deleteConfirm('deleteForm-buku-{{ $buku->id }}')"
-                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
-                                    Hapus
-                                </button>
-                            </form>
-                        </td>
+                        <th class="px-6 py-3 text-left">No</th>
+                        <th class="px-6 py-3 text-left">Kode Buku</th>
+                        <th class="px-6 py-3 text-left">Judul</th>
+                        <th class="px-6 py-3 text-left">Pengarang</th>
+                        <th class="px-6 py-3 text-left">Stok</th>
+                        <th class="px-6 py-3 text-left">Status</th>
+                        <th class="px-6 py-3 text-left">Aksi</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                            Belum ada buku
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    @forelse ($bukus as $buku)
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">{{ $loop->iteration }}</td>
+
+                            <td class="px-6 py-4 font-semibold text-gray-800">
+                                {{ $buku->kode_buku }}
+                            </td>
+
+                            <td class="px-6 py-4">{{ $buku->judul }}</td>
+                            <td class="px-6 py-4">{{ $buku->pengarang }}</td>
+                            <td class="px-6 py-4">{{ $buku->stok }}</td>
+
+                            <td class="px-6 py-4">
+                                @if($buku->status === 'tersedia')
+                                    <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">Tersedia</span>
+                                @elseif($buku->status === 'dipinjam')
+                                    <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">Dipinjam</span>
+                                @else
+                                    <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-700">Rusak</span>
+                                @endif
+                            </td>
+
+                            <td class="px-6 py-4">
+                                <div class="flex gap-2">
+
+                                    <a href="{{ route('admin.buku.show', $buku) }}"
+                                       class="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs">
+                                        Detail
+                                    </a>
+
+                                    <a href="{{ route('admin.buku.edit', $buku) }}"
+                                       class="px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg text-xs">
+                                        Edit
+                                    </a>
+
+                                    <form method="POST" action="{{ route('admin.buku.destroy', $buku) }}"
+                                          id="deleteForm-buku-{{ $buku->id }}">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="button"
+                                            onclick="deleteConfirm('deleteForm-buku-{{ $buku->id }}')"
+                                            class="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg text-xs">
+                                            Hapus
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-6 py-6 text-center text-gray-500">
+                                Belum ada buku
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+
+            </table>
     </div>
 </div>
 

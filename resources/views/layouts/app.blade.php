@@ -328,5 +328,6 @@
     <!-- Flash Message Alerts -->
     @include('components.flash-alerts')
 
+    @stack('scripts')
 </body>
 </html>

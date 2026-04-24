@@ -41,7 +41,7 @@ class Pengembalian extends Model
     $tglRealisasi = \Carbon\Carbon::parse($this->tgl_kembali_realisasi);
 
     if ($tglRealisasi->gt($tglRencana)) {
-        return $tglRealisasi->diffInDays($tglRencana);
+        return $tglRencana->diffInDays($tglRealisasi);
     }
 
     return 0;

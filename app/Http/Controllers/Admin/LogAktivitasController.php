@@ -13,17 +13,17 @@ class LogAktivitasController extends Controller
         $query = LogAktivitas::with('user')->latest();
         
         // Filter berdasarkan aksi
-        if ($request->has('aksi') && $request->aksi !== '') {
+        if ($request->filled('aksi') && $request->aksi !== '') {
             $query->where('aksi', $request->aksi);
         }
         
         // Filter berdasarkan user
-        if ($request->has('user_id') && $request->user_id !== '') {
+        if ($request->filled('user_id') && $request->user_id !== '') {
             $query->where('user_id', $request->user_id);
         }
         
         // Filter berdasarkan tanggal
-        if ($request->has('tanggal') && $request->tanggal !== '') {
+        if ($request->filled('tanggal') && $request->tanggal !== '') {
             $query->whereDate('created_at', $request->tanggal);
         }
         

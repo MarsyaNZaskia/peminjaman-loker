@@ -4,39 +4,76 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Kelola Peminjaman</h1>
-        <a href="{{ route('admin.peminjaman.create') }}" 
-           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-            + Tambah Peminjaman
-        </a>
-    </div>
+    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
+    
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        
+        <!-- FILTER -->
+        <div class="flex flex-wrap gap-2">
 
+            <!-- Semua -->
+            <a href="{{ route('admin.peminjaman.index') }}"
+               class="px-4 py-2 text-sm font-medium rounded-full transition
+               {{ !request('status') 
+                    ? 'bg-blue-500 text-white shadow' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
+                Semua 
+                <span class="ml-1 text-xs opacity-80">
+                    ({{ \App\Models\Peminjaman::count() }})
+                </span>
+            </a>
 
+            <!-- Pending -->
+            <a href="{{ route('admin.peminjaman.index', ['status' => 'pending']) }}"
+               class="px-4 py-2 text-sm font-medium rounded-full transition
+               {{ request('status') === 'pending' 
+                    ? 'bg-yellow-500 text-white shadow' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
+                Pending 
+                <span class="ml-1 text-xs opacity-80">
+                    ({{ \App\Models\Peminjaman::where('status', 'pending')->count() }})
+                </span>
+            </a>
 
-    <!-- Filter Status -->
-    <div class="bg-white p-4 rounded-lg shadow mb-4">
-        <div class="flex space-x-4">
-            <a href="{{ route('admin.peminjaman.index') }}" 
-               class="px-4 py-2 rounded {{ !request('status') ? 'bg-blue-500 text-white' : 'bg-gray-200' }}">
-                Semua ({{ \App\Models\Peminjaman::count() }})
+            <!-- Disetujui -->
+            <a href="{{ route('admin.peminjaman.index', ['status' => 'disetujui']) }}"
+               class="px-4 py-2 text-sm font-medium rounded-full transition
+               {{ request('status') === 'disetujui' 
+                    ? 'bg-green-500 text-white shadow' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
+                Disetujui 
+                <span class="ml-1 text-xs opacity-80">
+                    ({{ \App\Models\Peminjaman::where('status', 'disetujui')->count() }})
+                </span>
             </a>
-            <a href="{{ route('admin.peminjaman.index', ['status' => 'pending']) }}" 
-               class="px-4 py-2 rounded {{ request('status') === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
-                Pending ({{ \App\Models\Peminjaman::where('status', 'pending')->count() }})
+
+            <!-- Selesai -->
+            <a href="{{ route('admin.peminjaman.index', ['status' => 'selesai']) }}"
+               class="px-4 py-2 text-sm font-medium rounded-full transition
+               {{ request('status') === 'selesai' 
+                    ? 'bg-blue-500 text-white shadow' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
+                Selesai 
+                <span class="ml-1 text-xs opacity-80">
+                    ({{ \App\Models\Peminjaman::where('status', 'selesai')->count() }})
+                </span>
             </a>
-            <a href="{{ route('admin.peminjaman.index', ['status' => 'disetujui']) }}" 
-               class="px-4 py-2 rounded {{ request('status') === 'disetujui' ? 'bg-green-500 text-white' : 'bg-gray-200' }}">
-                Disetujui ({{ \App\Models\Peminjaman::where('status', 'disetujui')->count() }})
-            </a>
-            <a href="{{ route('admin.peminjaman.index', ['status' => 'selesai']) }}" 
-               class="px-4 py-2 rounded {{ request('status') === 'selesai' ? 'bg-blue-500 text-white' : 'bg-gray-200' }}">
-                Selesai ({{ \App\Models\Peminjaman::where('status', 'selesai')->count() }})
+
+        </div>
+
+        <!-- BUTTON TAMBAH -->
+        <div>
+            <a href="{{ route('admin.peminjaman.create') }}"
+               class="inline-flex items-center gap-2 bg-linear-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 
+               text-white px-4 py-2 rounded-xl text-sm font-semibold shadow transition">
+            + Tambah
             </a>
         </div>
-    </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    </div>
+</div>
+
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
         <table class="min-w-full">
             <thead class="bg-gray-50">
                 <tr>
@@ -68,7 +105,7 @@
                         </td>
                         <td class="px-6 py-4 flex space-x-2">
                             <a href="{{ route('admin.peminjaman.show', $item) }}"
-                               class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                               class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-2xl text-sm">
                                 Detail
                             </a>
                             {{-- @if($item->status === 'disetujui')
@@ -78,7 +115,7 @@
                                 </a>
                             @endif --}}
                             <a href="{{ route('admin.peminjaman.edit', $item) }}"
-                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm">
+                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-2xl text-sm">
                                 Edit
                             </a>
                             <form method="POST" action="{{ route('admin.peminjaman.destroy', $item) }}"
@@ -87,7 +124,7 @@
                                 @method('DELETE')
                                 <button type="button"
                                         onclick="deleteConfirm('deleteForm-peminjaman-{{ $item->id }}')"
-                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-2xl text-sm">
                                     Hapus
                                 </button>
                             </form>

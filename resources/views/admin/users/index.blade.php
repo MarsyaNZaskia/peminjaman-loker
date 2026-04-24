@@ -4,59 +4,109 @@
 @section('title', 'Kelola User')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4">
-    <div class="flex justify-end items-center mb-6">
-        <div class="flex space-x-2">
-            <button type="button" onclick="toggleModal('modalImport')" 
-                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                </svg>
-                Import User
-            </button>
-            <a href="{{ route('admin.users.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                + Tambah User
-            </a>
+<div class="max-w-7xl mx-auto px-4 py-2">
+
+    <!-- HEADER -->
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+            <!-- TITLE (optional biar ga kosong kiri) -->
+            <h1 class="text-lg font-semibold text-gray-700">Kelola User</h1>
+
+            <!-- BUTTON -->
+            <div class="flex gap-2">
+                <button type="button" onclick="toggleModal('modalImport')" 
+                    class="px-4 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-medium shadow-sm transition">
+                    Import
+                </button>
+
+                <a href="{{ route('admin.users.create') }}" 
+                    class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-sm transition">
+                    Tambah
+                </a>
+            </div>
         </div>
     </div>
 
-    <div class="bg-white shadow rounded-lg overflow-hidden">
-        <table class="min-w-full">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @forelse ($users as $user)
+    <!-- TABLE -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
                     <tr>
-                        <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-4">{{ $user->name }}</td>
-                        <td class="px-6 py-4">{{ $user->username }}</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 rounded text-xs {{ $user->role == 'petugas' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
-                                {{ ucfirst($user->role) }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 flex space-x-2">
-                            <a href="{{ route('admin.users.edit', $user) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm">Edit</a>
-                            <form method="POST" action="{{ route('admin.users.destroy', $user) }}" id="deleteForm-user-{{ $user->id }}">
-                                @csrf @method('DELETE')
-                                <button type="button" onclick="deleteConfirm('deleteForm-user-{{ $user->id }}')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">Hapus</button>
-                            </form>
-                        </td>
+                        <th class="px-6 py-3 text-left">No</th>
+                        <th class="px-6 py-3 text-left">Nama</th>
+                        <th class="px-6 py-3 text-left">Username</th>
+                        <th class="px-6 py-3 text-left">Role</th>
+                        <th class="px-6 py-3 text-left">Aksi</th>
                     </tr>
-                @empty
-                    <tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">Belum ada user</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+
+                <!-- ❌ HAPUS divide-y -->
+                <tbody>
+                    @forelse ($users as $user)
+                        <tr class="hover:bg-gray-50 transition even:bg-gray-50/30">
+
+                            <td class="px-6 py-4">
+                                {{ $loop->iteration }}
+                            </td>
+
+                            <td class="px-6 py-4 font-medium text-gray-800">
+                                {{ $user->name }}
+                            </td>
+
+                            <td class="px-6 py-4 text-gray-600">
+                                {{ $user->username }}
+                            </td>
+
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 text-xs rounded-full
+                                    {{ $user->role == 'petugas'
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'bg-green-100 text-green-700' }}">
+                                    {{ ucfirst($user->role) }}
+                                </span>
+                            </td>
+
+                            <td class="px-6 py-4">
+                                <div class="flex gap-2">
+
+                                    <a href="{{ route('admin.users.edit', $user) }}"
+                                       class="px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg text-xs">
+                                        Edit
+                                    </a>
+
+                                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}"
+                                          id="deleteForm-user-{{ $user->id }}">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="button"
+                                            onclick="deleteConfirm('deleteForm-user-{{ $user->id }}')"
+                                            class="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg text-xs">
+                                            Hapus
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-6 text-center text-gray-500">
+                                Belum ada user
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+
+            </table>
+        </div>
     </div>
-</div> {{-- Tutup max-w-7xl --}}
+
+</div>
 
 <div id="modalImport" class="fixed inset-0 z-999 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="flex items-center justify-center min-h-screen px-4">

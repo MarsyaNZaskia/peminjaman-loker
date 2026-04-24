@@ -171,7 +171,7 @@
                         <p class="text-sm text-gray-500 mb-1">Catatan Pengembalian</p>
                         <p class="text-sm text-gray-800">{{ $peminjaman->pengembalian->catatan }}</p>
                     </div>
-                @endif
+                @endif  
                 <div class="md:col-span-2 bg-blue-50 p-4 rounded-lg">
                     <p class="text-sm text-gray-500 mb-1">Dicatat Oleh</p>
                     <p class="font-semibold text-gray-800">{{ $peminjaman->pengembalian->user->name }}</p>

@@ -111,9 +111,9 @@
 
 <script>
 const tanggalRencana = new Date('{{ $peminjaman->tanggal_kembali_rencana->format('Y-m-d') }}');
-const DENDA_PER_HARI = 5000; // Rp 5.000 per hari
-const DENDA_RUSAK = 50000; // Rp 50.000
-const DENDA_HILANG = 500000; // Rp 500.000
+const DENDA_PER_HARI = 2000; // Rp 2.000 per hari
+const DENDA_RUSAK = 20000; // Rp 20.000
+const DENDA_HILANG = 25000; // Rp 25.000
 
 function hitungDenda() {
     const tglKembali = document.getElementById('tglKembali').value;

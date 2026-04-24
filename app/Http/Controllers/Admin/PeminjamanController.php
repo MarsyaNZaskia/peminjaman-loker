@@ -41,6 +41,49 @@ class PeminjamanController extends Controller
         return view('admin.peminjaman.create', compact('users', 'bukus'));
     }
 
+    // Setujui peminjaman
+public function setujui(Peminjaman $peminjaman)
+{
+    if ($peminjaman->status !== 'pending') {
+        return redirect()->back()->with('error', 'Peminjaman tidak dalam status pending!');
+    }
+
+    if ($peminjaman->buku->stok <= 0) {
+        return redirect()->back()->with('error', 'Stok buku habis!');
+    }
+
+    DB::transaction(function () use ($peminjaman) {
+        $peminjaman->update([
+            'status' => 'disetujui',
+            'approved_by' => Auth::id(),
+        ]);
+
+        $peminjaman->buku->decrement('stok');
+
+        if ($peminjaman->buku->stok == 0) {
+            $peminjaman->buku->update(['status' => 'dipinjam']);
+        }
+    });
+
+    return redirect()->back()->with('success', 'Peminjaman berhasil disetujui!');
+}
+
+// Tolak peminjaman
+public function tolak(Request $request, Peminjaman $peminjaman)
+{
+    if ($peminjaman->status !== 'pending') {
+        return redirect()->back()->with('error', 'Peminjaman tidak dalam status pending!');
+    }
+
+    $peminjaman->update([
+        'status' => 'ditolak',
+        'approved_by' => Auth::id(),
+        'catatan_petugas' => $request->catatan_petugas,
+    ]);
+
+    return redirect()->back()->with('success', 'Peminjaman berhasil ditolak!');
+}
+
     // Simpan peminjaman
     public function store(Request $request)
     {

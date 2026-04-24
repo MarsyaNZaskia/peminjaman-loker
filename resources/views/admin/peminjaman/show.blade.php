@@ -1,227 +1,247 @@
-{{-- resources/views/admin/peminjaman/show.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Detail Peminjaman')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Detail Peminjaman</h1>
-        <div class="flex space-x-2">
+<div class="max-w-5xl mx-auto px-4 py-6">
+
+    {{-- HEADER ACTION --}}
+    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
+        <div class="flex flex-col md:flex-row md:justify-end md:items-center gap-2">
+
+            {{-- ERROR --}}
             @if ($errors->any())
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Error!</strong>
-                    <ul>
+                <div class="w-full bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-xl text-xs">
+                    <strong>Error!</strong>
+                    <ul class="list-disc ml-5 mt-1">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
-            @if($peminjaman->status === 'pending')
-    <form action="{{ route('admin.peminjaman.update', $peminjaman) }}" method="POST" class="inline">
-        @csrf
-        @method('PUT')
 
-        <input type="hidden" name="status" value="disetujui">
+            <div class="flex flex-wrap gap-2">
 
-        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-            Setujui
-        </button>
-    </form>
+                {{-- SETUJUI --}}
+                @if($peminjaman->status === 'pending')
+                    <form id="form-setujui-{{ $peminjaman->id }}"
+                        action="{{ route('admin.peminjaman.setujui', $peminjaman) }}"
+                        method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <button type="button"
+                        onclick="setujuiPeminjaman({{ $peminjaman->id }})"
+                        class="px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm transition">
+                        Setujui
+                    </button>
+                </form>
 
-    <form action="{{ route('admin.peminjaman.update', $peminjaman) }}" method="POST" class="inline">
-        @csrf
-        @method('PUT')
+                    {{-- TOLAK (MODAL) --}}
+                    <button type="button"
+                            onclick="tolakPeminjaman('{{ route('admin.peminjaman.tolak', $peminjaman) }}')"
+                            class="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl text-sm transition">
+                        Tolak
+                    </button>
+                @endif
 
-        <input type="hidden" name="status" value="ditolak">
-
-        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-            Tolak
-        </button>
-    </form>
-@endif
-            @if($peminjaman->status === 'disetujui')
-                <a href="{{ route('admin.pengembalian.create', $peminjaman) }}"
-                   class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded">
-                    Kembalikan
+                {{-- EDIT --}}
+                <a href="{{ route('admin.peminjaman.edit', $peminjaman) }}"
+                   class="px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl text-sm transition">
+                    Edit
                 </a>
-            @endif
-            <a href="{{ route('admin.peminjaman.edit', $peminjaman) }}" 
-               class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
-                Edit
-            </a>
-            <a href="{{ route('admin.peminjaman.index') }}" 
-               class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
-                Kembali
-            </a>
+
+                {{-- KEMBALI --}}
+                <a href="{{ route('admin.peminjaman.index') }}"
+                   class="px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-xl text-sm transition">
+                    Kembali
+                </a>
+
+            </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <!-- Info Peminjam -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
-            <div class="space-y-2">
+    {{-- GRID --}}
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+
+        {{-- PEMINJAM --}}
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-lg font-semibold mb-4 text-gray-700">Informasi Peminjam</h2>
+
+            <div class="space-y-3 text-sm">
                 <div>
-                    <p class="text-gray-600 text-sm">Nama</p>
-                    <p class="font-semibold">{{ $peminjaman->user->name }}</p>
+                    <p class="text-gray-500">Nama</p>
+                    <p class="font-semibold text-gray-800">{{ $peminjaman->user->name }}</p>
                 </div>
+
                 <div>
-                    <p class="text-gray-600 text-sm">Username</p>
-                    <p class="font-semibold">{{ $peminjaman->user->username }}</p>
+                    <p class="text-gray-500">Username</p>
+                    <p class="font-semibold text-gray-800">{{ $peminjaman->user->username }}</p>
                 </div>
+
                 @if($peminjaman->user->kategori)
-                    <div>
-                        <p class="text-gray-600 text-sm">Kategori</p>
-                        <p class="font-semibold">{{ $peminjaman->user->kategori->nama_kategori }}</p>
-                    </div>
+                <div>
+                    <p class="text-gray-500">Kategori</p>
+                    <p class="font-semibold text-gray-800">
+                        {{ $peminjaman->user->kategori->nama_kategori }}
+                    </p>
+                </div>
                 @endif
             </div>
         </div>
 
-        <!-- Info Buku -->
-        <div class="bg-white p-6 rounded-lg shadow">
-    <h2 class="text-xl font-bold mb-4">Informasi Buku</h2>
+        {{-- BUKU --}}
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-lg font-semibold mb-4 text-gray-700">Informasi Buku</h2>
 
-    <div class="flex gap-4">
-        <!-- Cover -->
-        <div>
-            <img src="{{ $peminjaman->buku?->foto_cover 
-                ? asset('storage/'.$peminjaman->buku->foto_cover) 
-                : 'https://via.placeholder.com/100x140?text=No+Image' }}"
-                class="w-24 h-32 object-cover rounded shadow">
-        </div>
+            <div class="flex gap-4">
+                <img
+                    src="{{ Str::startsWith($peminjaman->buku?->foto_cover, 'storage/')
+                        ? asset($peminjaman->buku->foto_cover)
+                        : asset('storage/'.$peminjaman->buku?->foto_cover) }}"
+                    class="w-24 h-32 object-cover rounded-xl shadow-sm"
+                >
 
-        <!-- Info -->
-        <div class="space-y-2">
-            <div>
-                <p class="text-gray-600 text-sm">Kode Buku</p>
-                <p class="font-semibold text-lg">
-                    {{ $peminjaman->buku?->kode_buku ?? '-' }}
-                </p>
-            </div>
-            <div>
-                <p class="text-gray-600 text-sm">Judul</p>
-                <p class="font-semibold">
-                    {{ $peminjaman->buku?-> judul ?? '-' }}
-                </p>
-            </div>
-            <div>
-                <p class="text-gray-600 text-sm">Stok</p>
-                <p class="font-semibold">
-                    {{ $peminjaman->buku?->stok ?? 0 }}
-                </p>
+                <div class="space-y-2 text-sm">
+                    <div>
+                        <p class="text-gray-500">Kode Buku</p>
+                        <p class="font-semibold text-gray-800">{{ $peminjaman->buku?->kode_buku ?? '-' }}</p>
+                    </div>
+
+                    <div>
+                        <p class="text-gray-500">Judul</p>
+                        <p class="font-semibold text-gray-800">{{ $peminjaman->buku?->judul ?? '-' }}</p>
+                    </div>
+
+                    <div>
+                        <p class="text-gray-500">Stok</p>
+                        <p class="font-semibold text-gray-800">{{ $peminjaman->buku?->stok ?? 0 }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-    <!-- Detail Peminjaman -->
-    <div class="bg-white p-6 rounded-lg shadow mb-6">
-        <h2 class="text-xl font-bold mb-4">Detail Peminjaman</h2>
-        <div class="grid grid-cols-2 gap-4">
+    {{-- DETAIL --}}
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h2 class="text-lg font-semibold mb-4 text-gray-700">Detail Peminjaman</h2>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+
             <div>
-                <p class="text-gray-600 text-sm">Tanggal Pinjam</p>
-                <p class="font-semibold">{{ $peminjaman->tanggal_pinjam->format('d/m/Y') }}</p>
+                <p class="text-gray-500">Tanggal Pinjam</p>
+                <p class="font-semibold text-gray-800">
+                    {{ $peminjaman->tanggal_pinjam->format('d/m/Y') }}
+                </p>
             </div>
+
             <div>
-                <p class="text-gray-600 text-sm">Rencana Kembali</p>
-                <p class="font-semibold">{{ $peminjaman->tanggal_kembali_rencana->format('d/m/Y') }}</p>
+                <p class="text-gray-500">Rencana Kembali</p>
+                <p class="font-semibold text-gray-800">
+                    {{ $peminjaman->tanggal_kembali_rencana->format('d/m/Y') }}
+                </p>
             </div>
+
             <div>
-                <p class="text-gray-600 text-sm">Status</p>
+                <p class="text-gray-500">Status</p>
                 <p>
                     @if($peminjaman->status === 'pending')
-                        <span class="px-3 py-1 rounded text-sm bg-yellow-100 text-yellow-800">Pending</span>
+                        <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">Pending</span>
                     @elseif($peminjaman->status === 'disetujui')
-                        <span class="px-3 py-1 rounded text-sm bg-green-100 text-green-800">Disetujui</span>
+                        <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">Disetujui</span>
                     @elseif($peminjaman->status === 'ditolak')
-                        <span class="px-3 py-1 rounded text-sm bg-red-100 text-red-800">Ditolak</span>
+                        <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-700">Ditolak</span>
                     @else
-                        <span class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800">Selesai</span>
+                        <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">Selesai</span>
                     @endif
                 </p>
             </div>
+
             <div>
-                <p class="text-gray-600 text-sm">Disetujui Oleh</p>
-                <p class="font-semibold">{{ $peminjaman->petugas->name ?? '-' }}</p>
+                <p class="text-gray-500">Disetujui Oleh</p>
+                <p class="font-semibold text-gray-800">{{ $peminjaman->petugas->name ?? '-' }}</p>
             </div>
-            <div class="col-span-2">
-                <p class="text-gray-600 text-sm">Keperluan</p>
-                <p class="font-semibold">{{ $peminjaman->keperluan }}</p>
+
+            <div class="md:col-span-2">
+                <p class="text-gray-500">Keperluan</p>
+                <p class="font-semibold text-gray-800">{{ $peminjaman->keperluan }}</p>
             </div>
+
             @if($peminjaman->catatan_petugas)
-                <div class="col-span-2">
-                    <p class="text-gray-600 text-sm">Catatan Petugas</p>
-                    <p class="font-semibold text-red-600">{{ $peminjaman->catatan_petugas }}</p>
-                </div>
+            <div class="md:col-span-2">
+                <p class="text-gray-500">Catatan Petugas</p>
+                <p class="font-semibold text-red-500">
+                    {{ $peminjaman->catatan_petugas }}
+                </p>
+            </div>
             @endif
+
         </div>
     </div>
-
-    <!-- Info Pengembalian (jika ada) -->
-    @if($peminjaman->pengembalian)
-        @php
-            $pengembalian = $peminjaman->pengembalian;
-            $keterlambatan = $pengembalian->hitungKeterlambatan();
-        @endphp
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">Informasi Pengembalian</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <p class="text-gray-600 text-sm">Tanggal Kembali</p>
-                    <p class="font-semibold">{{ $pengembalian->tgl_kembali_realisasi->format('d/m/Y') }}</p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Kondisi Buku</p>
-                    @if($pengembalian->kondisi_barang === 'baik')
-                        <span class="px-3 py-1 rounded text-sm bg-green-100 text-green-800 font-semibold">Baik</span>
-                    @elseif($pengembalian->kondisi_barang === 'rusak')
-                        <span class="px-3 py-1 rounded text-sm bg-orange-100 text-orange-800 font-semibold">Rusak</span>
-                    @else
-                        <span class="px-3 py-1 rounded text-sm bg-red-100 text-red-800 font-semibold">Hilang</span>
-                    @endif
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Keterangan Waktu</p>
-                    @if($keterlambatan > 0)
-                        <p class="font-semibold text-red-600">Terlambat {{ $keterlambatan }} hari</p>
-                    @else
-                        <p class="font-semibold text-green-600">Tepat Waktu ✅</p>
-                    @endif
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Total Denda</p>
-                    @if($pengembalian->total_denda > 0)
-                        <p class="font-semibold text-red-600">Rp {{ number_format($pengembalian->total_denda, 0, ',', '.') }}</p>
-                        <p class="text-xs text-gray-500 mt-1">
-                            @if($pengembalian->kondisi_barang === 'hilang')
-                                (Denda Kehilangan)
-                            @elseif($pengembalian->kondisi_barang === 'rusak')
-                                (Denda Kerusakan)
-                            @else
-                                (Denda Keterlambatan: {{ $keterlambatan }} hari × Rp {{ number_format($dendaPerHari, 0, ',', '.') }})
-                            @endif
-                        </p>
-                    @else
-                        <p class="font-semibold text-green-600">Tidak Ada Denda</p>
-                    @endif
-                </div>
-            </div>
-            @if($pengembalian->catatan)
-                <div class="mt-4 p-3 bg-gray-50 rounded-lg">
-                    <p class="text-gray-600 text-sm">Catatan</p>
-                    <p class="font-semibold text-gray-800">{{ $pengembalian->catatan }}</p>
-                </div>
-            @endif
-            <div class="mt-4">
-                <a href="{{ route('admin.pengembalian.show', $pengembalian) }}" 
-                   class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                    Lihat Detail Pengembalian
-                </a>
-            </div>
-        </div>
-    @endif
 </div>
+
+{{-- 🔥 SWEETALERT MODAL --}}
+<script>
+function setujuiPeminjaman(id) {
+    Swal.fire({
+        title: 'Setujui Peminjaman?',
+        text: 'Data akan disetujui dan status akan berubah',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Setujui',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#22c55e',
+        cancelButtonColor: '#6b7280'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('form-setujui-' + id).submit();
+        }
+    });
+}
+
+function tolakPeminjaman(actionUrl) {
+    Swal.fire({
+        title: 'Tolak Peminjaman?',
+        text: 'Masukkan alasan penolakan (opsional)',
+        icon: 'warning',
+        input: 'textarea',
+        inputPlaceholder: 'Contoh: Buku sedang dipinjam orang lain',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Tolak',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = actionUrl;
+
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+
+            const method = document.createElement('input');
+            method.type = 'hidden';
+            method.name = '_method';
+            method.value = 'PATCH';
+
+            const alasan = document.createElement('input');
+            alasan.type = 'hidden';
+            alasan.name = 'catatan_petugas';
+            alasan.value = result.value || '';
+
+            form.appendChild(csrf);
+            form.appendChild(method);
+            form.appendChild(alasan);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+}
+</script>
+
 @endsection

@@ -59,7 +59,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Routes Peminjaman 
     Route::resource('peminjaman', \App\Http\Controllers\Admin\PeminjamanController::class);
-    
+Route::patch('/peminjaman/{peminjaman}/setujui', [\App\Http\Controllers\Admin\PeminjamanController::class, 'setujui'])->name('peminjaman.setujui');
+Route::patch('/peminjaman/{peminjaman}/tolak', [\App\Http\Controllers\Admin\PeminjamanController::class, 'tolak'])->name('peminjaman.tolak');  
     // Routes Pengembalian 
     Route::get('/pengembalian', [\App\Http\Controllers\Admin\PengembalianController::class, 'index'])->name('pengembalian.index');
     Route::get('/pengembalian/create/{peminjaman}', [\App\Http\Controllers\Admin\PengembalianController::class, 'create'])->name('pengembalian.create');
@@ -154,15 +155,5 @@ Route::post('/admin/buku/import', [BukuController::class, 'import'])->name('admi
 
 
 Route::get('/', function () {
-    if (Auth::check()) {
-        if (Auth::user()->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        } elseif (Auth::user()->role === 'petugas') {
-            return redirect()->route('petugas.dashboard');
-        } else {
-            return redirect()->route('peminjam.dashboard');
-        }
-    }
-
-    return view('welcome'); // ← landing page kamu
-})->name('landing');
+    return redirect()->route('login');
+});
