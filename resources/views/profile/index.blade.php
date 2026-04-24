@@ -31,7 +31,7 @@
 
             {{-- Avatar --}}
             <div class="relative -mt-16 shrink-0">
-                <div class="w-32 h-32 rounded-2xl ring-4 ring-white dark:ring-slate-800 shadow-2xl overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-600">
+                <div class="w-32 h-32 rounded-2xl ring-4 ring-white dark:ring-slate-800 shadow-2xl overflow-hidden bg-linear-to-br from-indigo-400 to-purple-600">
                     @if($user->photo)
                         <img src="{{ asset('storage/'.$user->photo) }}?{{ time() }}" class="w-full h-full object-cover">
                     @else
@@ -101,7 +101,7 @@
                 <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400">{{ $completionPct }}%</span>
             </div>
             <div class="h-2 rounded-full bg-gray-100 dark:bg-slate-700 overflow-hidden">
-                <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-700" style="width: {{ $completionPct }}%"></div>
+                <div class="h-full rounded-full bg-linear-to-r from-indigo-500 to-purple-500 transition-all duration-700" style="width: {{ $completionPct }}%"></div>
             </div>
         </div>
         @endif
@@ -200,7 +200,7 @@
         </div>
 
         {{-- Member since widget --}}
-        <div class="rounded-2xl p-5 bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 text-white">
+        <div class="rounded-2xl p-5 bg-linear-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 text-white">
             <p class="text-xs font-bold uppercase tracking-widest text-indigo-100 mb-1">Member Sejak</p>
             <p class="text-xl font-extrabold">{{ Auth::user()->created_at->format('M Y') }}</p>
             <p class="text-indigo-200 text-xs mt-1">{{ Auth::user()->created_at->diffForHumans() }}</p>
@@ -212,7 +212,7 @@
 </div>{{-- end max-w --}}
 
 {{-- Modal Edit Foto --}}
-<div id="editFotoModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="closeModal('editFotoModal')">
+<div id="editFotoModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="closeModal('editFotoModal')">
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full border border-gray-100 dark:border-slate-700" onclick="event.stopPropagation()">
         <div class="p-6 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
             <h2 class="text-base font-bold text-gray-800 dark:text-white">📸 Edit Foto Profile</h2>
@@ -244,7 +244,7 @@
 </div>
 
 {{-- Modal Ganti Password --}}
-<div id="changePasswordModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="closeModal('changePasswordModal')">
+<div id="changePasswordModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="closeModal('changePasswordModal')">
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full border border-gray-100 dark:border-slate-700" onclick="event.stopPropagation()">
         <div class="p-6 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
             <h2 class="text-base font-bold text-gray-800 dark:text-white">🔒 Ganti Password</h2>
@@ -257,12 +257,12 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Password Lama</label>
-                    <input type="password" name="current_password" required class="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700 text-gray-800 dark:text-white focus:border-indigo-500 focus:outline-none text-sm @error('current_password') border-red-500 @enderror">
+                    <input type="password" name="current_password" required class="w-full px-4 py-2.5 border-2  dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700 text-gray-800 dark:text-white focus:border-indigo-500 focus:outline-none text-sm @error('current_password') border-red-500 @enderror">
                     @error('current_password')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Password Baru</label>
-                    <input type="password" name="password" required class="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700 text-gray-800 dark:text-white focus:border-indigo-500 focus:outline-none text-sm @error('password') border-red-500 @enderror">
+                    <input type="password" name="password" required class="w-full px-4 py-2.5 border-2  dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700 text-gray-800 dark:text-white focus:border-indigo-500 focus:outline-none text-sm @error('password') border-red-500 @enderror">
                     @error('password')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div>

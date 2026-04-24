@@ -12,7 +12,7 @@
 
             <!-- Icon -->
             <div class="w-16 h-16 mx-auto mb-4 rounded-full 
-                        bg-gradient-to-br from-indigo-500 to-purple-500 
+                        bg-linear-to-br from-indigo-500 to-purple-500 
                         flex items-center justify-center text-white text-2xl shadow-lg">
                 📧
             </div>

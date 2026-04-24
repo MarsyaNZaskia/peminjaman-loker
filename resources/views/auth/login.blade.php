@@ -60,16 +60,16 @@
 
             <!-- BUTTON -->
             <button type="submit"
-                    class="w-full bg-gradient-to-r from-purple-500 to-blue-400 hover:from-purple-600 hover:to-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition transform hover:scale-[1.02] active:scale-95">
+                    class="w-full bg-linear-to-r from-purple-500 to-blue-400 hover:from-purple-600 hover:to-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition transform hover:scale-[1.02] active:scale-95">
                 Masuk
             </button>
         </form>
 
         <!-- DIVIDER -->
         <div class="mt-6 flex items-center">
-            <div class="flex-grow border-t border-white/20"></div>
+            <div class="grow border-t border-white/20"></div>
             <span class="mx-3 text-white/60 text-xs">ATAU</span>
-            <div class="flex-grow border-t border-white/20"></div>
+            <div class="grow border-t border-white/20"></div>
         </div>
 
         <!-- GOOGLE LOGIN -->

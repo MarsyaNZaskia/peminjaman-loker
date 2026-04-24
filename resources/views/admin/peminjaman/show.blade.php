@@ -51,7 +51,14 @@
                     Edit
                 </a>
 
-                {{-- KEMBALI --}}
+                {{-- KEMBALI / KEMBALIKAN --}}
+                @if($peminjaman->status === 'disetujui' && !$peminjaman->pengembalian)
+                    <a href="{{ route('admin.pengembalian.create', $peminjaman) }}"
+                       class="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm transition">
+                        Catat Pengembalian
+                    </a>
+                @endif
+
                 <a href="{{ route('admin.peminjaman.index') }}"
                    class="px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-xl text-sm transition">
                     Kembali

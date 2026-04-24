@@ -97,7 +97,7 @@
     {{-- TABLE WRAPPER (RESPONSIVE FIX) --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
 
-        <table class="min-w-[900px] w-full">
+        <table class="min-w-225 w-full">
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-4 py-3 text-left text-xs uppercase text-gray-500">Waktu</th>

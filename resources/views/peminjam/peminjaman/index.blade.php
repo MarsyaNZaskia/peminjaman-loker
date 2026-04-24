@@ -137,7 +137,7 @@
 
     {{-- RIWAYAT --}}
     <a href="{{ route('peminjam.riwayat.index') }}"
-       class="block bg-gradient-to-r from-slate-900 to-indigo-900
+       class="block bg-linear-to-r from-slate-900 to-indigo-900
               hover:from-indigo-900 hover:to-slate-700
               p-6 rounded-2xl text-white group transition">
 

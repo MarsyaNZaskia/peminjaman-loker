@@ -71,8 +71,8 @@
     <div class="flex h-screen overflow-hidden">
         
         <!--  SIDEBAR -->
-        <aside class="fixed inset-y-0 left-0 z-50 w-[260px] flex flex-col transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
-            bg-gradient-to-b from-slate-900 via-slate-900 to-indigo-950
+        <aside class="fixed inset-y-0 left-0 z-50 w-65 flex flex-col transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
+            bg-linear-to-b from-slate-900 via-slate-900 to-indigo-950
             dark:from-[#0f172a] dark:via-[#0f172a] dark:to-[#1e1b4b]
             border-r border-white/5"
             :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
@@ -200,7 +200,7 @@
             <!-- User Info -->
             <div class="shrink-0 px-3 py-3 border-t border-white/5" x-data="{ userMenuOpen: false }">
                 <div class="flex items-center space-x-3 px-2 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer" @click="userMenuOpen = !userMenuOpen">
-                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/20">
+                    <div class="w-9 h-9 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/20">
                         <span class="text-sm">
                             @if(Auth::user()->isAdmin()) 👑
                             @elseif(Auth::user()->isPetugas()) 👮
@@ -227,7 +227,7 @@
                      x-transition:leave="transition ease-in duration-150"
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 -translate-y-2"
-                     class="absolute left-3 right-3 bottom-[72px] bg-slate-800 border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden">
+                     class="absolute left-3 right-3 bottom-18 bg-slate-800 border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden">
                     <a href="{{ route('profile.index') }}" 
                         class="flex items-center space-x-2 px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-sm border-b border-white/5">
                         <span>👤</span><span>Profile Saya</span>
@@ -288,7 +288,7 @@
                                 @endif
                             </p>
                         </div>
-                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
+                        <div class="w-9 h-9 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
                             <span class="text-white text-sm">
                                 @if(Auth::user()->isAdmin()) 👑
                                 @elseif(Auth::user()->isPetugas()) 👮
@@ -301,7 +301,7 @@
             </header>
 
             <!-- Content Area -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 transition-colors duration-300 bg-grid">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-linear-to-br from-slate-50 via-white to-indigo-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 transition-colors duration-300 bg-grid">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
                     @yield('content')
                 </div>
